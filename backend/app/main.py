@@ -8,6 +8,7 @@ from app.config import STATUS_OBSERVED
 from app.data_store import CLOCK, DATASET_URL, HOURLY_PATH, SOURCE, hourly
 from app.services.activity_service import dust_payload, industrial_payload, map_layers_payload, traffic_payload
 from app.services.forecast_service import forecast_all, forecast_station
+from app.services.source_contribution import contribution_payload
 from app.services.hotspot_service import hotspot_payload
 from app.services.observation_service import history, latest_observations, list_stations
 
@@ -88,3 +89,11 @@ def activity_dust():
 @app.get("/api/map/layers")
 def map_layers():
     return map_layers_payload()
+
+
+@app.get("/api/source-contributions/{station_id}")
+def source_contributions(station_id: str, timestamp: str | None = None):
+    payload = contribution_payload(station_id, timestamp)
+    if payload is None:
+        raise HTTPException(status_code=404, detail="Unknown station_id")
+    return payload

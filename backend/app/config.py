@@ -23,6 +23,10 @@ PUNE_CONTEXT_BBOX = (18.43, 73.72, 18.70, 73.96)
 OSM_SOURCE = "OpenStreetMap"
 OSM_COPYRIGHT = "https://www.openstreetmap.org/copyright"
 PROXIMITY_NOTE = "Contextual distance only. Proximity is not causal proof."
+# Evidence score falls to 0.5 at this distance. It is not a pollution weight.
+CONTRIBUTION_PROXIMITY_SCALE_M = 500.0
+# One category score is not converted into a share of PM2.5.
+CONTRIBUTION_MIN_SCORED_CATEGORIES = 2
 
 CLOCK = "published_+0000"
 SOURCE = "OpenCity republish of CPCB CAAQMS observations"
