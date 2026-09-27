@@ -26,6 +26,8 @@ MODEL_PATH = MODEL_DIR / "pm25_xgb_24h.pkl"
 BACKTEST_PATH = PROCESSED_DIR / "backtest_predictions.csv"
 
 SOURCE_DATASET_URL = "https://data.opencity.in/dataset/pune-hourly-air-quality-reports"
+# Frozen in docs/timestamp_semantics.md. Do not shift these timestamps to IST.
+CLOCK_TREATMENT = "published_+0000"
 SOURCE_PAGE_NOTE = (
     "OpenCity republishes CPCB station files from airquality.cpcb.gov.in."
 )

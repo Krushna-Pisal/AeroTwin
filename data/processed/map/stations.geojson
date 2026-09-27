@@ -1,0 +1,236 @@
+{
+  "type": "FeatureCollection",
+  "name": "stations",
+  "clock": "published_+0000",
+  "source": "OpenCity republish of CPCB CAAQMS observations",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.927715,
+          18.57304
+        ]
+      },
+      "properties": {
+        "station_id": "site_5404",
+        "station_name": "Mhada Colony, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.848956,
+          18.640051
+        ]
+      },
+      "properties": {
+        "station_id": "site_5406",
+        "station_name": "Bhosari, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.927532,
+          18.501793
+        ]
+      },
+      "properties": {
+        "station_id": "site_5407",
+        "station_name": "Hadapsar, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.763966,
+          18.664282
+        ]
+      },
+      "properties": {
+        "station_id": "site_5408",
+        "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849598,
+          18.530085
+        ]
+      },
+      "properties": {
+        "station_id": "site_5409",
+        "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.854155,
+          18.45445
+        ]
+      },
+      "properties": {
+        "station_id": "site_5766",
+        "station_name": "Katraj Dairy, Pune - MPCB",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.826908,
+          18.547056
+        ]
+      },
+      "properties": {
+        "station_id": "site_5767",
+        "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.749976,
+          18.60577
+        ]
+      },
+      "properties": {
+        "station_id": "site_5988",
+        "station_name": "Bhumkar Nagar, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805454,
+          18.536457
+        ]
+      },
+      "properties": {
+        "station_id": "site_5996",
+        "station_name": "Panchawati_Pashan, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "station_id": "site_6012",
+        "station_name": "Dhankawadi, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": true,
+        "coordinate_status": "unavailable",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.892743,
+          18.675076
+        ]
+      },
+      "properties": {
+        "station_id": "site_5405",
+        "station_name": "Alandi, Pune - IITM",
+        "pm25_available": true,
+        "in_serving_table": false,
+        "coordinate_status": "source_table",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "station_id": "site_292",
+        "station_name": "Karve Road, Pune - MPCB",
+        "pm25_available": true,
+        "in_serving_table": false,
+        "coordinate_status": "unresolved",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "clock": "published_+0000"
+      }
+    }
+  ]
+}

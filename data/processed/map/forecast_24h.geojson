@@ -1,0 +1,235 @@
+{
+  "type": "FeatureCollection",
+  "name": "forecast_24h",
+  "clock": "published_+0000",
+  "source": "OpenCity republish of CPCB CAAQMS observations",
+  "method": "persistence",
+  "status": "MODELED",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.848956,
+          18.640051
+        ]
+      },
+      "properties": {
+        "station_id": "site_5406",
+        "station_name": "Bhosari, Pune - IITM",
+        "pm25": 5.0,
+        "observed_pm25": 5.0,
+        "timestamp": "2025-12-12T12:00:00Z",
+        "forecast_timestamp": "2025-12-13T12:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.927715,
+          18.57304
+        ]
+      },
+      "properties": {
+        "station_id": "site_5404",
+        "station_name": "Mhada Colony, Pune - IITM",
+        "pm25": 123.25666666666666,
+        "observed_pm25": 123.25666666666666,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.927532,
+          18.501793
+        ]
+      },
+      "properties": {
+        "station_id": "site_5407",
+        "station_name": "Hadapsar, Pune - IITM",
+        "pm25": 102.03666666666668,
+        "observed_pm25": 102.03666666666668,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.749976,
+          18.60577
+        ]
+      },
+      "properties": {
+        "station_id": "site_5988",
+        "station_name": "Bhumkar Nagar, Pune - IITM",
+        "pm25": 114.08999999999999,
+        "observed_pm25": 114.08999999999999,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.826908,
+          18.547056
+        ]
+      },
+      "properties": {
+        "station_id": "site_5767",
+        "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+        "pm25": 28.895000000000003,
+        "observed_pm25": 28.895000000000003,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.805454,
+          18.536457
+        ]
+      },
+      "properties": {
+        "station_id": "site_5996",
+        "station_name": "Panchawati_Pashan, Pune - IITM",
+        "pm25": 58.553333333333335,
+        "observed_pm25": 58.553333333333335,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.763966,
+          18.664282
+        ]
+      },
+      "properties": {
+        "station_id": "site_5408",
+        "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+        "pm25": 50.12,
+        "observed_pm25": 50.12,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.849598,
+          18.530085
+        ]
+      },
+      "properties": {
+        "station_id": "site_5409",
+        "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+        "pm25": 77.75,
+        "observed_pm25": 77.75,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.854155,
+          18.45445
+        ]
+      },
+      "properties": {
+        "station_id": "site_5766",
+        "station_name": "Katraj Dairy, Pune - MPCB",
+        "pm25": 44.4825,
+        "observed_pm25": 44.4825,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "forecast_timestamp": "2026-01-01T23:00:00Z",
+        "method": "persistence",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "MODELED",
+        "forecast_status": "observed_baseline",
+        "clock": "published_+0000",
+        "layer": "forecast_24h",
+        "note": "Equals the latest observed PM2.5. Not a V2 model prediction and not a measurement of the future hour."
+      }
+    }
+  ]
+}

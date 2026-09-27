@@ -1,0 +1,66 @@
+{
+  "type": "FeatureCollection",
+  "name": "hotspots",
+  "clock": "published_+0000",
+  "source": "OpenCity republish of CPCB CAAQMS observations",
+  "status": "OBSERVED",
+  "spatial_support": "station",
+  "rule": {
+    "concentration_floor_ugm3": 60.0,
+    "floor_basis": "CPCB NAQI 24-hour PM2.5 breakpoint between Satisfactory and Moderate. Not an official AQI.",
+    "min_hours_in_24h_window": 12,
+    "percentile": 0.75,
+    "stale_after_hours": 48.0,
+    "requires": "latest >= floor AND 24h mean >= floor AND percentile of 24h mean >= 0.75"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.927715,
+          18.57304
+        ]
+      },
+      "properties": {
+        "station_id": "site_5404",
+        "station_name": "Mhada Colony, Pune - IITM",
+        "pm25": 123.25666666666666,
+        "rolling_24h_mean": 108.91,
+        "percentile": 0.875,
+        "trend_vs_24h_earlier": -17.5,
+        "hotspot": true,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "spatial_support": "station",
+        "clock": "published_+0000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.927532,
+          18.501793
+        ]
+      },
+      "properties": {
+        "station_id": "site_5407",
+        "station_name": "Hadapsar, Pune - IITM",
+        "pm25": 102.03666666666668,
+        "rolling_24h_mean": 117.12,
+        "percentile": 1.0,
+        "trend_vs_24h_earlier": -94.2,
+        "hotspot": true,
+        "timestamp": "2025-12-31T23:00:00Z",
+        "source": "OpenCity republish of CPCB CAAQMS observations",
+        "status": "OBSERVED",
+        "spatial_support": "station",
+        "clock": "published_+0000"
+      }
+    }
+  ]
+}
