@@ -103,7 +103,7 @@
       "download_date": "2026-09-27T18:19:26+00:00",
       "bytes": 5533047,
       "sha256": "520e5fc73db3f06a9daf894a0be78aa95a0dbc1b9c3005f3fcbfa9ed78ba9570",
-      "status": "downloaded"
+      "status": "skipped_existing"
     },
     {
       "file_name": "hadapsar-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
@@ -116,7 +116,7 @@
       "download_date": "2026-09-27T18:19:27+00:00",
       "bytes": 4356470,
       "sha256": "386590d5a7c333d0a9579213f1d1a1f0f5924205d82ca6d40c3f4eff27f038a3",
-      "status": "downloaded"
+      "status": "skipped_existing"
     },
     {
       "file_name": "karve-road-mpcb-15-minute-aqi-data-for-2024-25__15min.csv",
@@ -129,7 +129,7 @@
       "download_date": "2026-09-27T18:19:28+00:00",
       "bytes": 10104589,
       "sha256": "b8e538746f52a09ad6cf0bdbc9f92a6494494daf711399e9080bd7c018d6c98e",
-      "status": "downloaded"
+      "status": "skipped_existing"
     },
     {
       "file_name": "mhada-colony-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
@@ -142,7 +142,7 @@
       "download_date": "2026-09-27T18:19:30+00:00",
       "bytes": 9888920,
       "sha256": "815e6e45597666e3ffae11f6bf3249430c449ca14ba1b8417a83708af4821e33",
-      "status": "downloaded"
+      "status": "skipped_existing"
     },
     {
       "file_name": "revenue-colony-shivajinagar-15-minute-aqi-data-for-2024-25__15min.csv",
@@ -155,7 +155,7 @@
       "download_date": "2026-09-27T18:19:31+00:00",
       "bytes": 11224425,
       "sha256": "929460053765ce50118abc38eaa24b3104c60e987a3c178b3c78ae961b4d5ebe",
-      "status": "downloaded"
+      "status": "skipped_existing"
     },
     {
       "file_name": "transport-nagar-nigdi-15-minute-aqi-data-for-2024-25__15min.csv",
@@ -168,9 +168,87 @@
       "download_date": "2026-09-27T18:19:32+00:00",
       "bytes": 9483219,
       "sha256": "8f858f7292e0d4c1b25e3342ea9314f25fb8735eb611d285b84f8a55032d6132",
+      "status": "skipped_existing"
+    },
+    {
+      "file_name": "alandi-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
+      "station": "Alandi IITM 15 minute AQI Data for 2024-25",
+      "source_url": "https://data.opencity.in/dataset/b16b4972-1d7e-4b7e-b1d6-23228cc63c83/resource/70f9292d-f5ab-4b7d-8220-481b3e8c4ace/download/pune-alandi-iitm-2024-25.csv",
+      "resource_id": "70f9292d-f5ab-4b7d-8220-481b3e8c4ace",
+      "temporal_resolution": "15min",
+      "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+      "description": "",
+      "download_date": "2026-09-27T18:53:24+00:00",
+      "bytes": 3833770,
+      "sha256": "d01c3c285f92cc4d40e41161f1085b61f8b75b4585ddfaff24433c2d241d460e",
+      "status": "downloaded"
+    },
+    {
+      "file_name": "bhumkar-nagar-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
+      "station": "Bhumkar Nagar IITM 15 minute AQI Data for 2024-25",
+      "source_url": "https://data.opencity.in/dataset/b16b4972-1d7e-4b7e-b1d6-23228cc63c83/resource/7cc44628-08e5-40d3-b323-4e6246f5d868/download/pune-bhumkar-nagar-iitm-2024-25.csv",
+      "resource_id": "7cc44628-08e5-40d3-b323-4e6246f5d868",
+      "temporal_resolution": "15min",
+      "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+      "description": "",
+      "download_date": "2026-09-27T18:53:25+00:00",
+      "bytes": 11151401,
+      "sha256": "82ce36fdbe9586d3a652366989c88120bcf4c1c85e5a8a95f2bc9a5b9b0719e9",
+      "status": "downloaded"
+    },
+    {
+      "file_name": "dhankawadi-iitm-15-minute-aqi-data-for-2025__15min.csv",
+      "station": "Dhankawadi IITM 15 minute AQI Data for 2025",
+      "source_url": "https://data.opencity.in/dataset/b16b4972-1d7e-4b7e-b1d6-23228cc63c83/resource/d62efc0d-c847-4c24-a5aa-a4dd2cf8b925/download/pune-dhankawadi-iitm-2025.csv",
+      "resource_id": "d62efc0d-c847-4c24-a5aa-a4dd2cf8b925",
+      "temporal_resolution": "15min",
+      "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+      "description": "Data is available from 2025 only.",
+      "download_date": "2026-09-27T18:53:26+00:00",
+      "bytes": 2596505,
+      "sha256": "0defe2f353e1191c47f7548c41ea0769bed7c95c7570cce917374eb89ca94c93",
+      "status": "downloaded"
+    },
+    {
+      "file_name": "katraj-dairy-mpcb-15-minute-aqi-data-for-2024-25__15min.csv",
+      "station": "Katraj Dairy MPCB 15 minute AQI Data for 2024-25",
+      "source_url": "https://data.opencity.in/dataset/b16b4972-1d7e-4b7e-b1d6-23228cc63c83/resource/f427afcc-4e7d-4092-81ac-cd823584b325/download/pune-katraj-dairy-mpcb-2024-25.csv",
+      "resource_id": "f427afcc-4e7d-4092-81ac-cd823584b325",
+      "temporal_resolution": "15min",
+      "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+      "description": "",
+      "download_date": "2026-09-27T18:53:27+00:00",
+      "bytes": 12392945,
+      "sha256": "5c630d31699d5365a7621c3f3d9a11bdc160aa11080c45a2d2e532704779cfda",
+      "status": "downloaded"
+    },
+    {
+      "file_name": "panchawati-pashan-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
+      "station": "Panchawati_Pashan IITM 15 minute AQI Data for 2024-25",
+      "source_url": "https://data.opencity.in/dataset/b16b4972-1d7e-4b7e-b1d6-23228cc63c83/resource/da12ee9d-21bf-4f5d-98d4-052b3a85c216/download/pune-panchawati_pashan-iitm-2024-25.csv",
+      "resource_id": "da12ee9d-21bf-4f5d-98d4-052b3a85c216",
+      "temporal_resolution": "15min",
+      "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+      "description": "",
+      "download_date": "2026-09-27T18:53:29+00:00",
+      "bytes": 11280260,
+      "sha256": "dd4612b799bd009d18a67728b24658c947b4a4e9bfff1aaf3a1b937688ee3989",
+      "status": "downloaded"
+    },
+    {
+      "file_name": "savitribai-phule-pune-university-mpcb-15-minute-aqi-data-for-2024-25__15min.csv",
+      "station": "Savitribai Phule Pune University MPCB 15 minute AQI Data for 2024-25",
+      "source_url": "https://data.opencity.in/dataset/b16b4972-1d7e-4b7e-b1d6-23228cc63c83/resource/bcd8e8ae-d0f7-466f-a502-913e4bca220b/download/pune-savitribai-phule-pune-university-mpcb-2024-25.csv",
+      "resource_id": "bcd8e8ae-d0f7-466f-a502-913e4bca220b",
+      "temporal_resolution": "15min",
+      "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+      "description": "",
+      "download_date": "2026-09-27T18:53:30+00:00",
+      "bytes": 14713165,
+      "sha256": "63eaa4e16a5e08120dfee4412f5bc7a51fc6b9ac5a9d93e44c4648ef75cdad83",
       "status": "downloaded"
     }
   ],
   "catalog_source": "ckan_api",
-  "last_run_at": "2026-09-27T18:19:22+00:00"
+  "last_run_at": "2026-09-27T18:53:23+00:00"
 }
