@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import STATUS_OBSERVED
 from app.data_store import CLOCK, DATASET_URL, HOURLY_PATH, SOURCE, hourly
@@ -18,6 +19,12 @@ from app.services.observation_service import history, latest_observations, list_
 from app.services.zone_service import zones_payload
 
 app = FastAPI(title="AeroTwin environmental data API", version="0.1.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/api/health")
