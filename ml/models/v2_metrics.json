@@ -1,0 +1,2625 @@
+{
+  "trained_at": "2026-09-27T19:11:17+00:00",
+  "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+  "clock": "Published +0000 offset. Not shifted to IST.",
+  "n_stations": 10,
+  "hourly_rows": 162450,
+  "hourly_pm25_non_null": 119823,
+  "eligible_rows": 111769,
+  "complete_weather_rows": 27612,
+  "complete_weather_pct": 24.704524510374075,
+  "counts": {
+    "train": 49558,
+    "val": 31189,
+    "test": 31022
+  },
+  "series_start": "2024-01-01 00:00:00+00:00",
+  "series_end": "2025-12-30 23:00:00+00:00",
+  "excluded": [
+    {
+      "station_id": "site_5405",
+      "station_name": "Alandi, Pune - IITM",
+      "rows": 24884,
+      "pm25_n": 24042,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-01-28 11:00:00+00:00",
+      "reason": "No PM2.5 observations on or after 2025-07-01, so the station cannot be scored on the test window."
+    },
+    {
+      "station_id": "site_292",
+      "station_name": "Karve Road, Pune - MPCB",
+      "rows": 70176,
+      "pm25_n": 42919,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-05-23 21:00:00+00:00",
+      "reason": "No PM2.5 observations on or after 2025-07-01, so the station cannot be scored on the test window."
+    }
+  ],
+  "coverage": [
+    {
+      "station_id": "site_5404",
+      "station_name": "Mhada Colony, Pune - IITM",
+      "hourly_rows": 17544,
+      "pm25_non_null_pct": 90.78317373461012,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 0.0,
+      "humidity_pct": 0.0,
+      "wind_speed_pct": 0.0,
+      "wind_direction_pct": 0.0,
+      "rainfall_pct": 0.0,
+      "solar_radiation_pct": 0.0
+    },
+    {
+      "station_id": "site_5406",
+      "station_name": "Bhosari, Pune - IITM",
+      "hourly_rows": 17077,
+      "pm25_non_null_pct": 54.27768343385841,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-12-12 12:00:00+00:00",
+      "temperature_pct": 0.0,
+      "humidity_pct": 0.0,
+      "wind_speed_pct": 0.0,
+      "wind_direction_pct": 0.0,
+      "rainfall_pct": 0.0,
+      "solar_radiation_pct": 0.0
+    },
+    {
+      "station_id": "site_5407",
+      "station_name": "Hadapsar, Pune - IITM",
+      "hourly_rows": 14174,
+      "pm25_non_null_pct": 50.402144772117964,
+      "pm25_first": "2024-05-20 10:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 0.0,
+      "humidity_pct": 0.0,
+      "wind_speed_pct": 0.0,
+      "wind_direction_pct": 0.0,
+      "rainfall_pct": 0.0,
+      "solar_radiation_pct": 0.0
+    },
+    {
+      "station_id": "site_5408",
+      "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+      "hourly_rows": 17544,
+      "pm25_non_null_pct": 82.00524395804834,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 0.0,
+      "humidity_pct": 0.0,
+      "wind_speed_pct": 0.0,
+      "wind_direction_pct": 0.0,
+      "rainfall_pct": 0.0,
+      "solar_radiation_pct": 0.0
+    },
+    {
+      "station_id": "site_5409",
+      "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+      "hourly_rows": 17536,
+      "pm25_non_null_pct": 85.70939781021897,
+      "pm25_first": "2024-01-01 08:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 0.0,
+      "humidity_pct": 0.0,
+      "wind_speed_pct": 0.0,
+      "wind_direction_pct": 0.0,
+      "rainfall_pct": 0.0,
+      "solar_radiation_pct": 0.0
+    },
+    {
+      "station_id": "site_5766",
+      "station_name": "Katraj Dairy, Pune - MPCB",
+      "hourly_rows": 17544,
+      "pm25_non_null_pct": 79.37756497948017,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 80.05015959872321,
+      "humidity_pct": 80.06155950752394,
+      "wind_speed_pct": 79.5827633378933,
+      "wind_direction_pct": 79.69106247150023,
+      "rainfall_pct": 80.2952576379389,
+      "solar_radiation_pct": 80.06155950752394
+    },
+    {
+      "station_id": "site_5767",
+      "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+      "hourly_rows": 17544,
+      "pm25_non_null_pct": 91.90606475148199,
+      "pm25_first": "2024-01-01 00:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 94.45394436844505,
+      "humidity_pct": 94.44254445964432,
+      "wind_speed_pct": 94.4311445508436,
+      "wind_direction_pct": 94.42544459644323,
+      "rainfall_pct": 94.4482444140447,
+      "solar_radiation_pct": 94.4482444140447
+    },
+    {
+      "station_id": "site_5988",
+      "station_name": "Bhumkar Nagar, Pune - IITM",
+      "hourly_rows": 17544,
+      "pm25_non_null_pct": 72.75991792065663,
+      "pm25_first": "2024-05-21 13:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 67.92635658914729,
+      "humidity_pct": 67.93205654354765,
+      "wind_speed_pct": 0.49019607843137253,
+      "wind_direction_pct": 10.168718650250797,
+      "rainfall_pct": 67.92635658914729,
+      "solar_radiation_pct": 60.698814409484726
+    },
+    {
+      "station_id": "site_5996",
+      "station_name": "Panchawati_Pashan, Pune - IITM",
+      "hourly_rows": 17544,
+      "pm25_non_null_pct": 62.5,
+      "pm25_first": "2024-07-18 18:00:00+00:00",
+      "pm25_last": "2025-12-31 23:00:00+00:00",
+      "temperature_pct": 59.541723666210665,
+      "humidity_pct": 59.5360237118103,
+      "wind_speed_pct": 59.63292293661651,
+      "wind_direction_pct": 59.530323757409946,
+      "rainfall_pct": 64.19288645690835,
+      "solar_radiation_pct": 0.0
+    },
+    {
+      "station_id": "site_6012",
+      "station_name": "Dhankawadi, Pune - IITM",
+      "hourly_rows": 8399,
+      "pm25_non_null_pct": 51.02988451006072,
+      "pm25_first": "2025-01-15 11:00:00+00:00",
+      "pm25_last": "2025-12-31 09:00:00+00:00",
+      "temperature_pct": 0.0,
+      "humidity_pct": 0.0,
+      "wind_speed_pct": 0.0,
+      "wind_direction_pct": 0.0,
+      "rainfall_pct": 0.0,
+      "solar_radiation_pct": 0.0
+    }
+  ],
+  "results": {
+    "V0": {
+      "val": {
+        "model": "V0",
+        "n": 31189,
+        "mae": 10.700306732074342,
+        "rmse": 18.809170384982004,
+        "r2": 0.5523355629402062,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 3579,
+            "mae": 11.620936248486542,
+            "rmse": 16.638239114784515,
+            "r2": 0.5063917181076143
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 2641,
+            "mae": 9.527146914047709,
+            "rmse": 19.21111166401419,
+            "r2": 0.4210900333921741
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 2262,
+            "mae": 10.36058908045977,
+            "rmse": 16.053971410781692,
+            "r2": 0.5922707236350546
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3388,
+            "mae": 10.056250737898464,
+            "rmse": 13.82074813169228,
+            "r2": 0.666416406620699
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 4133,
+            "mae": 15.829162029195903,
+            "rmse": 23.482388356856717,
+            "r2": 0.3831923348997003
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3013,
+            "mae": 8.767845724084522,
+            "rmse": 13.211473293000356,
+            "r2": 0.5876190595321039
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 4164,
+            "mae": 6.906204570925392,
+            "rmse": 12.23101418899288,
+            "r2": 0.39226644181675696
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3637,
+            "mae": 16.75779511502154,
+            "rmse": 33.34507969110655,
+            "r2": 0.24075663396641134
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 3573,
+            "mae": 5.549951954473364,
+            "rmse": 7.485800602798809,
+            "r2": 0.6417465420164928
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 799,
+            "mae": 10.135356695869836,
+            "rmse": 14.437412685837709,
+            "r2": 0.5566818857709728
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-01",
+            "n": 4837,
+            "mae": 12.748337123561436,
+            "rmse": 20.586394987361878,
+            "r2": 0.2418717596083002
+          },
+          {
+            "month": "2025-02",
+            "n": 4653,
+            "mae": 12.400539974210187,
+            "rmse": 19.921246848470943,
+            "r2": 0.5616593668830929
+          },
+          {
+            "month": "2025-03",
+            "n": 6135,
+            "mae": 13.09277166530834,
+            "rmse": 19.758505336956166,
+            "r2": 0.5171682238338748
+          },
+          {
+            "month": "2025-04",
+            "n": 5317,
+            "mae": 8.83832910162372,
+            "rmse": 13.024267581804255,
+            "r2": 0.558272619659915
+          },
+          {
+            "month": "2025-05",
+            "n": 5239,
+            "mae": 8.068990742508113,
+            "rmse": 13.416993056966623,
+            "r2": 0.185834369960999
+          },
+          {
+            "month": "2025-06",
+            "n": 5008,
+            "mae": 8.941185103833867,
+            "rmse": 24.053896834707448,
+            "r2": -0.4339065540297944
+          }
+        ]
+      },
+      "test": {
+        "model": "V0",
+        "n": 31022,
+        "mae": 11.523101911546643,
+        "rmse": 22.170124035822745,
+        "r2": 0.6988726709073666,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 4095,
+            "mae": 11.756880545380545,
+            "rmse": 18.362179831054334,
+            "r2": 0.8180488902470615
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 1756,
+            "mae": 5.228486617312073,
+            "rmse": 18.91446159475345,
+            "r2": -9.077224495549356
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 1739,
+            "mae": 24.69088412880966,
+            "rmse": 44.651571975886995,
+            "r2": 0.5756155540493557
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3375,
+            "mae": 9.068413827160493,
+            "rmse": 12.919590099245033,
+            "r2": 0.7645900379750012
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 2229,
+            "mae": 16.497416629280696,
+            "rmse": 24.18339478412267,
+            "r2": 0.7275414120788208
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3606,
+            "mae": 8.033048160473285,
+            "rmse": 14.307241028243922,
+            "r2": 0.517508887663841
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 3428,
+            "mae": 11.772123687281212,
+            "rmse": 30.128689157052026,
+            "r2": 0.1460219273809954
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3996,
+            "mae": 15.152255588922255,
+            "rmse": 25.666976726993504,
+            "r2": 0.7343582796483975
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 4041,
+            "mae": 7.393451909593334,
+            "rmse": 11.673747139458314,
+            "r2": 0.78649247339407
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 2757,
+            "mae": 10.910616309998792,
+            "rmse": 17.78073262399619,
+            "r2": 0.7112901002306435
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-07",
+            "n": 5686,
+            "mae": 6.143943897291593,
+            "rmse": 13.110202919549168,
+            "r2": -0.8894341640117132
+          },
+          {
+            "month": "2025-08",
+            "n": 5045,
+            "mae": 5.59300925008259,
+            "rmse": 11.566316006010144,
+            "r2": 0.15353510563415396
+          },
+          {
+            "month": "2025-09",
+            "n": 4559,
+            "mae": 6.7527520655114435,
+            "rmse": 12.459080104643956,
+            "r2": -0.30520596140261724
+          },
+          {
+            "month": "2025-10",
+            "n": 5095,
+            "mae": 14.889871606149821,
+            "rmse": 32.07431955930774,
+            "r2": 0.247128046996823
+          },
+          {
+            "month": "2025-11",
+            "n": 4946,
+            "mae": 14.625453565170508,
+            "rmse": 21.355716304803444,
+            "r2": 0.5979185946544132
+          },
+          {
+            "month": "2025-12",
+            "n": 5691,
+            "mae": 20.265557019855912,
+            "rmse": 30.776887926206967,
+            "r2": 0.5890638738841034
+          }
+        ]
+      }
+    },
+    "V2-A": {
+      "val": {
+        "model": "V2-A",
+        "n": 31189,
+        "mae": 9.993704446084605,
+        "rmse": 16.645401003935916,
+        "r2": 0.6494081321607689,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 3579,
+            "mae": 11.049407127148015,
+            "rmse": 15.589378403122726,
+            "r2": 0.5666634586817463
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 2641,
+            "mae": 8.429856607202899,
+            "rmse": 17.307986870665225,
+            "r2": 0.5301068132168917
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 2262,
+            "mae": 10.622785693044126,
+            "rmse": 15.80653096244726,
+            "r2": 0.6047425552653865
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3388,
+            "mae": 9.139436027728776,
+            "rmse": 12.356461246533447,
+            "r2": 0.7333572372543143
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 4133,
+            "mae": 14.782703083492748,
+            "rmse": 21.16273678638514,
+            "r2": 0.49903326335077014
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3013,
+            "mae": 8.480357614148572,
+            "rmse": 12.530452083428884,
+            "r2": 0.629037881931197
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 4164,
+            "mae": 6.473149659019076,
+            "rmse": 10.552167983639693,
+            "r2": 0.5476530454925639
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3637,
+            "mae": 14.958023329127686,
+            "rmse": 27.617406416508853,
+            "r2": 0.47918525807182255
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 3573,
+            "mae": 5.3045318659228915,
+            "rmse": 7.10449232004436,
+            "r2": 0.6773141068443682
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 799,
+            "mae": 9.929374644550425,
+            "rmse": 13.97384611701171,
+            "r2": 0.5846935763353227
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-01",
+            "n": 4837,
+            "mae": 12.343789879724822,
+            "rmse": 18.853154248647655,
+            "r2": 0.36415667936899254
+          },
+          {
+            "month": "2025-02",
+            "n": 4653,
+            "mae": 11.754289372486033,
+            "rmse": 18.458301525288828,
+            "r2": 0.623675781063954
+          },
+          {
+            "month": "2025-03",
+            "n": 6135,
+            "mae": 12.195463475605354,
+            "rmse": 18.370068403544867,
+            "r2": 0.582641547034674
+          },
+          {
+            "month": "2025-04",
+            "n": 5317,
+            "mae": 8.515047743590854,
+            "rmse": 12.099817546715647,
+            "r2": 0.6187539588625612
+          },
+          {
+            "month": "2025-05",
+            "n": 5239,
+            "mae": 7.456050345823798,
+            "rmse": 11.753136971092275,
+            "r2": 0.37524467055829136
+          },
+          {
+            "month": "2025-06",
+            "n": 5008,
+            "mae": 7.615435869257988,
+            "rmse": 18.770517878453536,
+            "r2": 0.12682262973301306
+          }
+        ]
+      },
+      "test": {
+        "model": "V2-A",
+        "n": 31022,
+        "mae": 11.884791290136443,
+        "rmse": 22.74365137716455,
+        "r2": 0.6830911950276755,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 4095,
+            "mae": 13.262567818998368,
+            "rmse": 23.474211685826013,
+            "r2": 0.702636082654388
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 1756,
+            "mae": 4.251592505483258,
+            "rmse": 5.489368233077379,
+            "r2": 0.15121499967394392
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 1739,
+            "mae": 28.072821830440944,
+            "rmse": 49.67638242368674,
+            "r2": 0.4747260349163783
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3375,
+            "mae": 8.466631266941024,
+            "rmse": 12.00489996967266,
+            "r2": 0.7967434926455395
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 2229,
+            "mae": 19.409738913664853,
+            "rmse": 29.273807958757263,
+            "r2": 0.6007688597439566
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3606,
+            "mae": 7.3416128898720405,
+            "rmse": 12.165257882820264,
+            "r2": 0.6511649059421352
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 3428,
+            "mae": 10.932109732622303,
+            "rmse": 24.752920702076132,
+            "r2": 0.423579859216744
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3996,
+            "mae": 15.487690306214201,
+            "rmse": 27.379990097160647,
+            "r2": 0.6977172086312938
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 4041,
+            "mae": 7.612509609629275,
+            "rmse": 11.78307654332668,
+            "r2": 0.7824745763045666
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 2757,
+            "mae": 10.756644169790484,
+            "rmse": 17.648825777957676,
+            "r2": 0.7155578156183405
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-07",
+            "n": 5686,
+            "mae": 5.496464710200933,
+            "rmse": 7.5521901303132175,
+            "r2": 0.3730126677354517
+          },
+          {
+            "month": "2025-08",
+            "n": 5045,
+            "mae": 5.066291177850451,
+            "rmse": 9.789429734229834,
+            "r2": 0.39363569029820833
+          },
+          {
+            "month": "2025-09",
+            "n": 4559,
+            "mae": 5.889032987322803,
+            "rmse": 9.949353886025118,
+            "r2": 0.1676675065091714
+          },
+          {
+            "month": "2025-10",
+            "n": 5095,
+            "mae": 14.349119705432296,
+            "rmse": 28.41267815814961,
+            "r2": 0.40921350538830314
+          },
+          {
+            "month": "2025-11",
+            "n": 4946,
+            "mae": 14.947656335304941,
+            "rmse": 21.706953132092092,
+            "r2": 0.5845837888044352
+          },
+          {
+            "month": "2025-12",
+            "n": 5691,
+            "mae": 24.24700115012374,
+            "rmse": 38.29107572222674,
+            "r2": 0.36390782805839494
+          }
+        ]
+      },
+      "features": [
+        "pm25_t",
+        "pm25_lag_1",
+        "pm25_lag_2",
+        "pm25_lag_3",
+        "pm25_lag_6",
+        "pm25_lag_12",
+        "pm25_lag_24",
+        "pm25_lag_48",
+        "pm25_lag_72"
+      ]
+    },
+    "V2-B": {
+      "val": {
+        "model": "V2-B",
+        "n": 31189,
+        "mae": 9.971702841801608,
+        "rmse": 16.420055425467996,
+        "r2": 0.6588365077971501,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 3579,
+            "mae": 10.677671706135783,
+            "rmse": 15.076743812349495,
+            "r2": 0.5946941936147268
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 2641,
+            "mae": 8.507798408997958,
+            "rmse": 17.34996848777573,
+            "r2": 0.5278245373646355
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 2262,
+            "mae": 10.104799051225767,
+            "rmse": 15.659045262037237,
+            "r2": 0.6120841858891939
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3388,
+            "mae": 9.038317849605114,
+            "rmse": 12.111093161378374,
+            "r2": 0.7438417973671778
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 4133,
+            "mae": 14.576912394066053,
+            "rmse": 20.84365566838695,
+            "r2": 0.5140260278818205
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3013,
+            "mae": 8.693573906484174,
+            "rmse": 12.84609162015295,
+            "r2": 0.6101135764315857
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 4164,
+            "mae": 6.9141617973347795,
+            "rmse": 10.643516012733492,
+            "r2": 0.5397873904546192
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3637,
+            "mae": 14.967029599785947,
+            "rmse": 26.985168553120403,
+            "r2": 0.5027580548227174
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 3573,
+            "mae": 5.405198266388531,
+            "rmse": 7.193418728871042,
+            "r2": 0.6691854792595324
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 799,
+            "mae": 9.844222879787758,
+            "rmse": 13.751652687233614,
+            "r2": 0.5977958696245735
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-01",
+            "n": 4837,
+            "mae": 11.819200543029083,
+            "rmse": 17.792379581329904,
+            "r2": 0.43369533082273526
+          },
+          {
+            "month": "2025-02",
+            "n": 4653,
+            "mae": 11.88933758268965,
+            "rmse": 18.38142212462966,
+            "r2": 0.6268040569672497
+          },
+          {
+            "month": "2025-03",
+            "n": 6135,
+            "mae": 12.401937167693337,
+            "rmse": 18.38137586872179,
+            "r2": 0.5821275893822531
+          },
+          {
+            "month": "2025-04",
+            "n": 5317,
+            "mae": 8.353674483639747,
+            "rmse": 11.712813518794144,
+            "r2": 0.6427517112526644
+          },
+          {
+            "month": "2025-05",
+            "n": 5239,
+            "mae": 7.536355418337357,
+            "rmse": 11.83090618018509,
+            "r2": 0.36694944274417607
+          },
+          {
+            "month": "2025-06",
+            "n": 5008,
+            "mae": 7.693997872221075,
+            "rmse": 18.800557447647382,
+            "r2": 0.12402559868572016
+          }
+        ]
+      },
+      "test": {
+        "model": "V2-B",
+        "n": 31022,
+        "mae": 12.413310900184763,
+        "rmse": 23.547312424622188,
+        "r2": 0.6602991618443103,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 4095,
+            "mae": 14.141796929591937,
+            "rmse": 25.160221967558577,
+            "r2": 0.6583863839768533
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 1756,
+            "mae": 4.325060955361153,
+            "rmse": 5.503532742382338,
+            "r2": 0.14682901796120018
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 1739,
+            "mae": 29.801256946419674,
+            "rmse": 52.50028998528007,
+            "r2": 0.4133090936642273
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3375,
+            "mae": 8.584523216997312,
+            "rmse": 11.996788919389846,
+            "r2": 0.797018058333459
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 2229,
+            "mae": 21.52858356211705,
+            "rmse": 32.493558179372506,
+            "r2": 0.5081184734128505
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3606,
+            "mae": 7.7064645177041085,
+            "rmse": 12.497519319623878,
+            "r2": 0.6318496952828934
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 3428,
+            "mae": 11.464161983320844,
+            "rmse": 24.7893309401684,
+            "r2": 0.42188284490145855
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3996,
+            "mae": 15.307257258725796,
+            "rmse": 26.16774192612135,
+            "r2": 0.7238917734267787
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 4041,
+            "mae": 7.992525487116419,
+            "rmse": 12.371972230394249,
+            "r2": 0.7601882277827258
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 2757,
+            "mae": 10.969041351149555,
+            "rmse": 18.053238859558228,
+            "r2": 0.7023727923511929
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-07",
+            "n": 5686,
+            "mae": 5.6730300238666675,
+            "rmse": 7.751819288352106,
+            "r2": 0.3394279165057993
+          },
+          {
+            "month": "2025-08",
+            "n": 5045,
+            "mae": 5.374355607238507,
+            "rmse": 10.090550094397184,
+            "r2": 0.3557587486711522
+          },
+          {
+            "month": "2025-09",
+            "n": 4559,
+            "mae": 5.988873133771277,
+            "rmse": 10.032212076591149,
+            "r2": 0.15374645441590562
+          },
+          {
+            "month": "2025-10",
+            "n": 5095,
+            "mae": 14.493904982675708,
+            "rmse": 28.036107825366912,
+            "r2": 0.42476982736115676
+          },
+          {
+            "month": "2025-11",
+            "n": 4946,
+            "mae": 15.592742431811335,
+            "rmse": 22.398308382613404,
+            "r2": 0.5577008111985042
+          },
+          {
+            "month": "2025-12",
+            "n": 5691,
+            "mae": 25.908247306268272,
+            "rmse": 40.64286939965633,
+            "r2": 0.28337221958132675
+          }
+        ]
+      },
+      "features": [
+        "pm25_t",
+        "pm25_lag_1",
+        "pm25_lag_2",
+        "pm25_lag_3",
+        "pm25_lag_6",
+        "pm25_lag_12",
+        "pm25_lag_24",
+        "pm25_lag_48",
+        "pm25_lag_72",
+        "temperature",
+        "humidity",
+        "wind_speed",
+        "wind_direction",
+        "rainfall",
+        "solar_radiation"
+      ]
+    },
+    "V2-C": {
+      "val": {
+        "model": "V2-C",
+        "n": 31189,
+        "mae": 10.871713341819227,
+        "rmse": 17.360240089617903,
+        "r2": 0.6186491067212498,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 3579,
+            "mae": 11.181778018170144,
+            "rmse": 16.21682971449778,
+            "r2": 0.5310790590790309
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 2641,
+            "mae": 8.826005862463637,
+            "rmse": 17.445510237681834,
+            "r2": 0.5226099248659481
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 2262,
+            "mae": 11.705163699171727,
+            "rmse": 17.302269539445984,
+            "r2": 0.5263984964162847
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3388,
+            "mae": 9.121847993039278,
+            "rmse": 12.057234609633802,
+            "r2": 0.7461150246038224
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 4133,
+            "mae": 16.347067844914818,
+            "rmse": 23.261652588567227,
+            "r2": 0.39473388645299434
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3013,
+            "mae": 9.220940064496599,
+            "rmse": 12.748473264520918,
+            "r2": 0.6160166109248779
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 4164,
+            "mae": 8.538259820179263,
+            "rmse": 11.571759776452344,
+            "r2": 0.45601478412066077
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3637,
+            "mae": 14.800160981335523,
+            "rmse": 27.59023030497449,
+            "r2": 0.4802097391923503
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 3573,
+            "mae": 7.15432514605632,
+            "rmse": 8.975985899406865,
+            "r2": 0.4849158277447885
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 799,
+            "mae": 10.109980194862056,
+            "rmse": 13.465904732133243,
+            "r2": 0.6143371458725861
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-01",
+            "n": 4837,
+            "mae": 13.086838601904763,
+            "rmse": 18.574760586706965,
+            "r2": 0.3827962991099475
+          },
+          {
+            "month": "2025-02",
+            "n": 4653,
+            "mae": 13.760658009169275,
+            "rmse": 20.469398656627707,
+            "r2": 0.537204779377593
+          },
+          {
+            "month": "2025-03",
+            "n": 6135,
+            "mae": 13.217890019672522,
+            "rmse": 19.986442667369538,
+            "r2": 0.5059639153474579
+          },
+          {
+            "month": "2025-04",
+            "n": 5317,
+            "mae": 8.812811812962284,
+            "rmse": 12.120131437791281,
+            "r2": 0.6174727673798552
+          },
+          {
+            "month": "2025-05",
+            "n": 5239,
+            "mae": 9.02992200915395,
+            "rmse": 12.475711473779254,
+            "r2": 0.2960642542791533
+          },
+          {
+            "month": "2025-06",
+            "n": 5008,
+            "mae": 7.286591513129596,
+            "rmse": 18.60807500906517,
+            "r2": 0.1418704488627064
+          }
+        ]
+      },
+      "test": {
+        "model": "V2-C",
+        "n": 31022,
+        "mae": 13.937248105326896,
+        "rmse": 26.131019125855364,
+        "r2": 0.581662668335061,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 4095,
+            "mae": 15.856790847529906,
+            "rmse": 28.255479110420133,
+            "r2": 0.5691643944082118
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 1756,
+            "mae": 4.012035361509389,
+            "rmse": 5.171133534331656,
+            "r2": 0.24677544047765576
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 1739,
+            "mae": 32.69764848631233,
+            "rmse": 55.66888499006126,
+            "r2": 0.34035390199853477
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3375,
+            "mae": 9.4641751900096,
+            "rmse": 13.220690139113609,
+            "r2": 0.7534893877254216
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 2229,
+            "mae": 22.58957240311041,
+            "rmse": 34.37559485112347,
+            "r2": 0.4494884761203666
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3606,
+            "mae": 9.258540610611208,
+            "rmse": 15.241576490370576,
+            "r2": 0.45243294478880347
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 3428,
+            "mae": 11.649407697083745,
+            "rmse": 25.701060843649355,
+            "r2": 0.37857553716383463
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3996,
+            "mae": 18.494933541372372,
+            "rmse": 32.43066201635429,
+            "r2": 0.5759095636531308
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 4041,
+            "mae": 9.920526910788311,
+            "rmse": 15.019466341100022,
+            "r2": 0.6465714496332337
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 2757,
+            "mae": 12.30053991012195,
+            "rmse": 19.393957366605665,
+            "r2": 0.6565249096808102
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-07",
+            "n": 5686,
+            "mae": 5.331733715694945,
+            "rmse": 7.385979426286135,
+            "r2": 0.4003068011474399
+          },
+          {
+            "month": "2025-08",
+            "n": 5045,
+            "mae": 5.067492611480853,
+            "rmse": 9.811733721995667,
+            "r2": 0.3908694926194005
+          },
+          {
+            "month": "2025-09",
+            "n": 4559,
+            "mae": 5.625229215395331,
+            "rmse": 9.761340990293013,
+            "r2": 0.19882745032743798
+          },
+          {
+            "month": "2025-10",
+            "n": 5095,
+            "mae": 18.681931564717893,
+            "rmse": 31.489486297314414,
+            "r2": 0.2743330120453864
+          },
+          {
+            "month": "2025-11",
+            "n": 4946,
+            "mae": 17.97999227057186,
+            "rmse": 25.281815453015884,
+            "r2": 0.4364892350144962
+          },
+          {
+            "month": "2025-12",
+            "n": 5691,
+            "mae": 29.29549631094979,
+            "rmse": 45.41732105246351,
+            "r2": 0.10511352606494662
+          }
+        ]
+      },
+      "features": [
+        "pm25_t",
+        "pm25_lag_1",
+        "pm25_lag_2",
+        "pm25_lag_3",
+        "pm25_lag_6",
+        "pm25_lag_12",
+        "pm25_lag_24",
+        "pm25_lag_48",
+        "pm25_lag_72",
+        "temperature",
+        "humidity",
+        "wind_speed",
+        "wind_direction",
+        "rainfall",
+        "solar_radiation",
+        "hour",
+        "day_of_week",
+        "day_of_year",
+        "month",
+        "is_weekend",
+        "target_hour",
+        "target_day_of_week",
+        "target_month",
+        "target_is_weekend"
+      ]
+    },
+    "V2-D": {
+      "val": {
+        "model": "V2-D",
+        "n": 31189,
+        "mae": 9.960407696465591,
+        "rmse": 16.416941968728786,
+        "r2": 0.6589658736297461,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 3579,
+            "mae": 10.622886564448923,
+            "rmse": 15.032871307861564,
+            "r2": 0.5970495972778924
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 2641,
+            "mae": 8.540095850462928,
+            "rmse": 17.36666014489708,
+            "r2": 0.5269155810051712
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 2262,
+            "mae": 10.074043972994632,
+            "rmse": 15.5689620679902,
+            "r2": 0.6165345441621692
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3388,
+            "mae": 9.077706312966225,
+            "rmse": 12.16059514417718,
+            "r2": 0.7417435138994419
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 4133,
+            "mae": 14.59261674434718,
+            "rmse": 20.880253301376598,
+            "r2": 0.5123179675116764
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3013,
+            "mae": 8.664205857454272,
+            "rmse": 12.833182774450554,
+            "r2": 0.6108967648202356
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 4164,
+            "mae": 6.874973981149144,
+            "rmse": 10.619022667681351,
+            "r2": 0.5419030778347387
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3637,
+            "mae": 14.980411577648646,
+            "rmse": 27.00870334952131,
+            "r2": 0.5018903492153137
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 3573,
+            "mae": 5.372430273360843,
+            "rmse": 7.1152575328831755,
+            "r2": 0.6763354544594777
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 799,
+            "mae": 9.781371526356086,
+            "rmse": 13.684684344336228,
+            "r2": 0.6017036704249605
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-01",
+            "n": 4837,
+            "mae": 11.86692834720187,
+            "rmse": 18.00892671301091,
+            "r2": 0.4198267066051572
+          },
+          {
+            "month": "2025-02",
+            "n": 4653,
+            "mae": 11.890036126866502,
+            "rmse": 18.367504178387527,
+            "r2": 0.6273689919988694
+          },
+          {
+            "month": "2025-03",
+            "n": 6135,
+            "mae": 12.33526055791306,
+            "rmse": 18.2471987296493,
+            "r2": 0.5882059465095129
+          },
+          {
+            "month": "2025-04",
+            "n": 5317,
+            "mae": 8.326095659890807,
+            "rmse": 11.675533451477234,
+            "r2": 0.6450222238474923
+          },
+          {
+            "month": "2025-05",
+            "n": 5239,
+            "mae": 7.514694591152567,
+            "rmse": 11.791930512074723,
+            "r2": 0.37111360833078455
+          },
+          {
+            "month": "2025-06",
+            "n": 5008,
+            "mae": 7.710528358996739,
+            "rmse": 18.807475542990968,
+            "r2": 0.12338081042183557
+          }
+        ]
+      },
+      "test": {
+        "model": "V2-D",
+        "n": 31022,
+        "mae": 12.304254514781194,
+        "rmse": 23.499983584999296,
+        "r2": 0.6616633505546027,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 4095,
+            "mae": 14.221490264212546,
+            "rmse": 25.45734001084254,
+            "r2": 0.650270487744256
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 1756,
+            "mae": 4.354935191392717,
+            "rmse": 5.519441653440388,
+            "r2": 0.1418894129885866
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 1739,
+            "mae": 30.043252408929042,
+            "rmse": 52.685735740245605,
+            "r2": 0.4091570597237638
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3375,
+            "mae": 8.618402322016586,
+            "rmse": 11.994464972572963,
+            "r2": 0.7970966916329298
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 2229,
+            "mae": 21.55965787810846,
+            "rmse": 32.69795768314399,
+            "r2": 0.501910685272033
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3606,
+            "mae": 7.620311206927646,
+            "rmse": 12.431640207987703,
+            "r2": 0.6357207820131772
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 3428,
+            "mae": 11.257953839596958,
+            "rmse": 24.72449169837754,
+            "r2": 0.4249031487110998
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3996,
+            "mae": 14.79740321434614,
+            "rmse": 25.633416197842987,
+            "r2": 0.7350524984024496
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 4041,
+            "mae": 7.746909049805916,
+            "rmse": 11.91800310958823,
+            "r2": 0.7774643398395509
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 2757,
+            "mae": 10.85336338562078,
+            "rmse": 17.827666900488353,
+            "r2": 0.7097639230532655
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-07",
+            "n": 5686,
+            "mae": 5.6231678803258625,
+            "rmse": 7.684344228918,
+            "r2": 0.35087765539103566
+          },
+          {
+            "month": "2025-08",
+            "n": 5045,
+            "mae": 5.272340704412243,
+            "rmse": 10.017919610744055,
+            "r2": 0.3649997025220708
+          },
+          {
+            "month": "2025-09",
+            "n": 4559,
+            "mae": 5.905713571354756,
+            "rmse": 9.974167483870776,
+            "r2": 0.16351067011451248
+          },
+          {
+            "month": "2025-10",
+            "n": 5095,
+            "mae": 14.240556544963074,
+            "rmse": 27.698225032599737,
+            "r2": 0.4385512831772237
+          },
+          {
+            "month": "2025-11",
+            "n": 4946,
+            "mae": 15.483878754005067,
+            "rmse": 22.21462170614614,
+            "r2": 0.5649255825542885
+          },
+          {
+            "month": "2025-12",
+            "n": 5691,
+            "mae": 25.84207416105206,
+            "rmse": 40.8283250711053,
+            "r2": 0.276817273568156
+          }
+        ]
+      },
+      "features": [
+        "pm25_t",
+        "pm25_lag_1",
+        "pm25_lag_2",
+        "pm25_lag_3",
+        "pm25_lag_6",
+        "pm25_lag_12",
+        "pm25_lag_24",
+        "pm25_lag_48",
+        "pm25_lag_72",
+        "temperature",
+        "humidity",
+        "wind_speed",
+        "wind_direction",
+        "rainfall",
+        "solar_radiation"
+      ]
+    },
+    "V2-E": {
+      "val": {
+        "model": "V2-E",
+        "n": 31189,
+        "mae": 9.941427924464927,
+        "rmse": 16.372937192369065,
+        "r2": 0.6607916725594463,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 3579,
+            "mae": 10.582330335432495,
+            "rmse": 15.001912877248456,
+            "r2": 0.598707546278682
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 2641,
+            "mae": 8.417829005270162,
+            "rmse": 17.266633383278283,
+            "r2": 0.532349535988042
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 2262,
+            "mae": 10.569250720974411,
+            "rmse": 15.925419208849334,
+            "r2": 0.5987743656749659
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3388,
+            "mae": 8.977028827562147,
+            "rmse": 12.064623322689874,
+            "r2": 0.7458037661657291
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 4133,
+            "mae": 14.543974968483875,
+            "rmse": 20.700472799324114,
+            "r2": 0.5206797696614629
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3013,
+            "mae": 8.563755125251937,
+            "rmse": 12.614387774251455,
+            "r2": 0.6240514301290786
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 4164,
+            "mae": 6.775936996438279,
+            "rmse": 10.56238762807513,
+            "r2": 0.5467764363221674
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3637,
+            "mae": 14.994394330348205,
+            "rmse": 27.03012243518736,
+            "r2": 0.5010999903701235
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 3573,
+            "mae": 5.3985947841907995,
+            "rmse": 7.177944388523881,
+            "r2": 0.670607231721273
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 799,
+            "mae": 9.617139337163294,
+            "rmse": 13.463978794397352,
+            "r2": 0.6144474555090642
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-01",
+            "n": 4837,
+            "mae": 11.92629840003032,
+            "rmse": 17.86148639185719,
+            "r2": 0.4292876559771638
+          },
+          {
+            "month": "2025-02",
+            "n": 4653,
+            "mae": 11.933969235702046,
+            "rmse": 18.348945286003563,
+            "r2": 0.6281216391598283
+          },
+          {
+            "month": "2025-03",
+            "n": 6135,
+            "mae": 12.210605210929938,
+            "rmse": 18.196969361975206,
+            "r2": 0.5904699308521008
+          },
+          {
+            "month": "2025-04",
+            "n": 5317,
+            "mae": 8.367990991331613,
+            "rmse": 11.740767947914023,
+            "r2": 0.6410444204615178
+          },
+          {
+            "month": "2025-05",
+            "n": 5239,
+            "mae": 7.490065980036158,
+            "rmse": 11.743641441182076,
+            "r2": 0.37625376055745197
+          },
+          {
+            "month": "2025-06",
+            "n": 5008,
+            "mae": 7.6281558670314595,
+            "rmse": 18.769279268179567,
+            "r2": 0.1269378626515152
+          }
+        ]
+      },
+      "test": {
+        "model": "V2-E",
+        "n": 31022,
+        "mae": 12.61669997248042,
+        "rmse": 24.494653373457833,
+        "r2": 0.6324160650640234,
+        "by_station": [
+          {
+            "station_id": "site_5404",
+            "station_name": "Mhada Colony, Pune - IITM",
+            "n": 4095,
+            "mae": 15.138686636300994,
+            "rmse": 27.569509079423376,
+            "r2": 0.5898296137065098
+          },
+          {
+            "station_id": "site_5406",
+            "station_name": "Bhosari, Pune - IITM",
+            "n": 1756,
+            "mae": 4.229167719343529,
+            "rmse": 5.409518028119874,
+            "r2": 0.17572882698043668
+          },
+          {
+            "station_id": "site_5407",
+            "station_name": "Hadapsar, Pune - IITM",
+            "n": 1739,
+            "mae": 32.29375241706443,
+            "rmse": 57.850528728068774,
+            "r2": 0.2876382085763375
+          },
+          {
+            "station_id": "site_5408",
+            "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+            "n": 3375,
+            "mae": 8.575709644191413,
+            "rmse": 12.02857450763783,
+            "r2": 0.7959410288643409
+          },
+          {
+            "station_id": "site_5409",
+            "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "n": 2229,
+            "mae": 21.44107100541377,
+            "rmse": 32.48488884700384,
+            "r2": 0.5083809079272588
+          },
+          {
+            "station_id": "site_5766",
+            "station_name": "Katraj Dairy, Pune - MPCB",
+            "n": 3606,
+            "mae": 7.5982829667548195,
+            "rmse": 12.363169573717864,
+            "r2": 0.6397224648305695
+          },
+          {
+            "station_id": "site_5767",
+            "station_name": "Savitribai Phule Pune University, Pune - MPCB",
+            "n": 3428,
+            "mae": 11.320351834443702,
+            "rmse": 24.71537221093302,
+            "r2": 0.42532731284441627
+          },
+          {
+            "station_id": "site_5988",
+            "station_name": "Bhumkar Nagar, Pune - IITM",
+            "n": 3996,
+            "mae": 15.053307660225036,
+            "rmse": 25.529817504577153,
+            "r2": 0.7371897670437391
+          },
+          {
+            "station_id": "site_5996",
+            "station_name": "Panchawati_Pashan, Pune - IITM",
+            "n": 4041,
+            "mae": 8.074899592433818,
+            "rmse": 12.578524040007883,
+            "r2": 0.7521140033321136
+          },
+          {
+            "station_id": "site_6012",
+            "station_name": "Dhankawadi, Pune - IITM",
+            "n": 2757,
+            "mae": 10.915002666704455,
+            "rmse": 18.062947751562383,
+            "r2": 0.7020525830580602
+          }
+        ],
+        "by_month": [
+          {
+            "month": "2025-07",
+            "n": 5686,
+            "mae": 5.618874165768331,
+            "rmse": 7.701560885225821,
+            "r2": 0.34796569947476697
+          },
+          {
+            "month": "2025-08",
+            "n": 5045,
+            "mae": 5.252971375115367,
+            "rmse": 9.963632822397317,
+            "r2": 0.3718631485078361
+          },
+          {
+            "month": "2025-09",
+            "n": 4559,
+            "mae": 5.869849630156272,
+            "rmse": 9.925994590898549,
+            "r2": 0.1715712527419332
+          },
+          {
+            "month": "2025-10",
+            "n": 5095,
+            "mae": 14.395385154883849,
+            "rmse": 28.036377364362725,
+            "r2": 0.42475876678817204
+          },
+          {
+            "month": "2025-11",
+            "n": 4946,
+            "mae": 15.708758090812733,
+            "rmse": 22.535287130557005,
+            "r2": 0.5522744329019198
+          },
+          {
+            "month": "2025-12",
+            "n": 5691,
+            "mae": 27.261370252520884,
+            "rmse": 43.58095982786279,
+            "r2": 0.1760165320943874
+          }
+        ]
+      },
+      "features": [
+        "pm25_t",
+        "pm25_lag_1",
+        "pm25_lag_2",
+        "pm25_lag_3",
+        "pm25_lag_6",
+        "pm25_lag_12",
+        "pm25_lag_24",
+        "pm25_lag_48",
+        "pm25_lag_72",
+        "temperature",
+        "humidity",
+        "wind_speed",
+        "wind_direction",
+        "rainfall",
+        "solar_radiation",
+        "station_site_5404",
+        "station_site_5406",
+        "station_site_5407",
+        "station_site_5408",
+        "station_site_5409",
+        "station_site_5766",
+        "station_site_5767",
+        "station_site_5988",
+        "station_site_5996"
+      ]
+    }
+  },
+  "decision": {
+    "production_forecast": "V0_persistence",
+    "promoted_v2": null,
+    "checks": {
+      "V2-A": {
+        "overall_mae_lower": false,
+        "mae_gap_v0_minus_model": -0.36168937858979966,
+        "stations_worse_by_more_than_margin": [],
+        "ond_mae": 18.117820790678234,
+        "ond_persistence_mae": 16.751377712094243,
+        "ond_improved": false,
+        "december_mae_gap_model_minus_v0": 3.9814441302678283,
+        "december_not_worse_by_margin": false,
+        "viable": false
+      },
+      "V2-B": {
+        "overall_mae_lower": false,
+        "mae_gap_v0_minus_model": -0.8902089886381201,
+        "stations_worse_by_more_than_margin": [
+          {
+            "station": "Hadapsar, Pune - IITM",
+            "mae_gap": 5.110372817610013
+          },
+          {
+            "station": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "mae_gap": 5.031166932836353
+          }
+        ],
+        "ond_mae": 18.96847097472949,
+        "ond_persistence_mae": 16.751377712094243,
+        "ond_improved": false,
+        "december_mae_gap_model_minus_v0": 5.6426902864123605,
+        "december_not_worse_by_margin": false,
+        "viable": false
+      },
+      "V2-C": {
+        "overall_mae_lower": false,
+        "mae_gap_v0_minus_model": -2.414146193780253,
+        "stations_worse_by_more_than_margin": [
+          {
+            "station": "Hadapsar, Pune - IITM",
+            "mae_gap": 8.006764357502671
+          },
+          {
+            "station": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "mae_gap": 6.092155773829713
+          }
+        ],
+        "ond_mae": 22.30067077282617,
+        "ond_persistence_mae": 16.751377712094243,
+        "ond_improved": false,
+        "december_mae_gap_model_minus_v0": 9.029939291093878,
+        "december_not_worse_by_margin": false,
+        "viable": false
+      },
+      "V2-D": {
+        "overall_mae_lower": false,
+        "mae_gap_v0_minus_model": -0.7811526032345508,
+        "stations_worse_by_more_than_margin": [
+          {
+            "station": "Hadapsar, Pune - IITM",
+            "mae_gap": 5.352368280119382
+          },
+          {
+            "station": "Revenue Colony-Shivajinagar, Pune - IITM",
+            "mae_gap": 5.062241248827764
+          }
+        ],
+        "ond_mae": 18.828257307681366,
+        "ond_persistence_mae": 16.751377712094243,
+        "ond_improved": false,
+        "december_mae_gap_model_minus_v0": 5.576517141196149,
+        "december_not_worse_by_margin": false,
+        "viable": false
+      },
+      "V2-E": {
+        "overall_mae_lower": false,
+        "mae_gap_v0_minus_model": -1.0935980609337772,
+        "stations_worse_by_more_than_margin": [
+          {
+            "station": "Hadapsar, Pune - IITM",
+            "mae_gap": 7.602868288254772
+          }
+        ],
+        "ond_mae": 19.462526251486736,
+        "ond_persistence_mae": 16.751377712094243,
+        "ond_improved": false,
+        "december_mae_gap_model_minus_v0": 6.995813232664972,
+        "december_not_worse_by_margin": false,
+        "viable": false
+      }
+    }
+  },
+  "saved_model": "V2-A",
+  "saved_model_promoted": false,
+  "saved_features": [
+    "pm25_t",
+    "pm25_lag_1",
+    "pm25_lag_2",
+    "pm25_lag_3",
+    "pm25_lag_6",
+    "pm25_lag_12",
+    "pm25_lag_24",
+    "pm25_lag_48",
+    "pm25_lag_72"
+  ],
+  "shap": [
+    {
+      "feature": "pm25_t",
+      "mean_abs_shap": 12.792712211608887
+    },
+    {
+      "feature": "pm25_lag_1",
+      "mean_abs_shap": 2.8845248222351074
+    },
+    {
+      "feature": "pm25_lag_72",
+      "mean_abs_shap": 2.1964223384857178
+    },
+    {
+      "feature": "pm25_lag_48",
+      "mean_abs_shap": 1.9201093912124634
+    },
+    {
+      "feature": "pm25_lag_12",
+      "mean_abs_shap": 1.5161595344543457
+    },
+    {
+      "feature": "pm25_lag_2",
+      "mean_abs_shap": 1.2900941371917725
+    },
+    {
+      "feature": "temperature",
+      "mean_abs_shap": 1.2474260330200195
+    },
+    {
+      "feature": "pm25_lag_24",
+      "mean_abs_shap": 1.2339184284210205
+    },
+    {
+      "feature": "pm25_lag_3",
+      "mean_abs_shap": 1.0090465545654297
+    },
+    {
+      "feature": "solar_radiation",
+      "mean_abs_shap": 0.9863771796226501
+    },
+    {
+      "feature": "pm25_lag_6",
+      "mean_abs_shap": 0.8779953718185425
+    },
+    {
+      "feature": "humidity",
+      "mean_abs_shap": 0.8170428276062012
+    },
+    {
+      "feature": "wind_speed",
+      "mean_abs_shap": 0.4808901250362396
+    },
+    {
+      "feature": "rainfall",
+      "mean_abs_shap": 0.25542402267456055
+    },
+    {
+      "feature": "wind_direction",
+      "mean_abs_shap": 0.2183099389076233
+    }
+  ],
+  "shap_disclaimer": "This represents the contribution of model features to the prediction and is not direct causal source apportionment.",
+  "plots": [
+    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\v2_test_mae.png",
+    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\v2_monthly_mae.png"
+  ],
+  "winter": {
+    "comparison_column": "pred_v2a",
+    "by_month": [
+      {
+        "month": "2025-10",
+        "n": 5095,
+        "mean_actual": 36.027210009813544,
+        "mean_pm25_at_t": 35.49618302257115,
+        "mean_persist_error": 0.5310269872423946,
+        "v0_mae": 14.889871606149821,
+        "model_mae": 14.349119705432296,
+        "share_actual_above_90": 0.0590775269872424
+      },
+      {
+        "month": "2025-11",
+        "n": 4946,
+        "mean_actual": 57.101670710338325,
+        "mean_pm25_at_t": 55.57113492384418,
+        "mean_persist_error": 1.5305357864941365,
+        "v0_mae": 14.625453565170508,
+        "model_mae": 14.947656335304941,
+        "share_actual_above_90": 0.15325515568135867
+      },
+      {
+        "month": "2025-12",
+        "n": 5691,
+        "mean_actual": 89.4063717565747,
+        "mean_pm25_at_t": 89.56862443624436,
+        "mean_persist_error": -0.16225267966965387,
+        "v0_mae": 20.265557019855912,
+        "model_mae": 24.24700115012374,
+        "share_actual_above_90": 0.39676682481110526
+      }
+    ],
+    "december_by_hour": [
+      {
+        "hour": 0,
+        "n": 230,
+        "v0_mae": 22.67900724637681,
+        "model_mae": 28.36599679786572,
+        "mean_actual": 109.38367391304348
+      },
+      {
+        "hour": 1,
+        "n": 235,
+        "v0_mae": 22.74145744680851,
+        "model_mae": 32.57816718221894,
+        "mean_actual": 113.22899645390069
+      },
+      {
+        "hour": 2,
+        "n": 236,
+        "v0_mae": 22.03096398305085,
+        "model_mae": 34.67236991849996,
+        "mean_actual": 111.94180084745763
+      },
+      {
+        "hour": 3,
+        "n": 231,
+        "v0_mae": 22.604379509379505,
+        "model_mae": 35.51797827606421,
+        "mean_actual": 109.8543686868687
+      },
+      {
+        "hour": 4,
+        "n": 229,
+        "v0_mae": 23.972281659388646,
+        "model_mae": 35.04475178914299,
+        "mean_actual": 106.55056768558953
+      },
+      {
+        "hour": 5,
+        "n": 229,
+        "v0_mae": 25.073591703056767,
+        "model_mae": 32.97003506489716,
+        "mean_actual": 102.70592794759825
+      },
+      {
+        "hour": 6,
+        "n": 231,
+        "v0_mae": 27.224678932178932,
+        "model_mae": 33.93919578552246,
+        "mean_actual": 105.04151875901876
+      },
+      {
+        "hour": 7,
+        "n": 220,
+        "v0_mae": 27.715393939393937,
+        "model_mae": 33.500078260710744,
+        "mean_actual": 106.66718939393941
+      },
+      {
+        "hour": 8,
+        "n": 218,
+        "v0_mae": 27.960160550458717,
+        "model_mae": 34.13683561389235,
+        "mean_actual": 112.43892201834862
+      },
+      {
+        "hour": 9,
+        "n": 229,
+        "v0_mae": 21.704050218340615,
+        "model_mae": 29.707137802768138,
+        "mean_actual": 111.86584425036388
+      },
+      {
+        "hour": 10,
+        "n": 236,
+        "v0_mae": 20.584932909604518,
+        "model_mae": 25.609212250359317,
+        "mean_actual": 100.49193502824859
+      },
+      {
+        "hour": 11,
+        "n": 245,
+        "v0_mae": 18.244585034013603,
+        "model_mae": 21.054066815538473,
+        "mean_actual": 87.00879251700681
+      },
+      {
+        "hour": 12,
+        "n": 245,
+        "v0_mae": 15.864425170068028,
+        "model_mae": 17.103498476923725,
+        "mean_actual": 74.2242755102041
+      },
+      {
+        "hour": 13,
+        "n": 238,
+        "v0_mae": 13.624628851540617,
+        "model_mae": 13.916485131741908,
+        "mean_actual": 65.33590336134453
+      },
+      {
+        "hour": 14,
+        "n": 243,
+        "v0_mae": 14.57810013717421,
+        "model_mae": 13.648746128684044,
+        "mean_actual": 58.389574759945134
+      },
+      {
+        "hour": 15,
+        "n": 247,
+        "v0_mae": 15.01798245614035,
+        "model_mae": 13.625706834162457,
+        "mean_actual": 55.66882928475034
+      },
+      {
+        "hour": 16,
+        "n": 250,
+        "v0_mae": 14.40169,
+        "model_mae": 13.864022236735025,
+        "mean_actual": 55.71134333333333
+      },
+      {
+        "hour": 17,
+        "n": 249,
+        "v0_mae": 16.38228580990629,
+        "model_mae": 14.60617408772868,
+        "mean_actual": 58.05233935742972
+      },
+      {
+        "hour": 18,
+        "n": 249,
+        "v0_mae": 17.628189424364123,
+        "model_mae": 16.21877537064763,
+        "mean_actual": 61.62456827309238
+      },
+      {
+        "hour": 19,
+        "n": 252,
+        "v0_mae": 16.84499007936508,
+        "model_mae": 15.700372039956392,
+        "mean_actual": 70.2828835978836
+      },
+      {
+        "hour": 20,
+        "n": 244,
+        "v0_mae": 17.720071721311477,
+        "model_mae": 17.838043167656235,
+        "mean_actual": 82.64940915300546
+      },
+      {
+        "hour": 21,
+        "n": 239,
+        "v0_mae": 20.091705020920504,
+        "model_mae": 21.810167598963783,
+        "mean_actual": 95.15352510460251
+      },
+      {
+        "hour": 22,
+        "n": 236,
+        "v0_mae": 23.17758121468927,
+        "model_mae": 26.763863562675525,
+        "mean_actual": 103.43970338983051
+      },
+      {
+        "hour": 23,
+        "n": 230,
+        "v0_mae": 21.946916666666667,
+        "model_mae": 26.200818664329635,
+        "mean_actual": 104.36653623188404
+      }
+    ],
+    "december_by_level": [
+      {
+        "level": "pm25_t <= 30",
+        "n": 200,
+        "v0_mae": 14.028675,
+        "model_mae": 11.67832600212097,
+        "mean_actual": 33.86434583333333
+      },
+      {
+        "level": "30 < pm25_t <= 60",
+        "n": 1442,
+        "v0_mae": 12.746588650023115,
+        "model_mae": 12.837927470390191,
+        "mean_actual": 53.171491562644476
+      },
+      {
+        "level": "60 < pm25_t <= 90",
+        "n": 1805,
+        "v0_mae": 16.006124192059097,
+        "model_mae": 16.79143869993539,
+        "mean_actual": 76.56012188365652
+      },
+      {
+        "level": "pm25_t > 90",
+        "n": 2244,
+        "v0_mae": 29.079284759358284,
+        "model_mae": 38.695713047791436,
+        "mean_actual": 127.97436794414736
+      }
+    ],
+    "largest_persistence_errors": [
+      {
+        "timestamp": "2025-10-11T21:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 49.32,
+        "pm25_at_t": 538.4625000000001,
+        "pred_v0": 538.4625000000001,
+        "pred_v2a": 75.04898071289062,
+        "temperature": 24.1875,
+        "humidity": 75.9775,
+        "wind_speed": 0.35,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-10T21:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 538.4625000000001,
+        "pm25_at_t": 76.0725,
+        "pred_v0": 76.0725,
+        "pred_v2a": 71.78057861328125,
+        "temperature": 24.2125,
+        "humidity": 80.535,
+        "wind_speed": 0.16,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-11T22:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 53.2925,
+        "pm25_at_t": 493.53,
+        "pred_v0": 493.53,
+        "pred_v2a": 57.40635299682617,
+        "temperature": 23.6125,
+        "humidity": 79.975,
+        "wind_speed": 0.44,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-10T03:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 536.8075,
+        "pm25_at_t": 105.17,
+        "pred_v0": 105.17,
+        "pred_v2a": 38.23640060424805,
+        "temperature": 22.8425,
+        "humidity": 85.3675,
+        "wind_speed": 0.28500000000000003,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-21T22:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 442.7425,
+        "pm25_at_t": 18.330000000000002,
+        "pred_v0": 18.330000000000002,
+        "pred_v2a": 23.247861862182617,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-11T03:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 114.86,
+        "pm25_at_t": 536.8075,
+        "pred_v0": 536.8075,
+        "pred_v2a": 110.88412475585938,
+        "temperature": 22.18,
+        "humidity": 85.42,
+        "wind_speed": 0.435,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-10T22:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 493.53,
+        "pm25_at_t": 74.845,
+        "pred_v0": 74.845,
+        "pred_v2a": 64.22583770751953,
+        "temperature": 23.9575,
+        "humidity": 82.0275,
+        "wind_speed": 0.35,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-21T23:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 444.6133333333334,
+        "pm25_at_t": 29.626666666666665,
+        "pred_v0": 29.626666666666665,
+        "pred_v2a": 24.73227882385254,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-22T23:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 54.94,
+        "pm25_at_t": 444.6133333333334,
+        "pred_v0": 444.6133333333334,
+        "pred_v2a": 56.43112564086914,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-22T22:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 71.145,
+        "pm25_at_t": 442.7425,
+        "pred_v0": 442.7425,
+        "pred_v2a": 91.28227996826172,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-12-26T22:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 541.2125,
+        "pm25_at_t": 174.54,
+        "pred_v0": 174.54,
+        "pred_v2a": 213.85665893554688,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-09T04:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 395.72249999999997,
+        "pm25_at_t": 31.4075,
+        "pred_v0": 31.4075,
+        "pred_v2a": 27.446659088134766,
+        "temperature": 21.57,
+        "humidity": 84.1325,
+        "wind_speed": 0.405,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      }
+    ],
+    "largest_model_errors": [
+      {
+        "timestamp": "2025-10-10T03:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 536.8075,
+        "pm25_at_t": 105.17,
+        "pred_v0": 105.17,
+        "pred_v2a": 38.23640060424805,
+        "temperature": 22.8425,
+        "humidity": 85.3675,
+        "wind_speed": 0.28500000000000003,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-10T21:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 538.4625000000001,
+        "pm25_at_t": 76.0725,
+        "pred_v0": 76.0725,
+        "pred_v2a": 71.78057861328125,
+        "temperature": 24.2125,
+        "humidity": 80.535,
+        "wind_speed": 0.16,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-10T22:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 493.53,
+        "pm25_at_t": 74.845,
+        "pred_v0": 74.845,
+        "pred_v2a": 64.22583770751953,
+        "temperature": 23.9575,
+        "humidity": 82.0275,
+        "wind_speed": 0.35,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-21T23:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 444.6133333333334,
+        "pm25_at_t": 29.626666666666665,
+        "pred_v0": 29.626666666666665,
+        "pred_v2a": 24.73227882385254,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-21T22:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 442.7425,
+        "pm25_at_t": 18.330000000000002,
+        "pred_v0": 18.330000000000002,
+        "pred_v2a": 23.247861862182617,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-10T04:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 432.46,
+        "pm25_at_t": 395.72249999999997,
+        "pred_v0": 395.72249999999997,
+        "pred_v2a": 59.28657531738281,
+        "temperature": 22.5025,
+        "humidity": 85.4075,
+        "wind_speed": 0.3825,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-09T04:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 395.72249999999997,
+        "pm25_at_t": 31.4075,
+        "pred_v0": 31.4075,
+        "pred_v2a": 27.446659088134766,
+        "temperature": 21.57,
+        "humidity": 84.1325,
+        "wind_speed": 0.405,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-12-26T22:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 541.2125,
+        "pm25_at_t": 174.54,
+        "pred_v0": 174.54,
+        "pred_v2a": 213.85665893554688,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-11T06:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 365.68500000000006,
+        "pm25_at_t": 78.44,
+        "pred_v0": 78.44,
+        "pred_v2a": 60.47560119628906,
+        "temperature": 21.5925,
+        "humidity": 85.435,
+        "wind_speed": 0.3525,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-10-09T05:00:00+00:00",
+        "station": "Savitribai Phule Pune University, Pune - MPCB",
+        "actual_pm25": 324.0625,
+        "pm25_at_t": 31.192500000000003,
+        "pred_v0": 31.192500000000003,
+        "pred_v2a": 27.077625274658203,
+        "temperature": 21.482499999999998,
+        "humidity": 84.37,
+        "wind_speed": 0.345,
+        "rainfall": 0.0,
+        "solar_radiation": 0.0
+      },
+      {
+        "timestamp": "2025-12-11T23:00:00+00:00",
+        "station": "Hadapsar, Pune - IITM",
+        "actual_pm25": 353.4266666666667,
+        "pm25_at_t": 294.28333333333336,
+        "pred_v0": 294.28333333333336,
+        "pred_v2a": 92.15274047851562,
+        "temperature": NaN,
+        "humidity": NaN,
+        "wind_speed": NaN,
+        "rainfall": NaN,
+        "solar_radiation": NaN
+      },
+      {
+        "timestamp": "2025-10-21T23:00:00+00:00",
+        "station": "Bhumkar Nagar, Pune - IITM",
+        "actual_pm25": 370.25333333333333,
+        "pm25_at_t": 213.25333333333333,
+        "pred_v0": 213.25333333333333,
+        "pred_v2a": 113.42501068115234,
+        "temperature": 26.30333333333333,
+        "humidity": 19.0,
+        "wind_speed": NaN,
+        "rainfall": 0.0,
+        "solar_radiation": 28.5
+      }
+    ]
+  },
+  "predictions": "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\data\\processed\\v2_predictions.csv",
+  "hyperparameters": {
+    "n_estimators": 400,
+    "max_depth": 5,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 5,
+    "reg_lambda": 1.0,
+    "objective": "reg:squarederror",
+    "random_state": 42,
+    "n_jobs": -1,
+    "tree_method": "hist"
+  }
+}
