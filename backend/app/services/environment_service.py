@@ -23,6 +23,7 @@ from app.config import (
 from app.data_store import MET_FIELDS, SOURCE, hourly
 from app.domain.scenarios import InterventionChoice, ScenarioCompareRequest
 from app.services.activity_service import industrial_collection, road_collection
+from app.services import live_service
 from app.services.forecast_service import forecast_station
 from app.services.hotspot_service import station_diagnostics
 from app.services.observation_service import latest_observations
@@ -61,6 +62,7 @@ def environmental_situation(
         "timestamp": timestamp,
         "clock": CLOCK,
         "current_observation": _observation_block(station, current),
+        "live_reading": live_service.reading_for_station(station_id),
         "forecast": forecast,
         "hotspot": hotspot,
         "activity": _activity(contributions),
@@ -323,7 +325,8 @@ def _limitations(station: dict, current: dict | None) -> list[str]:
         "Station PM2.5 is reported at the monitor. It is not interpolated onto roads or between stations.",
         ZONE_BASIS + " The zone is not an official administrative zone.",
         NOT_CAUSAL,
-        "The production forecast remains persistence and is not modified by this response.",
+        "The production forecast remains persistence of the stored CPCB hour and is not modified by a live reading.",
+        "A live aqi.in value, when present, is a different sensor. It is not written into the archive.",
         _CITIZEN_DETAIL,
         "Weather is not used as a source category.",
     ]

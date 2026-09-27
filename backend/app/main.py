@@ -10,6 +10,7 @@ from app.data_store import CLOCK, DATASET_URL, HOURLY_PATH, SOURCE, hourly
 from app.domain.scenarios import ScenarioCompareRequest, ScenarioRequest
 from app.services.activity_service import dust_payload, industrial_payload, traffic_payload
 from app.services.environment_service import environmental_situation
+from app.services.live_service import fetch_snapshot
 from app.services.forecast_service import forecast_all, forecast_station
 from app.services.map_service import map_payload
 from app.services.scenario_service import ScenarioInputError, compare, simulate
@@ -104,6 +105,11 @@ def map_layers(scenario_intervention: str | None = None, scenario_intensity: str
         return map_payload(scenario_intervention, scenario_intensity)
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/live/pune")
+def live_pune():
+    return fetch_snapshot()
 
 
 @app.get("/api/environment/{station_id}")

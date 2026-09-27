@@ -32,6 +32,9 @@ def test_environment_chain_matches_the_existing_services():
     assert body["station"]["status"] == STATUS_OBSERVED
     assert body["current_observation"]["status"] == STATUS_OBSERVED
     assert body["current_observation"]["pm25"] == forecast["current_pm25"]
+    assert body["live_reading"]["same_monitor"] is False
+    assert body["live_reading"]["forecast_unchanged"] is True
+    assert body["live_reading"]["pm25"] is None
     assert body["forecast"]["pm25"] == forecast["forecast_pm25_24h"] == forecast["current_pm25"]
     assert body["forecast"]["method"] == FORECAST_METHOD
     assert body["forecast"]["status"] == STATUS_MODELED

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import type { ComparePayload, Environment, HistoryPoint, Intensity, Intervention, ScenarioRow } from "../types"
 import { evidenceSentence, interventionLabel, pm25, publishedTime } from "../format"
+import { LiveReading } from "./LiveReading"
 import { StatusBadge } from "./StatusBadge"
 import { Sparkline } from "./Sparkline"
 
@@ -45,16 +46,18 @@ export function MunicipalPanel(props: Props) {
       <h2 className="font-display text-3xl leading-none">{environment.station.station_name}</h2>
       <section className="mt-4 rounded-2xl bg-white/60 p-3" id="section-now">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="font-medium">Current PM2.5</h3>
+          <h3 className="font-medium">Last stored CPCB hour</h3>
           <StatusBadge status="OBSERVED" />
         </div>
         <p className="mt-1 text-3xl">{pm25(environment.current_observation.pm25)}</p>
         <p className="text-xs text-[#57534e]">{publishedTime(environment.current_observation.timestamp)}</p>
+        <p className="mt-1 text-xs">Archive hour. It is not a live reading.</p>
         <div className="mt-3">
           <p className="text-xs text-[#57534e]">Recent observed hours</p>
           <Sparkline points={props.history} />
         </div>
       </section>
+      <LiveReading environment={environment} />
 
       <section className={`mt-3 rounded-2xl p-3 ${props.section === "forecast" ? "bg-[#dbe7f5]" : "bg-white/60"}`} id="section-forecast">
         <div className="flex items-center justify-between gap-2">
@@ -62,7 +65,7 @@ export function MunicipalPanel(props: Props) {
           <StatusBadge status="MODELED" text="MODELED — PERSISTENCE BASELINE" />
         </div>
         <p className="mt-1 text-2xl">{pm25(environment.forecast.pm25)}</p>
-        <p>Valid {publishedTime(environment.forecast.forecast_timestamp)}. This copies the latest observation. It is not an observed future hour.</p>
+        <p>Valid {publishedTime(environment.forecast.forecast_timestamp)}. This copies the stored CPCB hour. It is not an observed future hour, and a live reading does not change it.</p>
         {environment.forecast.stale && <p className="mt-1 text-xs">The latest hour is older than 48 hours on the network clock.</p>}
       </section>
 
@@ -73,7 +76,7 @@ export function MunicipalPanel(props: Props) {
         </div>
         <p className="mt-1">
           {environment.hotspot.hotspot
-            ? `Latest hour ${pm25(environment.current_observation.pm25)} and the 24-hour mean ${pm25(environment.hotspot.rolling_24h_mean)} both clear the station rule.`
+            ? `On the stored hours, ${pm25(environment.current_observation.pm25)} and the 24-hour mean ${pm25(environment.hotspot.rolling_24h_mean)} both clear the station rule.`
             : environment.hotspot.detail || "This monitor is not in the hotspot set."}
         </p>
       </section>

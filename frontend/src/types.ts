@@ -68,6 +68,24 @@ export type Environment = {
     status: DataStatus
     detail?: string
   }
+  live_reading?: {
+    status: DataStatus
+    same_monitor: boolean
+    pm25: number | null
+    unit: string
+    source: string
+    source_url: string
+    source_station: string | null
+    page_updated_local: string | null
+    detail: string
+    city: {
+      name: string
+      pm25: number | null
+      page_updated_local: string | null
+      status: DataStatus
+      detail: string
+    } | null
+  }
   forecast: {
     pm25: number | null
     observed_pm25?: number | null

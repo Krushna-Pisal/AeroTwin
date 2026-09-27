@@ -9,6 +9,7 @@ The earlier typed record in `backend/app/domain/schemas.py` remains the phase-1 
 ```
 v2_hourly.parquet
     latest PM2.5 hour          current_observation   OBSERVED
+    aqi.in Pune page           live_reading          OBSERVED or DATA_UNAVAILABLE
     same hour, copied +24h     forecast              MODELED
     hotspot rule on that hour  hotspot               OBSERVED
 meteorology on that hour       weather               OBSERVED or DATA_UNAVAILABLE
@@ -29,7 +30,8 @@ Clock on CPCB hours: `published_+0000`.
 | `station` | Station registry | `OBSERVED` for a known station id |
 | `zone` | Station-centered buffer | `MODELED` when coordinates exist. `DATA_UNAVAILABLE` when they do not. `official_administrative_zone` is false |
 | `timestamp` | Latest PM2.5 hour for that station | Null when the station is outside the serving table |
-| `current_observation` | `latest_observations` | `OBSERVED` with a concentration, or `DATA_UNAVAILABLE` |
+| `current_observation` | `latest_observations` | `OBSERVED` with a concentration, or `DATA_UNAVAILABLE`. This is the last stored CPCB hour, not a live feed |
+| `live_reading` | Public aqi.in Pune dashboard | `OBSERVED` only when that page lists a PM2.5 concentration under the same place name. `DATA_UNAVAILABLE` when the monitor is absent or the page cannot be read. `same_monitor` is false. The city figure is not copied onto an unlisted station. The archive and the persistence forecast are unchanged |
 | `forecast` | `forecast_station` | `MODELED` when a serving hour exists. `forecast_status` remains `observed_baseline`. `DATA_UNAVAILABLE` otherwise. The value equals the latest observation |
 | `hotspot` | `station_diagnostics` | `OBSERVED` when the station is scored. `DATA_UNAVAILABLE` when it is not in the hourly table |
 | `activity` | Road file, industrial file, and the three providers | Traffic volume `DATA_UNAVAILABLE`. Road context `OBSERVED` when the road file is loaded. Industrial `PROXY` only when polygons are loaded. Dust `DATA_UNAVAILABLE` |

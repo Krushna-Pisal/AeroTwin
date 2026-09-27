@@ -1,6 +1,7 @@
 import { useState } from "react"
 import type { CitizenReport, Environment } from "../types"
 import { pm25, publishedTime } from "../format"
+import { LiveReading } from "./LiveReading"
 import { StatusBadge } from "./StatusBadge"
 
 const CATEGORIES = ["Traffic", "Dust/construction", "Smoke/burning", "Industrial activity", "Unusual odour"]
@@ -46,28 +47,30 @@ export function CitizenPanel({ environment, reports, pin, onPick, picking, onSub
         <>
           <section className="mt-4 rounded-2xl bg-white/70 p-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Current pollution</h3>
+              <h3 className="font-medium">Last stored CPCB hour</h3>
               <StatusBadge status="OBSERVED" />
             </div>
             <p className="text-3xl">{pm25(environment.current_observation.pm25)}</p>
             <p className="text-xs text-[#57534e]">Nearby station: {environment.station.station_name}</p>
             <p className="text-xs text-[#57534e]">{publishedTime(environment.current_observation.timestamp)}</p>
+            <p className="mt-1 text-xs">This hour is in the project archive. It is not a live reading.</p>
           </section>
+          <LiveReading environment={environment} />
           <section className="mt-3 rounded-2xl bg-[#dbe7f5] p-3">
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-medium">Next 24 hours</h3>
               <StatusBadge status="MODELED" text="MODELED — PERSISTENCE BASELINE" />
             </div>
             <p className="text-2xl">{pm25(environment.forecast.pm25)}</p>
-            <p className="text-xs">The forecast repeats the latest measurement. It is not a new observation.</p>
+            <p className="text-xs">The forecast copies the stored CPCB hour. A live neighborhood reading does not replace it.</p>
           </section>
           <section className="mt-3 rounded-2xl bg-white/70 p-3">
-            <h3 className="font-medium">Why is pollution high?</h3>
+            <h3 className="font-medium">Why was that stored hour high?</h3>
             <p className="mt-1">
               {environment.hotspot.hotspot
-                ? `This monitor is a hotspot. The latest hour is ${pm25(environment.current_observation.pm25)} and the last 24 hours averaged ${pm25(environment.hotspot.rolling_24h_mean)}.`
+                ? `On the stored hours, this monitor is a hotspot. That hour is ${pm25(environment.current_observation.pm25)} and the last 24 stored hours averaged ${pm25(environment.hotspot.rolling_24h_mean)}.`
                 : environment.hotspot.hotspot === false
-                  ? `This monitor is not a hotspot. The latest hour is ${pm25(environment.current_observation.pm25)}. The last 24 hours averaged ${pm25(environment.hotspot.rolling_24h_mean)}, and other stations are higher.`
+                  ? `On the stored hours, this monitor is not a hotspot. That hour is ${pm25(environment.current_observation.pm25)}. The last 24 stored hours averaged ${pm25(environment.hotspot.rolling_24h_mean)}, and other stations are higher.`
                   : "Hotspot status is not available for this station."}
             </p>
           </section>

@@ -32,6 +32,10 @@ CLOCK = "published_+0000"
 SOURCE = "OpenCity republish of CPCB CAAQMS observations"
 DATASET_URL = "https://data.opencity.in/dataset/pune-hourly-air-quality-reports"
 
+# Public Pune dashboard. Kept out of the historical training table.
+AQIIN_PUNE_URL = "https://www.aqi.in/in/dashboard/india/maharashtra/pune"
+LIVE_SOURCE = "aqi.in"
+
 FORECAST_METHOD = "persistence"
 FORECAST_API_STATUS = "observed_baseline"
 PM25_UNIT = "µg/m³"
