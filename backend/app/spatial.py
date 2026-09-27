@@ -19,6 +19,25 @@ def project(longitude: float, latitude: float) -> tuple[float, float]:
     return x, y
 
 
+def unproject(x: float, y: float) -> tuple[float, float]:
+    """Inverse of project. Returns longitude, latitude."""
+    longitude = math.degrees(x / (math.cos(LAT0) * EARTH_RADIUS_M))
+    latitude = math.degrees(y / EARTH_RADIUS_M)
+    return longitude, latitude
+
+
+def circle_ring(longitude: float, latitude: float, radius_m: float, steps: int = 32) -> list[list[float]]:
+    """Closed ring around a point. A station buffer, not a boundary survey."""
+    cx, cy = project(longitude, latitude)
+    ring = []
+    for step in range(steps):
+        theta = 2.0 * math.pi * step / steps
+        lon, lat = unproject(cx + radius_m * math.cos(theta), cy + radius_m * math.sin(theta))
+        ring.append([round(lon, 6), round(lat, 6)])
+    ring.append(ring[0])
+    return ring
+
+
 def _segment_distance(px: float, py: float, ax: float, ay: float, bx: float, by: float) -> float:
     dx = bx - ax
     dy = by - ay

@@ -90,3 +90,11 @@ INTERVENTION_CATEGORY = {
     "industrial_control": "INDUSTRIAL",
     "dust_construction_control": "DUST_CONSTRUCTION",
 }
+
+# Station-centered buffer used when no municipal boundary file is loaded.
+# This is not an official administrative zone.
+ZONE_RADIUS_M = 1000.0
+ZONE_BASIS = (
+    "Circle of 1000 m around the published station coordinate. "
+    "No municipal boundary dataset is loaded."
+)
