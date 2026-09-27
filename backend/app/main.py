@@ -6,8 +6,10 @@ from fastapi import FastAPI, HTTPException, Query
 
 from app.config import STATUS_OBSERVED
 from app.data_store import CLOCK, DATASET_URL, HOURLY_PATH, SOURCE, hourly
+from app.domain.scenarios import ScenarioCompareRequest, ScenarioRequest
 from app.services.activity_service import dust_payload, industrial_payload, map_layers_payload, traffic_payload
 from app.services.forecast_service import forecast_all, forecast_station
+from app.services.scenario_service import ScenarioInputError, compare, simulate
 from app.services.source_contribution import contribution_payload
 from app.services.hotspot_service import hotspot_payload
 from app.services.observation_service import history, latest_observations, list_stations
@@ -97,3 +99,19 @@ def source_contributions(station_id: str, timestamp: str | None = None):
     if payload is None:
         raise HTTPException(status_code=404, detail="Unknown station_id")
     return payload
+
+
+@app.post("/api/scenarios/simulate")
+def scenarios_simulate(request: ScenarioRequest):
+    try:
+        return simulate(request)
+    except ScenarioInputError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+
+
+@app.post("/api/scenarios/compare")
+def scenarios_compare(request: ScenarioCompareRequest):
+    try:
+        return compare(request)
+    except ScenarioInputError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc

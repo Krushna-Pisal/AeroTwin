@@ -76,3 +76,17 @@ SOURCE_CATEGORIES = (
 )
 
 SourceCategory = Literal["TRAFFIC", "INDUSTRIAL", "DUST_CONSTRUCTION"]
+
+# Named scales for a scenario. Each value is the fraction removed from that
+# category's evidence score. It is not an enforcement rate and not a PM2.5 factor.
+SCENARIO_ASSUMPTION_LABEL = "SCENARIO_ASSUMPTION"
+SCENARIO_SCORE_REDUCTION = {
+    "LOW": 0.10,
+    "MEDIUM": 0.25,
+    "HIGH": 0.50,
+}
+INTERVENTION_CATEGORY = {
+    "traffic_restriction": "TRAFFIC",
+    "industrial_control": "INDUSTRIAL",
+    "dust_construction_control": "DUST_CONSTRUCTION",
+}
