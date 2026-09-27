@@ -2,18 +2,9 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-HOURLY_PATH = ROOT / "data" / "processed" / "v2_hourly.parquet"
-MAP_DIR = ROOT / "data" / "processed" / "map"
-STATIONS_GEOJSON = ROOT / "data" / "processed" / "stations.geojson"
-
-CLOCK = "published_+0000"
-SOURCE = "OpenCity republish of CPCB CAAQMS observations"
-DATASET_URL = "https://data.opencity.in/dataset/pune-hourly-air-quality-reports"
+from app.config import CLOCK, DATASET_URL, HOURLY_PATH, MAP_DIR, SOURCE, STATIONS_GEOJSON
 
 MET_FIELDS = (
     "temperature",

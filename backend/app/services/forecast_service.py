@@ -9,11 +9,12 @@ from __future__ import annotations
 
 import pandas as pd
 
+from app.config import FORECAST_API_STATUS, FORECAST_METHOD
 from app.data_store import CLOCK, SOURCE, hourly, iso, number
 from app.stations import by_id
 
-METHOD = "persistence"
-STATUS = "observed_baseline"
+METHOD = FORECAST_METHOD
+STATUS = FORECAST_API_STATUS
 V2_NOTE = (
     "V2-A lags-only, V2-B weather, and V2-C calendar were evaluated on the "
     "July–December 2025 test period and did not beat persistence. They are "

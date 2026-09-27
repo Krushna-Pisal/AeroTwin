@@ -1,0 +1,42 @@
+{
+  "retrieved_at": "2026-09-27T20:07:18+00:00",
+  "source": "OpenStreetMap",
+  "source_url": "https://www.openstreetmap.org/copyright",
+  "bbox": {
+    "south": 18.43,
+    "west": 73.72,
+    "north": 18.7,
+    "east": 73.96
+  },
+  "roads": {
+    "file": "road_network.geojson",
+    "features": 3842,
+    "classes": [
+      "motorway",
+      "trunk",
+      "primary",
+      "secondary"
+    ],
+    "errors": [
+      "Overpass failed: HTTP Error 403: Forbidden"
+    ]
+  },
+  "industrial": {
+    "file": null,
+    "features": 0,
+    "skipped_unclosed_ways": 0,
+    "relations_not_requested": true,
+    "errors": [
+      "Overpass failed: HTTP Error 403: Forbidden",
+      "Overpass failed: HTTP Error 403: Forbidden",
+      "Overpass failed: HTTP Error 403: Forbidden",
+      "Overpass failed: HTTP Error 403: Forbidden"
+    ]
+  },
+  "not_loaded": [
+    "GatiShakti industrial park boundaries",
+    "MIDC parcel geometries",
+    "traffic counts",
+    "construction permits"
+  ]
+}

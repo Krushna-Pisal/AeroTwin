@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 
+from app.config import STATUS_OBSERVED
 from app.data_store import CLOCK, DATASET_URL, MET_FIELDS, SOURCE, hourly, iso, number
 from app.stations import STATIONS, by_id
 
@@ -22,7 +23,7 @@ def list_stations() -> list[dict]:
             "serving_note": station.get("serving_note"),
             "source": SOURCE,
             "dataset": DATASET_URL,
-            "status": "OBSERVED",
+            "status": STATUS_OBSERVED,
         }
         for station in STATIONS
     ]
@@ -48,7 +49,7 @@ def stations_geojson() -> dict:
                     "in_serving_table": station["in_serving_table"],
                     "coordinate_status": station["coordinate_status"],
                     "source": SOURCE,
-                    "status": "OBSERVED",
+                    "status": STATUS_OBSERVED,
                     "clock": CLOCK,
                 },
             }
@@ -79,7 +80,7 @@ def _observation_row(row: pd.Series) -> dict:
         "meteorology": weather,
         "clock": CLOCK,
         "source": SOURCE,
-        "status": "OBSERVED",
+        "status": STATUS_OBSERVED,
     }
 
 
@@ -115,7 +116,7 @@ def history(station_id: str, start: str | None, end: str | None, limit: int) -> 
         "station_name": station["station_name"],
         "clock": CLOCK,
         "source": SOURCE,
-        "status": "OBSERVED",
+        "status": STATUS_OBSERVED,
         "count": int(len(group)),
         "observations": [_observation_row(row) for _, row in group.iterrows()],
     }

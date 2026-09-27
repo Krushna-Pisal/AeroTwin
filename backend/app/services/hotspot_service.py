@@ -21,13 +21,20 @@ from __future__ import annotations
 
 import pandas as pd
 
+from app.config import (
+    HOTSPOT_CONCENTRATION_FLOOR,
+    HOTSPOT_MIN_HOURS,
+    HOTSPOT_PERCENTILE,
+    HOTSPOT_STALE_HOURS,
+    STATUS_OBSERVED,
+)
 from app.data_store import CLOCK, SOURCE, hourly, iso, number
 from app.stations import by_id
 
-CONCENTRATION_FLOOR = 60.0
-MIN_HOURS = 12
-PERCENTILE = 0.75
-STALE_HOURS = 48.0
+CONCENTRATION_FLOOR = HOTSPOT_CONCENTRATION_FLOOR
+MIN_HOURS = HOTSPOT_MIN_HOURS
+PERCENTILE = HOTSPOT_PERCENTILE
+STALE_HOURS = HOTSPOT_STALE_HOURS
 
 
 def station_diagnostics() -> list[dict]:
@@ -68,7 +75,7 @@ def station_diagnostics() -> list[dict]:
                 "eligible": age <= STALE_HOURS and rolling_n >= MIN_HOURS and rolling_mean is not None,
                 "clock": CLOCK,
                 "source": SOURCE,
-                "status": "OBSERVED",
+                "status": STATUS_OBSERVED,
             }
         )
     eligible_means = [row["rolling_24h_mean"] for row in rows if row["eligible"]]
@@ -93,7 +100,7 @@ def hotspot_payload() -> dict:
     return {
         "clock": CLOCK,
         "source": SOURCE,
-        "status": "OBSERVED",
+        "status": STATUS_OBSERVED,
         "spatial_support": "station",
         "interpolation": None,
         "rule": {
@@ -131,7 +138,7 @@ def hotspot_geojson() -> dict:
                     "hotspot": True,
                     "timestamp": row["timestamp"],
                     "source": SOURCE,
-                    "status": "OBSERVED",
+                    "status": STATUS_OBSERVED,
                     "spatial_support": "station",
                     "clock": CLOCK,
                 },
@@ -142,7 +149,7 @@ def hotspot_geojson() -> dict:
         "name": "hotspots",
         "clock": CLOCK,
         "source": SOURCE,
-        "status": "OBSERVED",
+        "status": STATUS_OBSERVED,
         "spatial_support": "station",
         "rule": payload["rule"],
         "features": features,

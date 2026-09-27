@@ -10,7 +10,9 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-Status = Literal["OBSERVED", "MODELED", "PROXY", "CITIZEN_REPORTED"]
+from app.config import DataStatus
+
+Status = DataStatus
 Clock = Literal["published_+0000"]
 
 
