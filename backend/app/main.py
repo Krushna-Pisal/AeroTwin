@@ -16,6 +16,8 @@ from app.services.source_contribution import contribution_payload
 from app.services.hotspot_service import hotspot_payload
 from app.services.observation_service import history, latest_observations, list_stations
 from app.services.zone_service import zones_payload
+from app.services.citizen_service import create_report, get_reports, get_clusters
+from app.schemas import CitizenReportCreate
 
 app = FastAPI(title="AeroTwin environmental data API", version="0.1.0")
 
@@ -141,3 +143,22 @@ def scenarios_compare(request: ScenarioCompareRequest):
         return compare(request)
     except ScenarioInputError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+
+
+@app.post("/api/citizen-reports", status_code=201)
+def post_citizen_report(request: CitizenReportCreate):
+    return create_report(request.model_dump())
+
+
+@app.get("/api/citizen-reports")
+def list_citizen_reports(
+    category: str | None = None,
+    start: str | None = None,
+    end: str | None = None,
+):
+    return get_reports(category=category, start=start, end=end)
+
+
+@app.get("/api/citizen-reports/clusters")
+def cluster_citizen_reports():
+    return get_clusters()

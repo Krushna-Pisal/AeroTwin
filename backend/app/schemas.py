@@ -79,6 +79,38 @@ class CitizenObservation(BaseModel):
     source: Literal["citizen"] = "citizen"
     status: Literal["CITIZEN_REPORTED"] = "CITIZEN_REPORTED"
 
+class CitizenReportCreate(BaseModel):
+    category: Literal[
+        "TRAFFIC",
+        "DUST_CONSTRUCTION",
+        "SMOKE_BURNING",
+        "INDUSTRIAL_ACTIVITY",
+        "UNUSUAL_ODOR",
+    ]
+    description: str
+    latitude: float = Field(..., ge=-90, le=90)
+    longitude: float = Field(..., ge=-180, le=180)
+    timestamp: str
+    photo_url: str | None = None
+
+class CitizenReport(BaseModel):
+    report_id: str
+    category: Literal[
+        "TRAFFIC",
+        "DUST_CONSTRUCTION",
+        "SMOKE_BURNING",
+        "INDUSTRIAL_ACTIVITY",
+        "UNUSUAL_ODOR",
+    ]
+    description: str
+    latitude: float
+    longitude: float
+    timestamp: str
+    photo_url: str | None = None
+    status: Literal["CITIZEN_REPORTED"] = "CITIZEN_REPORTED"
+    created_at: str
+    source: Literal["citizen"] = "citizen"
+
 
 class Scenario(BaseModel):
     scenario_id: str
