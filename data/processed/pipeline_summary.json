@@ -1,0 +1,83 @@
+{
+  "source_dataset": "https://data.opencity.in/dataset/pune-hourly-air-quality-reports",
+  "labelled_files_used": [
+    "bhosari-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
+    "hadapsar-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
+    "karve-road-mpcb-15-minute-aqi-data-for-2024-25__15min.csv",
+    "mhada-colony-iitm-15-minute-aqi-data-for-2024-25__15min.csv",
+    "revenue-colony-shivajinagar-15-minute-aqi-data-for-2024-25__15min.csv",
+    "transport-nagar-nigdi-15-minute-aqi-data-for-2024-25__15min.csv"
+  ],
+  "files_skipped": [
+    "bhosari-iitm-aqi-data-2017-2023__hourly_wide.csv",
+    "hadapsar-iitm-aqi-data-2017-2023__hourly_wide.csv",
+    "karve-road-mpcb-aqi-data-2017-2023__hourly_wide.csv",
+    "mhada-colony-iitm-aqi-data-2017-2023__hourly_wide.csv",
+    "mit-kothrud-iitm-aqi-data-2017-2023__hourly_wide.csv",
+    "revenue-colony-shivajinagar-iitm-aqi-data-2017-2023__hourly_wide.csv",
+    "transport-nagar-nigdi-iitm-aqi-data-2017-2023__hourly_wide.csv"
+  ],
+  "hourly_rows": 101419,
+  "hourly_pm25_non_null": 72731,
+  "timestamp_min": "2024-01-01 00:00:00+00:00",
+  "timestamp_max": "2025-12-31 23:00:00+00:00",
+  "stations": [
+    {
+      "station_id": "site_292",
+      "station_name": "Karve Road, Pune - MPCB"
+    },
+    {
+      "station_id": "site_5404",
+      "station_name": "Mhada Colony, Pune - IITM"
+    },
+    {
+      "station_id": "site_5406",
+      "station_name": "Bhosari, Pune - IITM"
+    },
+    {
+      "station_id": "site_5407",
+      "station_name": "Hadapsar, Pune - IITM"
+    },
+    {
+      "station_id": "site_5408",
+      "station_name": "Transport Nagar-Nigdi, Pune - IITM"
+    },
+    {
+      "station_id": "site_5409",
+      "station_name": "Revenue Colony-Shivajinagar, Pune - IITM"
+    }
+  ],
+  "met_non_null_fraction": {
+    "temperature": 0.0,
+    "humidity": 0.06655557637129138,
+    "wind_speed": 0.10807639594158885,
+    "wind_direction": 0.08316982025064337,
+    "rainfall": 0.0,
+    "solar_radiation": 9.860085388339463e-06,
+    "pressure": 0.04986245180883266
+  },
+  "bounds_set_to_nan": {
+    "pm25": 0,
+    "pm10": 0,
+    "no": 0,
+    "no2": 0,
+    "nox": 0,
+    "nh3": 0,
+    "so2": 0,
+    "co": 0,
+    "ozone": 0,
+    "benzene": 0,
+    "toluene": 0,
+    "xylene": 0,
+    "temperature": 0,
+    "humidity": 0,
+    "wind_speed": 64,
+    "wind_direction": 0,
+    "rainfall": 0,
+    "total_rainfall": 0,
+    "solar_radiation": 0,
+    "pressure": 0,
+    "vertical_wind_speed": 0
+  },
+  "notes": "Hourly PM2.5 is the mean of observed 15-minute samples. Missing hours are NaN. Wide 2017-2023 files were not used."
+}

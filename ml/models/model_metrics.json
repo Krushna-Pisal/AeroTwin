@@ -1,0 +1,268 @@
+{
+  "trained_at": "2026-09-27T18:33:02+00:00",
+  "split": {
+    "rule": "calendar",
+    "val_start": "2025-01-01 00:00:00+00:00",
+    "test_start": "2025-07-01 00:00:00+00:00",
+    "series_start": "2024-01-01 00:00:00+00:00",
+    "series_end": "2025-12-30 23:00:00+00:00",
+    "horizon_hours": 24,
+    "leakage_buffer_hours": 24,
+    "buffer_note": "Training labels end before 2025-01-01 00:00:00+00:00. Validation labels end before 2025-07-01 00:00:00+00:00. Issue times whose target would fall across a cut stay in 'buffer' (about 24 hours on each side of a cut).",
+    "counts": {
+      "train": 35871,
+      "val": 19016,
+      "test": 13100,
+      "buffer": 160
+    }
+  },
+  "v0_naive_persistence_24h": {
+    "definition": "prediction = observed PM2.5 at issue time T",
+    "val": {
+      "n": 19016,
+      "mae": 11.993333289510588,
+      "rmse": 20.748220919187336,
+      "r2": 0.5465207480582223
+    },
+    "test": {
+      "n": 13100,
+      "mae": 12.758184287531806,
+      "rmse": 23.668603041258503,
+      "r2": 0.7390967812157572
+    },
+    "test_by_station": [
+      {
+        "station_id": "site_5404",
+        "station_name": "Mhada Colony, Pune - IITM",
+        "n": 4073,
+        "mae": 11.787478312464195,
+        "rmse": 18.402976564123563,
+        "r2": 0.8177666662484454
+      },
+      {
+        "station_id": "site_5406",
+        "station_name": "Bhosari, Pune - IITM",
+        "n": 1732,
+        "mae": 5.2500707274826794,
+        "rmse": 19.037697062269412,
+        "r2": -9.390254011473766
+      },
+      {
+        "station_id": "site_5407",
+        "station_name": "Hadapsar, Pune - IITM",
+        "n": 1739,
+        "mae": 24.69088412880966,
+        "rmse": 44.651571975886995,
+        "r2": 0.5756155540493557
+      },
+      {
+        "station_id": "site_5408",
+        "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+        "n": 3351,
+        "mae": 9.08975479956232,
+        "rmse": 12.94805354884868,
+        "r2": 0.7646368191161182
+      },
+      {
+        "station_id": "site_5409",
+        "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+        "n": 2205,
+        "mae": 16.612914588057446,
+        "rmse": 24.304977310763316,
+        "r2": 0.7249569090342383
+      }
+    ]
+  },
+  "v1_xgboost_24h": {
+    "val": {
+      "n": 19016,
+      "mae": 16.654879264839902,
+      "rmse": 24.924449749393894,
+      "r2": 0.3455946321742729
+    },
+    "test": {
+      "n": 13100,
+      "mae": 15.282015330947507,
+      "rmse": 27.925545929151053,
+      "r2": 0.6368069499725095
+    },
+    "test_by_station": [
+      {
+        "station_id": "site_5404",
+        "station_name": "Mhada Colony, Pune - IITM",
+        "n": 4073,
+        "mae": 15.581717969405982,
+        "rmse": 26.681705904616265,
+        "r2": 0.6169293665186211
+      },
+      {
+        "station_id": "site_5406",
+        "station_name": "Bhosari, Pune - IITM",
+        "n": 1732,
+        "mae": 3.9528921745702617,
+        "rmse": 5.163921037116546,
+        "r2": 0.23553690082552337
+      },
+      {
+        "station_id": "site_5407",
+        "station_name": "Hadapsar, Pune - IITM",
+        "n": 1739,
+        "mae": 31.265028378653163,
+        "rmse": 52.382153979559334,
+        "r2": 0.4159464634946518
+      },
+      {
+        "station_id": "site_5408",
+        "station_name": "Transport Nagar-Nigdi, Pune - IITM",
+        "n": 3351,
+        "mae": 9.358290208083982,
+        "rmse": 13.037923037503623,
+        "r2": 0.7613582762631437
+      },
+      {
+        "station_id": "site_5409",
+        "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
+        "n": 2205,
+        "mae": 20.024553043945037,
+        "rmse": 29.575924450592968,
+        "r2": 0.5927257463963518
+      }
+    ],
+    "features": [
+      "pm25",
+      "pm25_lag_1",
+      "pm25_lag_2",
+      "pm25_lag_3",
+      "pm25_lag_6",
+      "pm25_lag_12",
+      "pm25_lag_24",
+      "pm25_lag_48",
+      "pm25_lag_72",
+      "hour",
+      "day_of_week",
+      "day_of_year",
+      "month",
+      "is_weekend",
+      "target_hour",
+      "target_day_of_week",
+      "target_month",
+      "target_is_weekend",
+      "humidity",
+      "wind_speed",
+      "wind_direction",
+      "station_site_292",
+      "station_site_5404",
+      "station_site_5406",
+      "station_site_5407",
+      "station_site_5408",
+      "station_site_5409"
+    ],
+    "features_excluded": {
+      "temperature": "no usable variation (non-null fraction 0.0000, distinct values 0). Not imputed.",
+      "rainfall": "no usable variation (non-null fraction 0.0000, distinct values 0). Not imputed.",
+      "solar_radiation": "no usable variation (non-null fraction 0.0000, distinct values 1). Not imputed.",
+      "pressure": "median of non-null values is 880.4. The file labels BP as mmHg, but that median is outside a plausible ambient band for mmHg (about 680-780) and for hPa (about 940-1050). Values were not unit-converted and were not used.",
+      "total_rainfall": "TOT-RF does not vary (the only populated station is constant). It was not used as rainfall."
+    },
+    "meteorology_notes": {
+      "humidity": "on training rows, non-null fraction 0.1319; best station site_292 fraction 0.6585. Missing station-hours stay missing.",
+      "wind_speed": "on training rows, non-null fraction 0.1998; best station site_292 fraction 0.9972. Missing station-hours stay missing.",
+      "wind_direction": "on training rows, non-null fraction 0.1757; best station site_292 fraction 0.8767. Missing station-hours stay missing."
+    }
+  },
+  "v1_beats_v0_on_test_mae": false,
+  "mae_improvement_v0_minus_v1": -2.5238310434157007,
+  "shap": {
+    "computed": true,
+    "sample_size": 1500,
+    "disclaimer": "This represents the contribution of model features to the prediction and is not direct causal source apportionment.",
+    "top_features": [
+      {
+        "feature": "pm25",
+        "mean_abs_shap": 10.345349311828613
+      },
+      {
+        "feature": "day_of_year",
+        "mean_abs_shap": 4.098595142364502
+      },
+      {
+        "feature": "pm25_lag_1",
+        "mean_abs_shap": 4.054818630218506
+      },
+      {
+        "feature": "pm25_lag_72",
+        "mean_abs_shap": 1.6460838317871094
+      },
+      {
+        "feature": "pm25_lag_2",
+        "mean_abs_shap": 1.637773871421814
+      },
+      {
+        "feature": "pm25_lag_48",
+        "mean_abs_shap": 1.4216759204864502
+      },
+      {
+        "feature": "station_site_5409",
+        "mean_abs_shap": 1.3462573289871216
+      },
+      {
+        "feature": "pm25_lag_24",
+        "mean_abs_shap": 1.3461017608642578
+      },
+      {
+        "feature": "hour",
+        "mean_abs_shap": 1.0510441064834595
+      },
+      {
+        "feature": "pm25_lag_6",
+        "mean_abs_shap": 0.8580850958824158
+      },
+      {
+        "feature": "pm25_lag_3",
+        "mean_abs_shap": 0.7554541826248169
+      },
+      {
+        "feature": "pm25_lag_12",
+        "mean_abs_shap": 0.6748417615890503
+      },
+      {
+        "feature": "day_of_week",
+        "mean_abs_shap": 0.6366798877716064
+      },
+      {
+        "feature": "target_month",
+        "mean_abs_shap": 0.5300645232200623
+      },
+      {
+        "feature": "wind_speed",
+        "mean_abs_shap": 0.3575957119464874
+      }
+    ]
+  },
+  "plots": [
+    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\test_actual_vs_predicted_scatter.png",
+    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\test_daily_mean_actual_vs_predicted.png",
+    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\shap_mean_abs.png"
+  ],
+  "caveats": [
+    "Training data are hourly means of labelled 15-minute CPCB observations from 2024 onward, not the 2017-2023 wide matrices.",
+    "Timestamps follow the +0000 offset in the source files and were not converted to IST.",
+    "Missing PM2.5 was not imputed. Rows without PM2.5 at T or at T+24h are excluded from scoring.",
+    "Meteorological inputs are observed CPCB fields, not an external weather product: humidity, wind_speed, wind_direction. Other stations in this extract leave those fields empty.",
+    "humidity: on training rows, non-null fraction 0.1319; best station site_292 fraction 0.6585. Missing station-hours stay missing.",
+    "wind_speed: on training rows, non-null fraction 0.1998; best station site_292 fraction 0.9972. Missing station-hours stay missing.",
+    "wind_direction: on training rows, non-null fraction 0.1757; best station site_292 fraction 0.8767. Missing station-hours stay missing.",
+    "temperature non-null fraction on the full hourly table (including hours with no PM2.5) is 0.0000.",
+    "humidity non-null fraction on the full hourly table (including hours with no PM2.5) is 0.0666.",
+    "wind_speed non-null fraction on the full hourly table (including hours with no PM2.5) is 0.1081.",
+    "wind_direction non-null fraction on the full hourly table (including hours with no PM2.5) is 0.0832.",
+    "rainfall non-null fraction on the full hourly table (including hours with no PM2.5) is 0.0000.",
+    "solar_radiation non-null fraction on the full hourly table (including hours with no PM2.5) is 0.0000.",
+    "pressure non-null fraction on the full hourly table (including hours with no PM2.5) is 0.0499.",
+    "Humidity, wind speed, and wind direction in this extract are reported at Karve Road only. If Karve Road has no test rows, those weather inputs are missing for every test prediction."
+  ],
+  "rows_scored_index_note": 32116,
+  "stations_without_test_rows": [
+    "Karve Road, Pune - MPCB: last hour with both PM2.5(T) and PM2.5(T+24h) is 2025-05-22 21:00:00+00:00. No test rows."
+  ]
+}

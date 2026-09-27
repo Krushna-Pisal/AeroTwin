@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/raw/air_quality/_peek/
+data/raw/air_quality/*.csv
+data/raw/air_quality/*.part
