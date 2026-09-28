@@ -1,47 +1,88 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Fraunces", Georgia, serif;
-  --font-sans: "Outfit", "Segoe UI", sans-serif;
-  --color-ink: #1c1915;
-  --color-paper: #f4efe6;
-  --color-paper-2: #ebe4d6;
-  --color-line: #d9d0c1;
-  --color-moss: #1f3a32;
-  --color-observed: #9a3412;
-  --color-modeled: #1e3a5f;
-  --color-proxy: #3f4f2a;
-  --color-citizen: #9f1239;
-  --color-scenario: #5b21b6;
-  --color-missing: #57534e;
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
 }
 
 html, body, #root {
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: #12110f;
+  background: #0f1117;
+  color: #e2e8f0;
 }
 
 button, input, select, textarea {
   font: inherit;
 }
 
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 4px; }
+
+/* ── MapLibre overrides ── */
 .maplibregl-popup-content {
   padding: 0;
   background: transparent;
   box-shadow: none;
 }
-
 .maplibregl-popup-tip {
-  border-top-color: #f4efe6;
-  border-bottom-color: #f4efe6;
+  border-top-color: #1a1f2e;
+  border-bottom-color: #1a1f2e;
 }
-
 .maplibregl-ctrl-attrib {
   font-size: 10px;
+  background: rgba(15,17,23,0.7) !important;
+  color: #718096 !important;
+}
+.maplibregl-ctrl-attrib a { color: #718096 !important; }
+.maplibregl-ctrl-group {
+  background: #1a1f2e !important;
+  border: 1px solid #2d3748 !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+.maplibregl-ctrl-group button {
+  background: #1a1f2e !important;
+  border-bottom: 1px solid #2d3748 !important;
+  color: #a0aec0 !important;
+}
+.maplibregl-ctrl-group button:hover { background: #2d3748 !important; }
+.maplibregl-ctrl-group button span { filter: invert(0.6); }
+
+/* ── Chart canvas ── */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.animate-fade-in { animation: fadeIn 0.3s ease forwards; }
+.live-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+/* ── AQI colour tokens ── */
+:root {
+  --aqi-good:       #22c55e;
+  --aqi-moderate:   #eab308;
+  --aqi-sensitive:  #f97316;
+  --aqi-unhealthy:  #ef4444;
+  --aqi-very:       #a855f7;
+  --aqi-hazardous:  #7f1d1d;
+  --sidebar-w:      220px;
+  --header-h:       56px;
 }

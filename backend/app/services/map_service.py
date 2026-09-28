@@ -27,6 +27,8 @@ from app.services.observation_service import latest_observations, stations_geojs
 from app.services.scenario_service import simulate
 from app.stations import STATIONS, by_id
 
+from app.services.citizen_service import get_reports, get_spatial_contributions
+
 _NO_INTERPOLATION = "Station PM2.5 is not interpolated onto roads or between stations."
 
 
@@ -55,10 +57,9 @@ def map_payload(scenario_intervention: str | None = None, scenario_intensity: st
             STATUS_OBSERVED,
             "Mapped highway centerlines. ROAD_NETWORK context. Not traffic volume and not a PM2.5 surface.",
         ),
-        "citizen_reports": _empty_collection(
-            "citizen_reports",
-            "No citizen-report store is loaded.",
-        ),
+        "citizen_reports": _citizen_reports_collection(),
+        "spatial_contributions": _spatial_contributions_collection(),
+        "verified_contributions": _verified_contributions_collection(),
         "scenario_results": _scenario_layer(scenario_intervention, scenario_intensity),
     }
     payload["collections"] = collections
@@ -246,3 +247,94 @@ def _scenario_layer(intervention: str | None, intensity: str | None) -> dict:
         "note": "Scenario points sit on the station coordinate. They are not a pollution surface.",
         "features": features,
     }
+
+
+def _citizen_reports_collection() -> dict:
+    reports = get_reports()
+    features = []
+    for r in reports:
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [r["longitude"], r["latitude"]]},
+            "properties": {
+                "id": r["id"],
+                "title": r["title"],
+                "category": r["category"],
+                "severity": r["severity"],
+                "status": r["status"],
+                "ward": r.get("ward"),
+                "location_name": r.get("location_name"),
+                "reported_date": r.get("reported_date"),
+                "assigned_department": r.get("assigned_department"),
+            },
+        })
+    return {
+        "type": "FeatureCollection",
+        "name": "citizen_reports",
+        "status": STATUS_OBSERVED,
+        "features": features,
+    }
+
+
+def _spatial_contributions_collection() -> dict:
+    contributions = get_spatial_contributions()
+    features = []
+    for c in contributions:
+        gtype = c.get("geometry_type", "Point")
+        coords = c.get("coordinates")
+        if not coords:
+            coords = [c["longitude"], c["latitude"]]
+        
+        geom = {"type": gtype, "coordinates": coords}
+        features.append({
+            "type": "Feature",
+            "geometry": geom,
+            "properties": {
+                "id": c["id"],
+                "title": c["title"],
+                "contribution_type": c.get("contribution_type"),
+                "category": c.get("category"),
+                "status": c.get("status"),
+                "source": c.get("source"),
+                "submitted_by": c.get("submitted_by"),
+                "submitted_date": c.get("submitted_date"),
+            },
+        })
+    return {
+        "type": "FeatureCollection",
+        "name": "spatial_contributions",
+        "status": STATUS_OBSERVED,
+        "features": features,
+    }
+
+
+def _verified_contributions_collection() -> dict:
+    contributions = [c for c in get_spatial_contributions() if c.get("status") == "VERIFIED"]
+    features = []
+    for c in contributions:
+        gtype = c.get("geometry_type", "Point")
+        coords = c.get("coordinates")
+        if not coords:
+            coords = [c["longitude"], c["latitude"]]
+        
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": gtype, "coordinates": coords},
+            "properties": {
+                "id": c["id"],
+                "title": c["title"],
+                "contribution_type": c.get("contribution_type"),
+                "category": c.get("category"),
+                "status": "VERIFIED",
+                "source": c.get("source"),
+                "submitted_by": c.get("submitted_by"),
+                "verified_date": c.get("verified_date"),
+            },
+        })
+    return {
+        "type": "FeatureCollection",
+        "name": "verified_contributions",
+        "status": STATUS_OBSERVED,
+        "features": features,
+    }
+

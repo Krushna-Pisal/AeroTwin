@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "h3-js": "^4.5.0",
     "maplibre-gl": "^5.6.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

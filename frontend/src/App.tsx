@@ -1,188 +1,328 @@
 import { useEffect, useState } from "react"
-import { compare, loadEnvironment, loadHistory, loadMap, simulate } from "./api"
-import { CitizenPanel } from "./components/CitizenPanel"
+import {
+  createReport,
+  createSpatialContribution,
+  loadAuditLogs,
+  loadDepartments,
+  loadEnvironment,
+  loadHistory,
+  loadMap,
+  loadReports,
+  loadSpatialContributions,
+  reviewSpatialContribution,
+  updateReport,
+} from "./api"
+import { nowFormatted } from "./aqi"
+import { Sidebar, type PageKey } from "./components/Sidebar"
 import { Login, type Role } from "./components/Login"
-import { MapCanvas } from "./components/MapCanvas"
-import { MunicipalPanel } from "./components/MunicipalPanel"
-import type { CitizenReport, ComparePayload, Environment, FeatureCollection, HistoryPoint, Intensity, Intervention, LayerKey, MapPayload, ScenarioRow } from "./types"
-
-const EMPTY: FeatureCollection = { type: "FeatureCollection", features: [] }
-
-const BASE_LAYERS: Record<LayerKey, boolean> = {
-  stations: true,
-  current: true,
-  hotspots: true,
-  forecast: false,
-  industrial: false,
-  roads: false,
-  citizen: false,
-}
+import { ForecastPage } from "./components/ForecastPage"
+import { SimulationPage } from "./components/SimulationPage"
+import { HistoricalPage } from "./components/HistoricalPage"
+import {
+  AddSpatialContributionForm,
+  CitizenDashboard,
+  MyContributionsView,
+  MyReportsView,
+  ReportCivicIssueForm,
+} from "./components/CitizenViews"
+import {
+  MunicipalDashboard,
+  ReportsManagementView,
+  SourceAttributionPage,
+  SpatialReviewQueueView,
+} from "./components/MunicipalViews"
+import { GisMapView } from "./components/GisMapView"
+import {
+  AnalyticsPage,
+  AuditLogsPage,
+  DataSourcesPage,
+  DepartmentsPage,
+  NotificationsPage,
+  ProfilePage,
+} from "./components/ExtraPages"
+import type { Environment, MapPayload } from "./types"
 
 export function App() {
+  // Authentication & Session
+  const [role, setRole] = useState<Role | null>(() => {
+    const saved = localStorage.getItem("aerotwin_role")
+    return (saved === "citizen" || saved === "municipal") ? (saved as Role) : null
+  })
+
+  // Current active page
+  const [page, setPage] = useState<PageKey>("dashboard")
+
+  // Core Data State
   const [mapData, setMapData] = useState<MapPayload | null>(null)
   const [mapError, setMapError] = useState<string | null>(null)
-  const [role, setRole] = useState<Role | null>(null)
-  const [layers, setLayers] = useState(BASE_LAYERS)
-  const [stationId, setStationId] = useState<string | null>(null)
+  const [stationId, setStationId] = useState<string | null>("site_5409")
   const [environment, setEnvironment] = useState<Environment | null>(null)
-  const [history, setHistory] = useState<HistoryPoint[]>([])
-  const [loadingStation, setLoadingStation] = useState(false)
-  const [section, setSection] = useState("now")
-  const [intensity, setIntensity] = useState<Intensity>("MEDIUM")
-  const [intervention, setIntervention] = useState<Intervention>("traffic_restriction")
-  const [scenario, setScenario] = useState<ScenarioRow | null>(null)
-  const [comparison, setComparison] = useState<ComparePayload | null>(null)
-  const [scenarioError, setScenarioError] = useState<string | null>(null)
-  const [reports, setReports] = useState<CitizenReport[]>([])
-  const [pin, setPin] = useState<{ longitude: number; latitude: number } | null>(null)
-  const [picking, setPicking] = useState(false)
 
+  // Submissions State
+  const [reports, setReports] = useState<any[]>([])
+  const [spatialContributions, setSpatialContributions] = useState<any[]>([])
+  const [departments, setDepartments] = useState<any[]>([])
+  const [auditLogs, setAuditLogs] = useState<any[]>([])
+  const [now] = useState(nowFormatted())
+
+  // Location Picking State for Forms
+  const [pickLocation, setPickLocation] = useState<boolean>(false)
+  const [pickedLocation, setPickedLocation] = useState<{ longitude: number; latitude: number } | null>(null)
+
+  // Save session role
+  function handleLogin(selectedRole: Role) {
+    setRole(selectedRole)
+    localStorage.setItem("aerotwin_role", selectedRole)
+    setPage("dashboard")
+  }
+
+  function handleLogout() {
+    setRole(null)
+    localStorage.removeItem("aerotwin_role")
+    setPage("dashboard")
+  }
+
+  // Load backend map data on mount
   useEffect(() => {
-    loadMap().then(setMapData).catch(() => setMapError("The map data did not load. Start the API on port 8000."))
+    loadMap()
+      .then(setMapData)
+      .catch(() => setMapError("Map API unavailable. Ensure FastAPI is running on port 8000."))
   }, [])
 
+  // Load backend reports & spatial contributions
+  useEffect(() => {
+    loadReports().then(setReports).catch(console.error)
+    loadSpatialContributions().then(setSpatialContributions).catch(console.error)
+    loadDepartments().then(setDepartments).catch(console.error)
+    loadAuditLogs().then(setAuditLogs).catch(console.error)
+  }, [])
+
+  // Load station detail
   useEffect(() => {
     if (!stationId) return
-    setLoadingStation(true)
-    setScenario(null)
-    setComparison(null)
-    setScenarioError(null)
     Promise.all([loadEnvironment(stationId), loadHistory(stationId)])
-      .then(([nextEnvironment, nextHistory]) => {
-        setEnvironment(nextEnvironment)
-        setHistory(nextHistory)
+      .then(([env]) => {
+        setEnvironment(env)
       })
-      .catch(() => setMapError("The station record did not load."))
-      .finally(() => setLoadingStation(false))
+      .catch(() => setMapError("Station data failed to load."))
   }, [stationId])
 
-  function enter(next: Role) {
-    setRole(next)
-    setStationId(null)
-    setEnvironment(null)
-    setLayers(next === "citizen"
-      ? { stations: false, current: true, hotspots: true, forecast: false, industrial: false, roads: false, citizen: false }
-      : { ...BASE_LAYERS })
-  }
-
-  function toggle(key: LayerKey) {
-    setLayers((current) => ({ ...current, [key]: !current[key] }))
-  }
-
-  async function runScenario(nextIntervention = intervention, nextIntensity = intensity) {
-    if (!stationId) return
-    setScenarioError(null)
-    try {
-      const body = await simulate(stationId, nextIntervention, nextIntensity)
-      setScenario(body.scenario)
-    } catch {
-      setScenarioError("The scenario did not run.")
+  // Protect Municipal routes from Citizen users
+  useEffect(() => {
+    if (role === "citizen") {
+      const municipalOnly: PageKey[] = [
+        "reports-management",
+        "spatial-contributions-review",
+        "analytics",
+        "departments",
+        "audit-logs",
+      ]
+      if (municipalOnly.includes(page)) {
+        setPage("dashboard")
+      }
     }
+  }, [role, page])
+
+  // Handlers for Submissions
+  async function handleCreateReport(payload: any) {
+    const created = await createReport(payload)
+    const refreshed = await loadReports()
+    setReports(refreshed)
+    loadMap().then(setMapData).catch(console.error)
+    return created
   }
 
-  async function runCompare(nextIntensity = intensity) {
-    if (!stationId) return
-    setScenarioError(null)
-    try {
-      setComparison(await compare(stationId, nextIntensity))
-    } catch {
-      setScenarioError("The comparison did not run.")
-    }
+  async function handleUpdateReport(id: string, updates: any) {
+    const updated = await updateReport(id, updates)
+    const refreshed = await loadReports()
+    setReports(refreshed)
+    return updated
   }
 
-  const collections = mapData?.collections
+  async function handleCreateSpatialContribution(payload: any) {
+    const created = await createSpatialContribution(payload)
+    const refreshed = await loadSpatialContributions()
+    setSpatialContributions(refreshed)
+    loadMap().then(setMapData).catch(console.error)
+    return created
+  }
 
-  if (!role) return <Login onEnter={enter} />
+  async function handleReviewSpatialContribution(id: string, action: string, remarks?: string, rejection_reason?: string) {
+    const res = await reviewSpatialContribution(id, action, remarks, rejection_reason)
+    const refreshed = await loadSpatialContributions()
+    setSpatialContributions(refreshed)
+    loadMap().then(setMapData).catch(console.error)
+    return res
+  }
+
+  // Handle map click location pick
+  function handlePickLocationOnMap(longitude: number, latitude: number) {
+    setPickedLocation({ longitude, latitude })
+    setPickLocation(false)
+  }
+
+  // If not logged in, render Login Gate
+  if (!role) {
+    return <Login onEnter={handleLogin} />
+  }
+
+  const pendingReportsCount = reports.filter((r) => r.status === "Submitted" || r.status === "Under Review").length
+  const pendingSpatialCount = spatialContributions.filter((s) => s.status === "Pending Verification").length
 
   return (
-    <div className="flex h-full flex-col">
-      <header className="flex flex-wrap items-end justify-between gap-3 bg-[#12110f] px-4 py-3 text-[#f4efe6]">
-        <div>
-          <p className="text-[11px] tracking-[0.2em] text-[#d6c48a]">PUNE ENVIRONMENTAL TWIN</p>
-          <h1 className="font-display text-3xl leading-none">AeroTwin</h1>
-          <p className="mt-1 text-xs text-[#d6d3d1]">{role === "citizen" ? "Citizen" : "Municipal corporation"}</p>
-        </div>
-        <button type="button" onClick={() => setRole(null)} className="rounded-full border border-[#d6c48a] px-3 py-1 text-xs text-[#d6c48a]">Sign out</button>
-      </header>
-      {mapError && <p className="bg-[#9f1239] px-4 py-2 text-xs text-white">{mapError}</p>}
-      <div className="grid min-h-0 flex-1 grid-rows-[minmax(240px,1fr)_minmax(280px,46vh)] md:grid-cols-[minmax(0,1fr)_400px] md:grid-rows-1">
-        <div className="relative min-h-0">
-          <MapCanvas
-            stations={collections?.stations ?? EMPTY}
-            current={collections?.current_pm25 ?? EMPTY}
-            hotspots={collections?.hotspots ?? EMPTY}
-            forecast={collections?.forecast ?? EMPTY}
-            industrial={collections?.industrial_proxy ?? EMPTY}
-            roads={collections?.road_context ?? EMPTY}
-            reports={reports}
-            visible={layers}
-            environment={environment}
-            onSelect={(id) => {
-              setStationId(id)
-              setSection("now")
-            }}
-            pickLocation={picking}
-            onPickLocation={(longitude, latitude) => {
-              setPin({ longitude, latitude })
-              setPicking(false)
-            }}
-          />
-          {role === "municipal" && (
-            <details className="absolute left-3 top-3 z-10 max-w-[220px] rounded-2xl bg-[#f4efe6]/95 p-3 text-xs shadow-lg">
-              <summary className="cursor-pointer font-medium">Map layers</summary>
-              <div className="mt-2">
-                <LayerToggle label="Stations" on={layers.stations} onClick={() => toggle("stations")} />
-                <LayerToggle label="Current PM2.5" on={layers.current} onClick={() => toggle("current")} />
-                <LayerToggle label="Hotspots" on={layers.hotspots} onClick={() => toggle("hotspots")} />
-                <LayerToggle label="24-hour forecast" on={layers.forecast} onClick={() => toggle("forecast")} />
-                <LayerToggle label="Industrial proxy" on={layers.industrial} onClick={() => toggle("industrial")} />
-                <LayerToggle label="Road context" on={layers.roads} onClick={() => toggle("roads")} />
-                <LayerToggle label="Citizen observations" on={layers.citizen} onClick={() => toggle("citizen")} />
-              </div>
-            </details>
-          )}
-        </div>
-        {role === "municipal" ? (
-          <MunicipalPanel
-            environment={environment}
-            history={history}
-            loading={loadingStation}
-            section={section}
-            intensity={intensity}
-            intervention={intervention}
-            scenario={scenario}
-            comparison={comparison}
-            scenarioError={scenarioError}
-            onIntensity={setIntensity}
-            onIntervention={setIntervention}
-            onSimulate={() => void runScenario()}
-            onCompare={() => void runCompare()}
-          />
-        ) : (
-          <CitizenPanel
-            environment={environment}
-            reports={reports}
-            pin={pin ?? (environment?.station.latitude != null && environment.station.longitude != null
-              ? { latitude: environment.station.latitude, longitude: environment.station.longitude }
-              : null)}
-            picking={picking}
-            onPick={setPicking}
-            onSubmit={(report) => {
-              setReports((current) => [report, ...current])
-              setLayers((current) => ({ ...current, citizen: true }))
-            }}
-          />
+    <div className="flex h-screen w-screen overflow-hidden text-slate-100" style={{ background: "#0f1117" }}>
+      {/* Sidebar */}
+      <Sidebar
+        role={role}
+        page={page}
+        onPage={setPage}
+        onLogout={handleLogout}
+        pendingReportsCount={pendingReportsCount}
+        pendingSpatialCount={pendingSpatialCount}
+      />
+
+      {/* Main Content Area */}
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        {/* Top Header */}
+        <header
+          className="flex shrink-0 items-center justify-between gap-4 px-6 border-b border-[#1e2432]"
+          style={{ height: "60px", background: "#0d1117" }}
+        >
+          {/* Status Title / Quick Path */}
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-green-400">
+              {role === "citizen" ? "Citizen Portal" : "Municipal Corporation"}
+            </span>
+            <span className="text-slate-600">/</span>
+            <span className="text-xs font-semibold text-slate-200 capitalize">{page.replace("-", " ")}</span>
+          </div>
+
+          {/* Right Header Info */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-green-400 live-dot" />
+              <span className="text-xs font-semibold text-green-400">Live Network</span>
+            </div>
+            <p className="text-xs text-slate-400 font-mono">{now}</p>
+
+            <button
+              onClick={handleLogout}
+              className="px-3 py-1.5 rounded-lg border border-[#1e2432] bg-[#111827] text-xs font-medium text-slate-300 hover:text-white transition"
+            >
+              Sign Out
+            </button>
+          </div>
+        </header>
+
+        {/* Error Banner */}
+        {mapError && (
+          <div className="shrink-0 flex items-center justify-between px-6 py-2 text-xs bg-red-950 text-red-300 border-b border-red-900">
+            <span>{mapError}</span>
+            <button onClick={() => setMapError(null)} className="font-bold">&times;</button>
+          </div>
         )}
+
+        {/* Page Views Router */}
+        <main className="min-h-0 flex-1 overflow-hidden">
+          {/* COMMON & GIS MAP PAGES */}
+          {page === "gis-map" && (
+            <GisMapView
+              mapData={mapData}
+              environment={environment}
+              reports={reports}
+              spatialContributions={spatialContributions}
+              onSelectStation={(id) => setStationId(id)}
+              onPickLocation={handlePickLocationOnMap}
+              pickLocation={pickLocation}
+              pickedLocation={pickedLocation}
+            />
+          )}
+
+          {/* CITIZEN SPECIFIC PAGES */}
+          {role === "citizen" && (
+            <>
+              {page === "dashboard" && (
+                <CitizenDashboard
+                  environment={environment}
+                  reports={reports}
+                  spatialContributions={spatialContributions}
+                  onNavigate={setPage}
+                />
+              )}
+              {page === "report-issue" && (
+                <ReportCivicIssueForm
+                  onSubmitReport={handleCreateReport}
+                  onPickMapLocation={() => {
+                    setPickLocation(true)
+                    setPage("gis-map")
+                  }}
+                  pickedLocation={pickedLocation}
+                  onCancel={() => setPage("my-reports")}
+                />
+              )}
+              {page === "my-reports" && (
+                <MyReportsView reports={reports} />
+              )}
+              {page === "spatial-contributions" && (
+                <AddSpatialContributionForm
+                  onSubmitContribution={handleCreateSpatialContribution}
+                  onPickMapLocation={() => {
+                    setPickLocation(true)
+                    setPage("gis-map")
+                  }}
+                  pickedLocation={pickedLocation}
+                  onCancel={() => setPage("my-contributions")}
+                />
+              )}
+              {page === "my-contributions" && (
+                <MyContributionsView spatialContributions={spatialContributions} />
+              )}
+            </>
+          )}
+
+          {/* MUNICIPAL SPECIFIC PAGES */}
+          {role === "municipal" && (
+            <>
+              {page === "dashboard" && (
+                <MunicipalDashboard
+                  environment={environment}
+                  reports={reports}
+                  spatialContributions={spatialContributions}
+                  departments={departments}
+                  onNavigate={setPage}
+                />
+              )}
+              {page === "reports-management" && (
+                <ReportsManagementView
+                  reports={reports}
+                  departments={departments}
+                  onUpdateReport={handleUpdateReport}
+                />
+              )}
+              {page === "spatial-contributions-review" && (
+                <SpatialReviewQueueView
+                  spatialContributions={spatialContributions}
+                  onReviewContribution={handleReviewSpatialContribution}
+                />
+              )}
+              {page === "source-attribution" && (
+                <SourceAttributionPage environment={environment} />
+              )}
+            </>
+          )}
+
+          {/* AUXILIARY & SHARED PAGES */}
+          {page === "analytics" && <AnalyticsPage />}
+          {page === "data-sources" && <DataSourcesPage />}
+          {page === "departments" && <DepartmentsPage departments={departments} />}
+          {page === "audit-logs" && <AuditLogsPage logs={auditLogs} />}
+          {page === "profile" && <ProfilePage role={role} />}
+          {page === "notifications" && <NotificationsPage />}
+          {page === "forecast" && <ForecastPage />}
+          {page === "simulation" && <SimulationPage />}
+          {page === "historical" && <HistoricalPage />}
+        </main>
       </div>
     </div>
-  )
-}
-
-function LayerToggle({ label, on, onClick }: { label: string; on: boolean; onClick: () => void }) {
-  return (
-    <label className="flex shrink-0 cursor-pointer items-center justify-between gap-2 whitespace-nowrap py-0.5 md:w-full">
-      <span>{label}</span>
-      <input type="checkbox" checked={on} onChange={onClick} />
-    </label>
   )
 }
