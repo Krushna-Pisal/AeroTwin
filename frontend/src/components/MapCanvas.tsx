@@ -1,4 +1,5 @@
-import maplibregl from "maplibre-gl"
+import mapboxgl from "mapbox-gl"
+import "mapbox-gl/dist/mapbox-gl.css"
 import { useEffect, useRef } from "react"
 import { createRoot, type Root } from "react-dom/client"
 import type { CitizenReport, Environment, FeatureCollection, LayerKey } from "../types"
@@ -36,15 +37,15 @@ export function MapCanvas({
   pickLocation,
 }: Props) {
   const container = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<maplibregl.Map | null>(null)
-  const popupRef = useRef<maplibregl.Popup | null>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+  const popupRef = useRef<mapboxgl.Popup | null>(null)
   const rootRef = useRef<Root | null>(null)
   const handlers = useRef({ onSelect, onPickLocation, pickLocation })
   handlers.current = { onSelect, onPickLocation, pickLocation }
   const dataRef = useRef({ stations, current, hotspots, forecast, industrial, roads, reports, visible })
   dataRef.current = { stations, current, hotspots, forecast, industrial, roads, reports, visible }
 
-  function paint(map: maplibregl.Map) {
+  function paint(map: mapboxgl.Map) {
     const data = dataRef.current
     if (!map.getSource("stations")) return
     const show = (id: string, on: boolean) => map.setLayoutProperty(id, "visibility", on ? "visible" : "none")
@@ -72,14 +73,16 @@ export function MapCanvas({
 
   useEffect(() => {
     if (!container.current || mapRef.current) return
-    const map = new maplibregl.Map({
+    
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
+    const map = new mapboxgl.Map({
       container: container.current,
-      style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+      style: "mapbox://styles/mapbox/dark-v11",
       center: [73.856, 18.52],
       zoom: 10.6,
       attributionControl: {},
     })
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right")
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "bottom-right")
     map.on("load", () => {
       map.addSource("roads", { type: "geojson", data: asGeo(EMPTY) })
       map.addSource("industrial", { type: "geojson", data: asGeo(EMPTY) })
@@ -217,7 +220,7 @@ export function MapCanvas({
     root.render(<StationPopup environment={environment} />)
     rootRef.current = root
     popupRef.current?.remove()
-    popupRef.current = new maplibregl.Popup({ closeButton: false, closeOnClick: false, maxWidth: "320px", offset: 18 })
+    popupRef.current = new mapboxgl.Popup({ closeButton: false, closeOnClick: false, maxWidth: "320px", offset: 18 })
       .setLngLat([longitude, latitude])
       .setDOMContent(host)
       .addTo(map)
@@ -230,8 +233,8 @@ function asGeo(data: unknown): GeoJSON.FeatureCollection {
   return data as GeoJSON.FeatureCollection
 }
 
-function setSource(map: maplibregl.Map, id: string, data: unknown) {
-  const source = map.getSource(id) as maplibregl.GeoJSONSource | undefined
+function setSource(map: mapboxgl.Map, id: string, data: unknown) {
+  const source = map.getSource(id) as mapboxgl.GeoJSONSource | undefined
   source?.setData(asGeo(data))
 }
 

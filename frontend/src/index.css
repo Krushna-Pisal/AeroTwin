@@ -31,17 +31,17 @@ button, input, select, textarea {
   font: inherit;
 }
 
-.maplibregl-popup-content {
+.mapboxgl-popup-content {
   padding: 0;
   background: transparent;
   box-shadow: none;
 }
 
-.maplibregl-popup-tip {
+.mapboxgl-popup-tip {
   border-top-color: #f4efe6;
   border-bottom-color: #f4efe6;
 }
 
-.maplibregl-ctrl-attrib {
+.mapboxgl-ctrl-attrib {
   font-size: 10px;
 }

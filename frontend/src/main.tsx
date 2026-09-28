@@ -1,4 +1,4 @@
-import "maplibre-gl/dist/maplibre-gl.css"
+import "mapbox-gl/dist/mapbox-gl.css"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { App } from "./App"

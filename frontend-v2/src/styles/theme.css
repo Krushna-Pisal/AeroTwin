@@ -1,0 +1,35 @@
+@theme {
+  --color-background: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-border: #E5E8EE;
+  
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
+
+  --color-brand-primary: #0E6BA8;
+  --color-brand-primary-hover: #0B5A8E;
+  --color-brand-accent: #14B8A6;
+
+  --color-pm25-good: #2FA84F;
+  --color-pm25-satisfactory: #8BC34A;
+  --color-pm25-moderate: #F5C518;
+  --color-pm25-poor: #F58220;
+  --color-pm25-very-poor: #E53935;
+  --color-pm25-severe: #8E1B4B;
+
+  --color-data-observed: #1D6FD8;
+  --color-data-modeled: #6D4AFF;
+  --color-data-proxy: #B7791F;
+  --color-data-citizen: #0F9D8A;
+  --color-data-scenario: #C026D3;
+
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-card: 12px;
+  --radius-input: 8px;
+  --radius-chip: 999px;
+
+  --shadow-soft: 0 1px 2px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.06);
+}
