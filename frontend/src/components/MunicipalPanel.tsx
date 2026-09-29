@@ -40,6 +40,8 @@ export function MunicipalPanel(props: Props) {
     )
   }
   const quality = environment.data_quality
+  const archiveAgeHours = environment.current_observation.archive_age_hours ?? undefined
+  const archiveStale = environment.current_observation.archive_stale ?? false
   return (
     <aside className="h-full overflow-y-auto bg-[#f4efe6] p-4 text-sm leading-relaxed">
       <p className="text-xs tracking-[0.16em] text-[#57534e]">{environment.station.station_id}</p>
@@ -49,6 +51,16 @@ export function MunicipalPanel(props: Props) {
           <h3 className="font-medium">Last stored CPCB hour</h3>
           <StatusBadge status="OBSERVED" />
         </div>
+        {archiveStale && (
+          <div className="mt-1 rounded-lg px-2 py-1.5 text-xs" style={{ background: "#fef3c7", color: "#92400e" }}>
+            ⚠ <strong>Archive data — not live.</strong>{" "}
+            This reading is ~{archiveAgeHours != null && archiveAgeHours >= 24
+              ? `${Math.round(archiveAgeHours / 24)} days`
+              : `${Math.round(archiveAgeHours ?? 0)} hours`}{" "}
+            old. High values (e.g. 100+ µg/m³) reflect winter 2025 peak hours.
+            For today's air quality, see the Live reading below.
+          </div>
+        )}
         <p className="mt-1 text-3xl">{pm25(environment.current_observation.pm25)}</p>
         <p className="text-xs text-[#57534e]">{publishedTime(environment.current_observation.timestamp)}</p>
         <p className="mt-1 text-xs">Archive hour. It is not a live reading.</p>

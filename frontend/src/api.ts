@@ -5,6 +5,9 @@ import type {
   Intensity,
   Intervention,
   MapPayload,
+  MhPointEstimate,
+  MhStationDetail,
+  MhStationsPayload,
   ScenarioRow,
 } from "./types"
 
@@ -58,13 +61,21 @@ export async function loadAllStations(): Promise<
   return body.stations ?? []
 }
 
-export async function loadLatestObservations(): Promise<
-  { station_id: string; station_name: string; pm25: number | null; timestamp: string | null; status: string }[]
-> {
+export async function loadLatestObservations(): Promise<{
+  observations: { station_id: string; station_name: string; pm25: number | null; timestamp: string | null; status: string; archive_stale?: boolean; archive_age_hours?: number }[]
+  archive_stale: boolean
+  archive_age_hours: number
+}> {
   const body = await getJson<{
-    observations: { station_id: string; station_name: string; pm25: number | null; timestamp: string | null; status: string }[]
+    observations: { station_id: string; station_name: string; pm25: number | null; timestamp: string | null; status: string; archive_stale?: boolean; archive_age_hours?: number }[]
+    archive_stale: boolean
+    archive_age_hours: number
   }>("/api/observations/latest")
-  return body.observations ?? []
+  return {
+    observations: body.observations ?? [],
+    archive_stale: body.archive_stale ?? false,
+    archive_age_hours: body.archive_age_hours ?? 0,
+  }
 }
 
 export async function loadForecasts(): Promise<
@@ -188,5 +199,17 @@ export async function loadAuditLogs() {
 
 export async function loadSpatialAnalysis() {
   return getJson<any>("/api/spatial-contributions/analysis")
+}
+
+export function loadMhStations(): Promise<MhStationsPayload> {
+  return getJson("/api/maharashtra/stations")
+}
+
+export function loadMhStation(locationId: number): Promise<MhStationDetail> {
+  return getJson(`/api/maharashtra/stations/${locationId}`)
+}
+
+export function loadMhPoint(latitude: number, longitude: number): Promise<MhPointEstimate> {
+  return getJson(`/api/maharashtra/point?lat=${latitude.toFixed(5)}&lon=${longitude.toFixed(5)}`)
 }
 

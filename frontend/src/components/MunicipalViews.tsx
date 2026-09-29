@@ -1,6 +1,6 @@
 import { useState } from "react"
 import type { Environment } from "../types"
-import { pm25 } from "../format"
+import { ageLabel, pm25 } from "../format"
 import { StatusBadge } from "./StatusBadge"
 import { CIVIC_CATEGORIES } from "./CitizenViews"
 
@@ -20,6 +20,8 @@ export function MunicipalDashboard({
 }) {
   const pendingReports = reports.filter((r) => r.status === "Submitted" || r.status === "Under Review")
   const pendingSpatial = spatialContributions.filter((s) => s.status === "Pending Verification")
+  const recent = environment?.recent_cpcb_reading
+  const recentOk = recent?.status === "OBSERVED" && recent.pm25 != null
 
   return (
     <div className="h-full overflow-y-auto bg-[#0f1117] p-6 text-slate-100 space-y-6">
@@ -89,13 +91,16 @@ export function MunicipalDashboard({
 
         <div className="rounded-2xl border border-[#1e2432] bg-[#111827] p-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400">CPCB Station PM2.5</span>
-            <StatusBadge status="OBSERVED" />
+            <span className="text-xs font-medium text-slate-400">Recent CPCB PM2.5</span>
+            <StatusBadge status={recent?.status ?? "DATA_UNAVAILABLE"} />
           </div>
           <div className="mt-2 text-3xl font-extrabold text-white">
-            {environment ? pm25(environment.current_observation.pm25) : "7 / 7 Online"}
+            {recentOk ? pm25(recent.pm25) : environment ? "Not available" : "Loading…"}
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">{environment ? environment.station.station_name : "Network uptime: 99.8%"}</p>
+          <p className="text-[11px] text-slate-500 mt-1">
+            {environment ? environment.station.station_name : "Select a station"}
+            {recentOk ? ` · ${ageLabel(recent.age_hours)}` : ""}
+          </p>
         </div>
       </div>
 

@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 import pandas as pd
 
 from app.config import STATUS_OBSERVED
 from app.data_store import CLOCK, DATASET_URL, MET_FIELDS, SOURCE, hourly, iso, number
 from app.stations import STATIONS, by_id
+
+# If the most-recent PM2.5 hour in the archive is older than this many hours
+# (relative to wall-clock UTC), every "latest" reading is flagged as stale
+# archive data – it is NOT a live or near-live reading.
+STALE_THRESHOLD_HOURS = 48.0
 
 
 def list_stations() -> list[dict]:
@@ -70,8 +77,20 @@ def _as_utc(value: str) -> pd.Timestamp:
     return stamp.tz_convert("UTC")
 
 
-def _observation_row(row: pd.Series) -> dict:
+def _archive_age_hours(timestamp: pd.Timestamp) -> float:
+    """Hours between the archive timestamp and wall-clock UTC now."""
+    now = datetime.now(timezone.utc)
+    ts = pd.Timestamp(timestamp)
+    if ts.tzinfo is None:
+        ts = ts.tz_localize("UTC")
+    ts_dt = ts.to_pydatetime()
+    return (now - ts_dt).total_seconds() / 3600.0
+
+
+def _observation_row(row: pd.Series, age_hours: float | None = None) -> dict:
     weather = {field: number(row[field]) if field in row.index else None for field in MET_FIELDS}
+    if age_hours is None:
+        age_hours = _archive_age_hours(row["timestamp"])
     return {
         "timestamp": iso(row["timestamp"]),
         "station_id": str(row["station_id"]),
@@ -81,14 +100,30 @@ def _observation_row(row: pd.Series) -> dict:
         "clock": CLOCK,
         "source": SOURCE,
         "status": STATUS_OBSERVED,
+        "archive_age_hours": round(age_hours, 1),
+        "archive_stale": age_hours > STALE_THRESHOLD_HOURS,
     }
+
+
+def _network_archive_age() -> float:
+    """Age in hours of the newest PM2.5 reading across all stations."""
+    frame = hourly()
+    newest = frame.loc[frame["pm25"].notna(), "timestamp"].max()
+    if pd.isna(newest):
+        return float("inf")
+    return _archive_age_hours(newest)
 
 
 def latest_observations() -> list[dict]:
     frame = hourly()
     observed = frame.loc[frame["pm25"].notna()].sort_values("timestamp")
     latest = observed.groupby("station_id", as_index=False).tail(1)
-    return [_observation_row(row) for _, row in latest.iterrows()]
+    # Pre-compute per-row age so every row reflects wall-clock now at call time
+    rows = []
+    for _, row in latest.iterrows():
+        age = _archive_age_hours(row["timestamp"])
+        rows.append(_observation_row(row, age))
+    return rows
 
 
 def history(station_id: str, start: str | None, end: str | None, limit: int) -> dict | None:

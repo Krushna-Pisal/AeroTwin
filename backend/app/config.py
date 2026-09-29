@@ -7,10 +7,24 @@ data statuses.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Literal
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def _load_local_env(path: Path) -> None:
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name, sep, value = line.strip().partition("=")
+        if sep and name and not name.startswith("#"):
+            os.environ.setdefault(name.strip(), value.strip().strip('"').strip("'"))
+
+
+# Secrets live in backend/.env, which is gitignored. Shell variables win.
+_load_local_env(ROOT / "backend" / ".env")
 
 HOURLY_PATH = ROOT / "data" / "processed" / "v2_hourly.parquet"
 MAP_DIR = ROOT / "data" / "processed" / "map"
@@ -35,6 +49,17 @@ DATASET_URL = "https://data.opencity.in/dataset/pune-hourly-air-quality-reports"
 # Public Pune dashboard. Kept out of the historical training table.
 AQIIN_PUNE_URL = "https://www.aqi.in/in/dashboard/india/maharashtra/pune"
 LIVE_SOURCE = "aqi.in"
+
+# OpenAQ republishes the same CPCB CAAQMS monitors. Kept out of the training table.
+OPENAQ_API_URL = "https://api.openaq.org/v3"
+OPENAQ_API_KEY = os.environ.get("OPENAQ_API_KEY", "").strip()
+OPENAQ_SOURCE = "OpenAQ republish of CPCB CAAQMS"
+
+# geoBoundaries gbOpen IND ADM1 (simplified), CC BY 2.5 IN.
+MAHARASHTRA_BOUNDARY_GEOJSON = MAP_DIR / "maharashtra_boundary.geojson"
+# Local OpenAQ cache so restarts do not refetch. Gitignored.
+MAHARASHTRA_CACHE_JSON = ROOT / "data" / "cache" / "openaq_maharashtra.json"
+MAHARASHTRA_BACKTEST_JSON = ROOT / "data" / "processed" / "maharashtra_forecast_backtest.json"
 
 FORECAST_METHOD = "persistence"
 FORECAST_API_STATUS = "observed_baseline"

@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from typing import Any
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
-from app.config import STATUS_OBSERVED
+from app.config import MAHARASHTRA_BOUNDARY_GEOJSON, STATUS_OBSERVED
 from app.data_store import CLOCK, DATASET_URL, HOURLY_PATH, SOURCE, hourly
 from app.domain.scenarios import ScenarioCompareRequest, ScenarioRequest
+from app.services import maharashtra_service
 from app.services.activity_service import dust_payload, industrial_payload, traffic_payload
 from app.services.environment_service import environmental_situation
 from app.services.live_service import fetch_snapshot
@@ -17,10 +20,22 @@ from app.services.map_service import map_payload
 from app.services.scenario_service import ScenarioInputError, compare, simulate
 from app.services.source_contribution import contribution_payload
 from app.services.hotspot_service import hotspot_payload
-from app.services.observation_service import history, latest_observations, list_stations
+from app.services.observation_service import (
+    history,
+    latest_observations,
+    list_stations,
+    _network_archive_age,
+    STALE_THRESHOLD_HOURS,
+)
 from app.services.zone_service import zones_payload
 
-app = FastAPI(title="AeroTwin environmental data API", version="0.1.0")
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    maharashtra_service.start_refresher()
+    yield
+
+
+app = FastAPI(title="AeroTwin environmental data API", version="0.1.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -52,9 +67,18 @@ def stations():
     return {"clock": CLOCK, "source": SOURCE, "stations": list_stations()}
 
 
+
 @app.get("/api/observations/latest")
 def observations_latest():
-    return {"clock": CLOCK, "source": SOURCE, "status": STATUS_OBSERVED, "observations": latest_observations()}
+    age = _network_archive_age()
+    return {
+        "clock": CLOCK,
+        "source": SOURCE,
+        "status": STATUS_OBSERVED,
+        "archive_age_hours": round(age, 1),
+        "archive_stale": age > STALE_THRESHOLD_HOURS,
+        "observations": latest_observations(),
+    }
 
 
 @app.get("/api/observations/history")
@@ -111,6 +135,29 @@ def map_layers(scenario_intervention: str | None = None, scenario_intensity: str
 @app.get("/api/live/pune")
 def live_pune():
     return fetch_snapshot()
+
+
+@app.get("/api/maharashtra/stations")
+def maharashtra_stations():
+    return maharashtra_service.stations_payload()
+
+
+@app.get("/api/maharashtra/stations/{location_id}")
+def maharashtra_station(location_id: int):
+    payload = maharashtra_service.station_detail(location_id)
+    if payload is None:
+        raise HTTPException(status_code=404, detail="Unknown OpenAQ location in Maharashtra")
+    return payload
+
+
+@app.get("/api/maharashtra/point")
+def maharashtra_point(lat: float = Query(..., ge=-90, le=90), lon: float = Query(..., ge=-180, le=180)):
+    return maharashtra_service.point_estimate(lat, lon)
+
+
+@app.get("/api/maharashtra/boundary")
+def maharashtra_boundary():
+    return FileResponse(MAHARASHTRA_BOUNDARY_GEOJSON, media_type="application/geo+json")
 
 
 @app.get("/api/environment/{station_id}")

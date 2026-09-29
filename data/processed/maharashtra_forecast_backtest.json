@@ -1,0 +1,93 @@
+{
+  "source": "OpenAQ v3 sensor hours",
+  "stations": [
+    "Bandra Kurla Complex, Mumbai - MPCB",
+    "Bhayandar West, Mira-Bhayandar - MPCB",
+    "Bhosari, Pune - IITM",
+    "Borivali East, Mumbai - MPCB",
+    "Byculla, Mumbai - BMC",
+    "Chhatrapati Shivaji Intl. Airport (T2), Mumbai - MPCB",
+    "Hirawadi, Nashik - MPCB",
+    "Khadakpada, Kalyan - MPCB",
+    "Khindipada-Bhandup West, Mumbai - IITM",
+    "Mahal, Nagpur - MPCB",
+    "Mahape, Navi Mumbai - MPCB",
+    "Mumbai",
+    "Old MIDC, Jalna - MPCB",
+    "Powai, Mumbai - MPCB",
+    "Shri Shivaji Science College, Amaravati - MPCB",
+    "VNIT NAGPUR"
+  ],
+  "hours_from_utc": "2026-08-14T04:00:00Z",
+  "hours_to_utc": "2026-09-29T11:00:00Z",
+  "origins": "every 6 h after the first 8 days of each station",
+  "metric": "MAE \u00b5g/m\u00b3",
+  "mae": {
+    "persistence": {
+      "1": 4.7,
+      "3": 7.55,
+      "6": 10.41,
+      "12": 10.56,
+      "24": 8.78,
+      "48": 10.11,
+      "72": 10.38,
+      "120": 10.22,
+      "168": 10.92
+    },
+    "diurnal": {
+      "1": 7.21,
+      "3": 6.59,
+      "6": 8.49,
+      "12": 7.92,
+      "24": 8.0,
+      "48": 8.75,
+      "72": 8.51,
+      "120": 9.08,
+      "168": 9.53
+    },
+    "blend_tau3": {
+      "1": 4.35,
+      "3": 5.95,
+      "6": 8.21,
+      "12": 7.86,
+      "24": 8.0,
+      "48": 8.75,
+      "72": 8.51,
+      "120": 9.08,
+      "168": 9.53
+    },
+    "blend_tau6": {
+      "1": 4.37,
+      "3": 6.08,
+      "6": 8.19,
+      "12": 7.75,
+      "24": 7.97,
+      "48": 8.75,
+      "72": 8.51,
+      "120": 9.08,
+      "168": 9.53
+    },
+    "blend_tau12": {
+      "1": 4.49,
+      "3": 6.51,
+      "6": 8.71,
+      "12": 7.96,
+      "24": 7.82,
+      "48": 8.74,
+      "72": 8.51,
+      "120": 9.08,
+      "168": 9.53
+    },
+    "blend_tau24": {
+      "1": 4.58,
+      "3": 6.94,
+      "6": 9.33,
+      "12": 8.63,
+      "24": 7.72,
+      "48": 8.7,
+      "72": 8.51,
+      "120": 9.08,
+      "168": 9.53
+    }
+  }
+}

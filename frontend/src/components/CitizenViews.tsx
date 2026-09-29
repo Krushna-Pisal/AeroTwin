@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import type { Environment } from "../types"
-import { pm25, publishedTime } from "../format"
+import { ageLabel, pm25, publishedTime, utcTime } from "../format"
 import { StatusBadge } from "./StatusBadge"
 
 // Categories for Civic Reports
@@ -50,6 +50,8 @@ export function CitizenDashboard({
   const activeReports = reports.filter((r) => r.status !== "Resolved" && r.status !== "Rejected")
   const verifiedSpatial = spatialContributions.filter((s) => s.status === "VERIFIED")
   const pendingSpatial = spatialContributions.filter((s) => s.status === "Pending Verification")
+  const recent = environment?.recent_cpcb_reading
+  const recentOk = recent?.status === "OBSERVED" && recent.pm25 != null
 
   return (
     <div className="h-full overflow-y-auto bg-[#0f1117] p-6 text-slate-100 space-y-6">
@@ -91,17 +93,20 @@ export function CitizenDashboard({
         {/* Metric 1: Air Quality */}
         <div className="rounded-2xl border border-[#1e2432] bg-[#111827] p-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400">Current Air Quality</span>
-            <StatusBadge status="OBSERVED" />
+            <span className="text-xs font-medium text-slate-400">Recent CPCB PM2.5</span>
+            <StatusBadge status={recent?.status ?? "DATA_UNAVAILABLE"} />
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-3xl font-extrabold text-white">
-              {environment ? pm25(environment.current_observation.pm25) : "84 µg/m³"}
+              {recentOk ? pm25(recent.pm25) : environment ? "Not available" : "Loading…"}
             </span>
           </div>
           <p className="mt-1 text-[11px] text-slate-500 truncate">
-            {environment ? environment.station.station_name : "Swargate Station, Pune"}
+            {environment ? environment.station.station_name : "Select a station"}
           </p>
+          {recentOk && (
+            <p className="text-[11px] text-slate-500">{utcTime(recent.timestamp_utc)}, {ageLabel(recent.age_hours)}</p>
+          )}
         </div>
 
         {/* Metric 2: Active Reports */}
@@ -239,14 +244,23 @@ export function CitizenDashboard({
             <div className="rounded-2xl border border-[#1e2432] bg-[#111827] p-5">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">NEAREST CPCB MONITOR</span>
               <h3 className="text-lg font-bold text-white mt-1">{environment.station.station_name}</h3>
-              <p className="text-xs text-slate-400 mt-1">{publishedTime(environment.current_observation.timestamp)}</p>
 
               <div className="mt-4 p-4 rounded-xl bg-[#0d1117] border border-[#1e2432] text-center">
-                <span className="text-xs text-slate-400">Observed PM2.5 Concentration</span>
+                <span className="text-xs text-slate-400">Recent CPCB hour (OpenAQ)</span>
                 <div className="text-4xl font-extrabold text-green-400 mt-1">
-                  {pm25(environment.current_observation.pm25)}
+                  {recentOk ? pm25(recent.pm25) : "Not available"}
                 </div>
-                <span className="text-[11px] text-slate-500">Persisted Baseline Forecast: {pm25(environment.forecast.pm25)}</span>
+                <span className="text-[11px] text-slate-500">
+                  {recentOk ? `${utcTime(recent.timestamp_utc)}, ${ageLabel(recent.age_hours)}` : recent?.detail}
+                </span>
+              </div>
+
+              <div className="mt-3 p-3 rounded-xl bg-[#0d1117] border border-[#1e2432] text-xs text-slate-400">
+                <p>
+                  Stored archive hour: <strong className="text-white">{pm25(environment.current_observation.pm25)}</strong>
+                </p>
+                <p className="text-[11px] text-slate-500">{publishedTime(environment.current_observation.timestamp)}</p>
+                <p className="text-[11px] text-slate-500 mt-1">24-hour persistence forecast: {pm25(environment.forecast.pm25)} (copies the archive hour)</p>
               </div>
             </div>
           )}

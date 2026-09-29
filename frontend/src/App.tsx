@@ -32,6 +32,7 @@ import {
   SpatialReviewQueueView,
 } from "./components/MunicipalViews"
 import { GisMapView } from "./components/GisMapView"
+import { MaharashtraMap } from "./components/MaharashtraMap"
 import {
   AnalyticsPage,
   AuditLogsPage,
@@ -50,7 +51,7 @@ export function App() {
   })
 
   // Current active page
-  const [page, setPage] = useState<PageKey>("dashboard")
+  const [page, setPage] = useState<PageKey>("maharashtra")
 
   // Core Data State
   const [mapData, setMapData] = useState<MapPayload | null>(null)
@@ -73,7 +74,7 @@ export function App() {
   function handleLogin(selectedRole: Role) {
     setRole(selectedRole)
     localStorage.setItem("aerotwin_role", selectedRole)
-    setPage("dashboard")
+    setPage("maharashtra")
   }
 
   function handleLogout() {
@@ -86,7 +87,7 @@ export function App() {
   useEffect(() => {
     loadMap()
       .then(setMapData)
-      .catch(() => setMapError("Map API unavailable. Ensure FastAPI is running on port 8000."))
+      .catch(() => setMapError("Map API unavailable. Start FastAPI on port 8000, then refresh."))
   }, [])
 
   // Load backend reports & spatial contributions
@@ -104,7 +105,9 @@ export function App() {
       .then(([env]) => {
         setEnvironment(env)
       })
-      .catch(() => setMapError("Station data failed to load."))
+      .catch(() =>
+        setMapError((prev) => prev ?? "Station data failed to load. Start FastAPI on port 8000, then refresh."),
+      )
   }, [stationId])
 
   // Protect Municipal routes from Citizen users
@@ -225,6 +228,7 @@ export function App() {
         {/* Page Views Router */}
         <main className="min-h-0 flex-1 overflow-hidden">
           {/* COMMON & GIS MAP PAGES */}
+          {page === "maharashtra" && <MaharashtraMap />}
           {page === "gis-map" && (
             <GisMapView
               mapData={mapData}

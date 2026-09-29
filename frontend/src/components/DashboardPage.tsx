@@ -22,7 +22,7 @@ const FORECAST_HOURS = [
   { label: "24h",  offset: 24 },
 ]
 
-type Obs = { station_id: string; station_name: string; pm25: number | null; timestamp: string | null; status: string }
+type Obs = { station_id: string; station_name: string; pm25: number | null; timestamp: string | null; status: string; archive_stale?: boolean }
 
 type Props = {
   mapData: MapPayload | null
@@ -36,10 +36,16 @@ type Props = {
 
 export function DashboardPage({ mapData, environment, layers, reports, onSelect, mapMode, onMapMode }: Props) {
   const [observations, setObservations] = useState<Obs[]>([])
+  const [archiveStale, setArchiveStale] = useState(false)
+  const [archiveAgeHours, setArchiveAgeHours] = useState(0)
 
   useEffect(() => {
     loadLatestObservations()
-      .then(setObservations)
+      .then(({ observations, archive_stale, archive_age_hours }) => {
+        setObservations(observations)
+        setArchiveStale(archive_stale)
+        setArchiveAgeHours(archive_age_hours)
+      })
       .catch(() => setObservations([]))
   }, [])
 
@@ -74,9 +80,27 @@ export function DashboardPage({ mapData, environment, layers, reports, onSelect,
     <div className="flex h-full gap-0 overflow-hidden">
       {/* ── Map area ── */}
       <div className="relative flex-1 min-w-0">
+        {/* Stale archive warning banner */}
+        {archiveStale && (
+          <div
+            className="absolute top-0 left-0 right-0 z-20 flex items-center gap-2 px-3 py-2 text-xs font-medium"
+            style={{ background: "#92400e", color: "#fef3c7", borderBottom: "1px solid #b45309" }}
+          >
+            <span>⚠</span>
+            <span>
+              Archive data — last reading is{" "}
+              {archiveAgeHours >= 24
+                ? `~${Math.round(archiveAgeHours / 24)} days`
+                : `~${Math.round(archiveAgeHours)} hours`}{" "}
+              old. Values shown (e.g. 100+ µg/m³) reflect winter 2025 peak hours, <strong>not current conditions</strong>.
+              Live aqi.in readings (where available) show today's air quality.
+            </span>
+          </div>
+        )}
         {/* Map toolbar */}
         <div
-          className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between gap-2"
+          className="absolute left-3 right-3 z-10 flex items-center justify-between gap-2"
+          style={{ top: archiveStale ? "2.5rem" : "0.75rem" }}
         >
           <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: "rgba(13,17,23,0.88)", border: "1px solid #1e2432", backdropFilter: "blur(8px)" }}>
             {(["live", "forecast", "scenario"] as const).map((m) => (
@@ -240,9 +264,14 @@ export function DashboardPage({ mapData, environment, layers, reports, onSelect,
 
         {/* Station list */}
         <section className="flex-1 p-4">
-          <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: "#6b7280" }}>
+          <h2 className="mb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: "#6b7280" }}>
             Stations (by PM2.5)
           </h2>
+          {archiveStale && (
+            <p className="mb-2 text-[10px] leading-tight" style={{ color: "#f59e0b" }}>
+              ⚠ Archive values — ~{Math.round(archiveAgeHours / 24)}d old. Not current readings.
+            </p>
+          )}
           <div className="space-y-1">
             {topObs.length === 0 && (
               <p className="text-xs" style={{ color: "#4b5563" }}>Loading…</p>

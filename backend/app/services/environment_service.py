@@ -23,7 +23,7 @@ from app.config import (
 from app.data_store import MET_FIELDS, SOURCE, hourly
 from app.domain.scenarios import InterventionChoice, ScenarioCompareRequest
 from app.services.activity_service import industrial_collection, road_collection
-from app.services import live_service
+from app.services import live_service, openaq_service
 from app.services.forecast_service import forecast_station
 from app.services.hotspot_service import station_diagnostics
 from app.services.observation_service import latest_observations
@@ -62,6 +62,7 @@ def environmental_situation(
         "timestamp": timestamp,
         "clock": CLOCK,
         "current_observation": _observation_block(station, current),
+        "recent_cpcb_reading": openaq_service.reading_for_station(station_id),
         "live_reading": live_service.reading_for_station(station_id),
         "forecast": forecast,
         "hotspot": hotspot,
@@ -122,6 +123,8 @@ def _observation_block(station: dict, current: dict | None) -> dict:
             "timestamp": None,
             "source": None,
             "status": STATUS_DATA_UNAVAILABLE,
+            "archive_age_hours": None,
+            "archive_stale": None,
             "detail": station.get("serving_note") or "No PM2.5 hour is in the serving table.",
         }
     return {
@@ -131,6 +134,8 @@ def _observation_block(station: dict, current: dict | None) -> dict:
         "source": current["source"],
         "clock": current["clock"],
         "status": STATUS_OBSERVED,
+        "archive_age_hours": current.get("archive_age_hours"),
+        "archive_stale": current.get("archive_stale"),
     }
 
 

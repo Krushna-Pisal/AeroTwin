@@ -1,12 +1,15 @@
-"""Keep the suite off the public live page unless a test opts in."""
+"""Keep the suite off the public live page and OpenAQ unless a test opts in."""
 
 import pytest
 
-from app.services import live_service
+from app.services import live_service, maharashtra_service, openaq_service
 
 
 @pytest.fixture(autouse=True)
 def _offline_live_page(monkeypatch):
+    monkeypatch.setattr(openaq_service, "OPENAQ_API_KEY", "")
+    monkeypatch.setattr(maharashtra_service, "OPENAQ_API_KEY", "")
+    monkeypatch.setattr(maharashtra_service, "load_cache", lambda: None)
     monkeypatch.setattr(
         live_service,
         "fetch_snapshot",

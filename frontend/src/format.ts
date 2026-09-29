@@ -17,6 +17,23 @@ export function publishedTime(iso: string | null | undefined): string {
   return `${day} ${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}, ${hour}:${minute} published +0000`
 }
 
+export function utcTime(iso: string | null | undefined): string {
+  if (!iso) return "Not available"
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return iso
+  const hour = String(date.getUTCHours()).padStart(2, "0")
+  const minute = String(date.getUTCMinutes()).padStart(2, "0")
+  return `${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}, ${hour}:${minute} UTC`
+}
+
+export function ageLabel(hours: number | null | undefined): string {
+  if (hours == null) return ""
+  if (hours < 1) return "under an hour ago"
+  if (hours < 1.5) return "1 hour ago"
+  if (hours < 48) return `${Math.round(hours)} hours ago`
+  return `${Math.round(hours / 24)} days ago`
+}
+
 export function statusLabel(status: DataStatus | string | null | undefined): string {
   switch (status) {
     case "OBSERVED":

@@ -1,9 +1,12 @@
 .venv/
+.env
+backend/.env
 __pycache__/
 frontend/node_modules/
 frontend/dist/
 *.pyc
 .pytest_cache/
+data/cache/
 data/raw/air_quality/_peek/
 data/raw/air_quality/*.csv
 data/raw/air_quality/*.part

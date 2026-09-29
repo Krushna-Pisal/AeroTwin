@@ -67,6 +67,20 @@ export type Environment = {
     timestamp: string | null
     status: DataStatus
     detail?: string
+    archive_age_hours?: number | null
+    archive_stale?: boolean | null
+  }
+  recent_cpcb_reading?: {
+    status: DataStatus
+    same_monitor: boolean
+    source: string
+    source_station: string | null
+    pm25: number | null
+    unit: string
+    timestamp_utc: string | null
+    timestamp_local: string | null
+    age_hours: number | null
+    detail: string
   }
   live_reading?: {
     status: DataStatus
@@ -188,4 +202,83 @@ export type CitizenReport = {
   latitude: number
   photoName: string | null
   status: "CITIZEN_REPORTED"
+}
+
+export type MhStation = {
+  location_id: number
+  name: string
+  locality: string | null
+  provider: string | null
+  owner: string | null
+  longitude: number
+  latitude: number
+  unit: string
+  last_pm25: number | null
+  last_utc: string | null
+  age_hours: number | null
+  now_pm25: number | null
+  now_status: DataStatus
+  now_basis: string
+}
+
+export type MhStationsPayload = {
+  source: string
+  generated_utc: string
+  api_key_set: boolean
+  listing_utc: string | null
+  last_refresh_utc: string | null
+  stations_read: number
+  stations_listed: number
+  counts: Record<"OBSERVED" | "MODELED" | "DATA_UNAVAILABLE", number>
+  observed_max_age_hours: number
+  type: "FeatureCollection"
+  features: { type: "Feature"; geometry: { type: "Point"; coordinates: [number, number] }; properties: MhStation }[]
+}
+
+export type MhForecastRow = {
+  hours_ahead: number
+  valid_utc: string
+  pm25: number | null
+  status: DataStatus
+  typical_error: number | null
+}
+
+export type MhStationDetail = {
+  kind: "station"
+  source: string
+  generated_utc: string
+  station: MhStation
+  recent_hours: { utc: string; pm25: number; status: DataStatus }[]
+  forecast_method: string
+  forecast_note: string
+  forecast: MhForecastRow[]
+}
+
+export type MhNeighbour = {
+  location_id: number
+  name: string
+  distance_km: number
+  now_pm25: number
+  now_status: DataStatus
+  age_hours: number | null
+  weight: number
+}
+
+export type MhPointEstimate = {
+  kind: "point"
+  source: string
+  generated_utc: string
+  latitude: number
+  longitude: number
+  unit: string
+  inside_maharashtra: boolean
+  now_pm25: number | null
+  now_status: DataStatus
+  confidence: "HIGH" | "MEDIUM" | "LOW" | null
+  nearest_km: number | null
+  neighbours: MhNeighbour[]
+  forecast_method: string
+  forecast_note: string
+  forecast: MhForecastRow[]
+  detail?: string
 }
