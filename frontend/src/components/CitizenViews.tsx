@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import type { Environment } from "../types"
 import { pm25, publishedTime } from "../format"
 import { StatusBadge } from "./StatusBadge"
@@ -278,6 +278,16 @@ export function CitizenDashboard({
   )
 }
 
+// Persistent in-memory draft across map shifts
+const civicReportDraft = {
+  category: CIVIC_CATEGORIES[0],
+  title: "",
+  description: "",
+  severity: "Medium",
+  locationName: "Swargate, Pune",
+  photoUrl: "",
+}
+
 // ── REPORT CIVIC ISSUE FORM ──────────────────────────────────────────────────
 export function ReportCivicIssueForm({
   onSubmitReport,
@@ -290,15 +300,39 @@ export function ReportCivicIssueForm({
   pickedLocation: { longitude: number; latitude: number } | null
   onCancel: () => void
 }) {
-  const [category, setCategory] = useState(CIVIC_CATEGORIES[0])
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [severity, setSeverity] = useState("Medium")
-  const [locationName, setLocationName] = useState("Swargate, Pune")
-  const [photoUrl, setPhotoUrl] = useState("")
+  const [category, setCategory] = useState(civicReportDraft.category)
+  const [title, setTitle] = useState(civicReportDraft.title)
+  const [description, setDescription] = useState(civicReportDraft.description)
+  const [severity, setSeverity] = useState(civicReportDraft.severity)
+  const [locationName, setLocationName] = useState(
+    pickedLocation
+      ? `Swargate (Pinned: ${pickedLocation.latitude.toFixed(4)}, ${pickedLocation.longitude.toFixed(4)})`
+      : civicReportDraft.locationName
+  )
+  const [photoUrl, setPhotoUrl] = useState(civicReportDraft.photoUrl)
   const [submitting, setSubmitting] = useState(false)
   const [submittedReport, setSubmittedReport] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
+
+  // Keep draft in sync so user never loses inputs on map click
+  useEffect(() => {
+    civicReportDraft.category = category
+    civicReportDraft.title = title
+    civicReportDraft.description = description
+    civicReportDraft.severity = severity
+    civicReportDraft.locationName = locationName
+    civicReportDraft.photoUrl = photoUrl
+  }, [category, title, description, severity, locationName, photoUrl])
+
+  useEffect(() => {
+    if (pickedLocation) {
+      setLocationName((prev) =>
+        prev === "Swargate, Pune"
+          ? `Swargate (Pinned: ${pickedLocation.latitude.toFixed(4)}, ${pickedLocation.longitude.toFixed(4)})`
+          : prev
+      )
+    }
+  }, [pickedLocation])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -660,6 +694,17 @@ export function MyReportsView({
   )
 }
 
+// Persistent in-memory draft across map shifts for spatial contributions
+const spatialContribDraft = {
+  step: 1,
+  contribType: SPATIAL_TYPES[0],
+  geometryType: "Point",
+  title: "",
+  description: "",
+  category: "Green Infrastructure",
+  source: "Personally Observed",
+}
+
 // ── ADD SPATIAL CONTRIBUTION FORM ────────────────────────────────────────────
 export function AddSpatialContributionForm({
   onSubmitContribution,
@@ -672,16 +717,26 @@ export function AddSpatialContributionForm({
   pickedLocation: { longitude: number; latitude: number } | null
   onCancel: () => void
 }) {
-  const [step, setStep] = useState<number>(1)
-  const [contribType, setContribType] = useState<string>(SPATIAL_TYPES[0])
-  const [geometryType, setGeometryType] = useState<string>("Point")
-  const [title, setTitle] = useState<string>("")
-  const [description, setDescription] = useState<string>("")
-  const [category, setCategory] = useState<string>("Green Infrastructure")
-  const [source, setSource] = useState<string>("Personally Observed")
+  const [step, setStep] = useState<number>(pickedLocation ? 2 : spatialContribDraft.step)
+  const [contribType, setContribType] = useState<string>(spatialContribDraft.contribType)
+  const [geometryType, setGeometryType] = useState<string>(spatialContribDraft.geometryType)
+  const [title, setTitle] = useState<string>(spatialContribDraft.title)
+  const [description, setDescription] = useState<string>(spatialContribDraft.description)
+  const [category, setCategory] = useState<string>(spatialContribDraft.category)
+  const [source, setSource] = useState<string>(spatialContribDraft.source)
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    spatialContribDraft.step = step
+    spatialContribDraft.contribType = contribType
+    spatialContribDraft.geometryType = geometryType
+    spatialContribDraft.title = title
+    spatialContribDraft.description = description
+    spatialContribDraft.category = category
+    spatialContribDraft.source = source
+  }, [step, contribType, geometryType, title, description, category, source])
 
   async function handleSubmit() {
     if (!description.trim()) {
