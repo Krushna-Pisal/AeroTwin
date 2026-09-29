@@ -204,6 +204,15 @@ export type CitizenReport = {
   status: "CITIZEN_REPORTED"
 }
 
+export type CustomScenario = {
+  id: string
+  label: string
+  description: string
+  /** Per-station PM2.5 overrides: station_id -> value (μg/m³) */
+  stationOverrides: Record<string, number>
+  createdAt: string
+}
+
 export type MhStation = {
   location_id: number
   name: string

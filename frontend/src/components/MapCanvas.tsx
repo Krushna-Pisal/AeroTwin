@@ -23,7 +23,7 @@ const H3_RES = 8
 const IDW_POWER = 2
 const MAX_RADIUS_DEG = 0.25
 
-type StationPoint = { lat: number; lng: number; pm25: number }
+type StationPoint = { lat: number; lng: number; pm25: number; stationId?: string }
 
 export type MapCanvasProps = {
   stations: FeatureCollection
@@ -47,6 +47,12 @@ export type MapCanvasProps = {
   drawnGeometry?: { type: "Point" | "LineString" | "Polygon"; coordinates: any } | null
   onDrawGeometry?: (geom: { type: "Point" | "LineString" | "Polygon"; coordinates: any }) => void
   drawingType?: "Point" | "Line" | "Polygon" | null
+  /** When set, overrides live PM2.5 per station for simulation heatmap rendering */
+  simulatedPm25?: Record<string, number> | null
+  simulationLabel?: string | null
+  simViewMode?: "baseline" | "simulated" | "compare"
+  simulationBaselineMap?: Record<string, number> | null
+  simulationDiffMap?: Record<string, number> | null
 }
 
 function idw(lat: number, lng: number, stations: StationPoint[]): number | null {
@@ -72,10 +78,30 @@ function idw(lat: number, lng: number, stations: StationPoint[]): number | null 
   return weightedSum / weightTotal
 }
 
-function buildHexGeoJSON(stationPoints: StationPoint[]): GeoJSON.FeatureCollection {
+function buildHexGeoJSON(
+  stationPoints: StationPoint[],
+  simulatedPm25?: Record<string, number> | null,
+  baselineStationPoints?: StationPoint[],
+  simViewMode: "baseline" | "simulated" | "compare" = "simulated",
+): GeoJSON.FeatureCollection {
   if (stationPoints.length === 0) {
     return { type: "FeatureCollection", features: [] }
   }
+
+  // When simulation mode is active, locate the specific simulated station(s)
+  const isSimulation = Boolean(simulatedPm25 && Object.keys(simulatedPm25).length > 0)
+  const simStationCoords: [number, number][] = []
+  if (isSimulation && simulatedPm25) {
+    const simIds = new Set(Object.keys(simulatedPm25))
+    for (const pt of stationPoints) {
+      if (pt.stationId && simIds.has(pt.stationId)) {
+        simStationCoords.push([pt.lat, pt.lng])
+      }
+    }
+  }
+
+  // Localized intervention zone radius (~4.5 km / 0.042 degrees)
+  const LOCAL_ZONE_RADIUS_DEG = 0.042
 
   const bboxPoly: [number, number][] = [
     [PUNE_BBOX.minLat, PUNE_BBOX.minLng],
@@ -94,8 +120,27 @@ function buildHexGeoJSON(stationPoints: StationPoint[]): GeoJSON.FeatureCollecti
       [0, 0],
     )
 
+    // When in simulation mode and localized to 1 or 2 stations, only color the target intervention area
+    if (isSimulation && simStationCoords.length > 0 && simStationCoords.length <= 2) {
+      const inZone = simStationCoords.some(([sLat, sLng]) => {
+        const dLat = centroid[0] - sLat
+        const dLng = centroid[1] - sLng
+        return Math.sqrt(dLat * dLat + dLng * dLng) <= LOCAL_ZONE_RADIUS_DEG
+      })
+      if (!inZone) continue
+    }
+
     const pm25 = idw(centroid[0], centroid[1], stationPoints)
     if (pm25 === null) continue
+
+    let baseVal: number | null = null
+    let diff = 0
+    if (baselineStationPoints && baselineStationPoints.length > 0) {
+      baseVal = idw(centroid[0], centroid[1], baselineStationPoints)
+      if (baseVal !== null) {
+        diff = pm25 - baseVal
+      }
+    }
 
     const ring = boundary.map(([la, lo]) => [lo, la] as [number, number])
     ring.push(ring[0])
@@ -103,14 +148,26 @@ function buildHexGeoJSON(stationPoints: StationPoint[]): GeoJSON.FeatureCollecti
     features.push({
       type: "Feature",
       geometry: { type: "Polygon", coordinates: [ring] },
-      properties: { cell, pm25: Math.round(pm25 * 10) / 10, centroidLat: centroid[0], centroidLng: centroid[1] },
+      properties: {
+        cell,
+        pm25: Math.round(pm25 * 10) / 10,
+        baseline: baseVal !== null ? Math.round(baseVal * 10) / 10 : Math.round(pm25 * 10) / 10,
+        diff: Math.round(diff * 10) / 10,
+        simViewMode,
+        centroidLat: centroid[0],
+        centroidLng: centroid[1],
+      },
     })
   }
 
   return { type: "FeatureCollection", features }
 }
 
-function toStationPoints(currentFc: FeatureCollection, stationsFc: FeatureCollection): StationPoint[] {
+function toStationPoints(
+  currentFc: FeatureCollection,
+  stationsFc: FeatureCollection,
+  simulatedPm25?: Record<string, number> | null,
+): StationPoint[] {
   const pts: StationPoint[] = []
   const pm25Map = new Map<string, number>()
 
@@ -126,17 +183,22 @@ function toStationPoints(currentFc: FeatureCollection, stationsFc: FeatureCollec
     const coords = f.geometry?.coordinates as [number, number] | undefined
     if (!coords) continue
     const id = f.properties?.station_id
-    const pm25 = (id ? pm25Map.get(String(id)) : null) ?? f.properties?.pm25 ?? 120.0
+    // Use simulated override if available, otherwise fall back to live
+    const simVal = id && simulatedPm25 ? simulatedPm25[String(id)] : undefined
+    const pm25 = simVal ?? (id ? pm25Map.get(String(id)) : null) ?? f.properties?.pm25 ?? 120.0
     const [lng, lat] = coords
-    pts.push({ lat, lng, pm25: Number(pm25) })
+    pts.push({ lat, lng, pm25: Number(pm25), stationId: id ? String(id) : undefined })
   }
 
   if (pts.length === 0) {
     for (const f of currentFc.features ?? []) {
       const coords = f.geometry?.coordinates as [number, number] | undefined
-      const pm25 = f.properties?.pm25 ?? f.properties?.pm25_value
+      const rawPm25 = f.properties?.pm25 ?? f.properties?.pm25_value
+      const id = f.properties?.station_id
+      const simVal = id && simulatedPm25 ? simulatedPm25[String(id)] : undefined
+      const pm25 = simVal ?? rawPm25
       if (coords && pm25 != null) {
-        pts.push({ lat: coords[1], lng: coords[0], pm25: Number(pm25) })
+        pts.push({ lat: coords[1], lng: coords[0], pm25: Number(pm25), stationId: id ? String(id) : undefined })
       }
     }
   }
@@ -182,6 +244,11 @@ export function MapCanvas({
   drawnGeometry = null,
   onDrawGeometry,
   drawingType = null,
+  simulatedPm25 = null,
+  simulationLabel: _simulationLabel = null,
+  simViewMode = "simulated",
+  simulationBaselineMap = null,
+  simulationDiffMap = null,
 }: MapCanvasProps) {
   const container = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
@@ -205,6 +272,10 @@ export function MapCanvas({
     visible,
     h3Opacity,
     drawnGeometry,
+    simulatedPm25,
+    simViewMode,
+    simulationBaselineMap,
+    simulationDiffMap,
   })
   dataRef.current = {
     stations,
@@ -219,6 +290,10 @@ export function MapCanvas({
     visible,
     h3Opacity,
     drawnGeometry,
+    simulatedPm25,
+    simViewMode,
+    simulationBaselineMap,
+    simulationDiffMap,
   }
 
   function paint(map: maplibregl.Map) {
@@ -231,12 +306,41 @@ export function MapCanvas({
       }
     }
 
-    const stationPts = toStationPoints(data.current, data.stations)
-    const hexGeo = buildHexGeoJSON(stationPts)
+    // Build baseline and simulated station point arrays
+    const baselinePts = toStationPoints(data.current, data.stations, data.simulationBaselineMap)
+    const simulatedPts = toStationPoints(data.current, data.stations, data.simulatedPm25)
+
+    const activePts = data.simViewMode === "baseline" ? baselinePts : simulatedPts
+    const hexGeo = buildHexGeoJSON(activePts, data.simulatedPm25, baselinePts, data.simViewMode)
     setSource(map, "hex-pm25", hexGeo)
 
+    // Update current observations — update station properties so markers reflect active mode
+    const currentFc = pointOnly(data.current)
+    const currentFeatures = (currentFc.features ?? []).map((f) => {
+      const id = f.properties?.station_id
+      const baseNum = Number(id && data.simulationBaselineMap ? data.simulationBaselineMap[String(id)] : (f.properties?.pm25 ?? f.properties?.pm25_value ?? 100))
+      const simNum = Number(id && data.simulatedPm25 ? data.simulatedPm25[String(id)] : baseNum)
+      const diffVal = simNum - baseNum
+
+      let displayVal = simNum
+      if (data.simViewMode === "baseline") displayVal = baseNum
+
+      return {
+        ...f,
+        properties: {
+          ...f.properties,
+          pm25: displayVal,
+          pm25_value: displayVal,
+          baseline_pm25: baseNum,
+          simulated_pm25: simNum,
+          diff_pm25: Math.round(diffVal * 10) / 10,
+          simulated: data.simViewMode === "simulated" || data.simViewMode === "compare",
+          simViewMode: data.simViewMode,
+        },
+      }
+    })
     setSource(map, "stations", pointOnly(data.stations))
-    setSource(map, "current", pointOnly(data.current))
+    setSource(map, "current", { type: "FeatureCollection", features: currentFeatures })
     setSource(map, "hotspots", pointOnly(data.hotspots))
     setSource(map, "forecast", pointOnly(data.forecast))
     setSource(map, "roads", data.roads.features?.length ? data.roads : EMPTY)
@@ -300,9 +404,65 @@ export function MapCanvas({
     show("drawn-geometry-fill", true)
     show("drawn-geometry-point", true)
 
-    // Update fill opacity dynamically
+    // Dynamic fill colors & opacities
     if (map.getLayer("hex-pm25")) {
+      if (data.simViewMode === "compare") {
+        map.setPaintProperty("hex-pm25", "fill-color", [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "diff"], 0],
+          -35, "#047857",
+          -20, "#10b981",
+          -8,  "#34d399",
+          -1,  "#86efac",
+          0,   "#475569",
+          1,   "#fed7aa",
+          8,   "#fb923c",
+          20,  "#ef4444",
+          35,  "#991b1b",
+        ])
+      } else {
+        map.setPaintProperty("hex-pm25", "fill-color", [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "pm25"], 0],
+          0, "#00e400",
+          30, "#92d050",
+          60, "#ffff00",
+          90, "#ff7e00",
+          120, "#ff0000",
+          200, "#7e0023",
+        ])
+      }
       map.setPaintProperty("hex-pm25", "fill-opacity", data.h3Opacity)
+    }
+
+    if (map.getLayer("current")) {
+      if (data.simViewMode === "compare") {
+        map.setPaintProperty("current", "circle-color", [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "diff_pm25"], 0],
+          -30, "#059669",
+          -15, "#10b981",
+          -5,  "#34d399",
+          0,   "#64748b",
+          5,   "#fb923c",
+          20,  "#ef4444",
+        ])
+      } else {
+        map.setPaintProperty("current", "circle-color", [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "pm25"], 0],
+          0, "#00e400",
+          30, "#92d050",
+          60, "#ffff00",
+          90, "#ff7e00",
+          120, "#ff0000",
+          200, "#7e0023",
+        ])
+      }
     }
   }
 
@@ -549,6 +709,16 @@ export function MapCanvas({
 
       map.on("click", (event) => {
         if (handlers.current.pickLocation) {
+          if (!pinMarkerRef.current) {
+            const el = document.createElement("div")
+            el.className = "w-7 h-7 bg-red-500 border-2 border-white rounded-full shadow-2xl animate-bounce flex items-center justify-center text-white text-xs font-bold pointer-events-none"
+            el.innerHTML = "📍"
+            pinMarkerRef.current = new maplibregl.Marker({ element: el })
+              .setLngLat([event.lngLat.lng, event.lngLat.lat])
+              .addTo(map)
+          } else {
+            pinMarkerRef.current.setLngLat([event.lngLat.lng, event.lngLat.lat])
+          }
           handlers.current.onPickLocation?.(event.lngLat.lng, event.lngLat.lat)
           return
         }
@@ -584,7 +754,7 @@ export function MapCanvas({
       const popup = new maplibregl.Popup({
         closeButton: false,
         closeOnClick: false,
-        maxWidth: "200px",
+        maxWidth: "240px",
         offset: 10,
       })
 
@@ -592,19 +762,57 @@ export function MapCanvas({
         const props = e.features?.[0]?.properties
         if (!props?.pm25) return
         map.getCanvas().style.cursor = "pointer"
-        popup
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<div style="background:#0d1117;color:#f3f4f6;padding:8px 12px;border-radius:8px;font-size:12px;border:1px solid #1e2432;box-shadow:0 4px 12px rgba(0,0,0,0.5)">
-              <div style="color:#9ca3af;font-size:10px;font-weight:600;letter-spacing:0.05em">H3 CELL #${String(props.cell).slice(-6).toUpperCase()}</div>
-              <div style="display:flex;align-items:baseline;gap:4px;margin-top:2px">
-                <span style="font-size:20px;font-weight:700;color:${pm25Color(props.pm25)}">${Number(props.pm25).toFixed(1)}</span>
-                <span style="color:#9ca3af;font-size:11px">μg/m³</span>
-              </div>
-              <div style="margin-top:4px;font-size:10px;color:#6b7280">IDW Surface Estimate · Click for details</div>
-            </div>`,
-          )
-          .addTo(map)
+
+        const mode = dataRef.current.simViewMode
+        const isCompare = mode === "compare"
+        const isSim = Boolean(dataRef.current.simulatedPm25) && mode === "simulated"
+
+        if (isCompare && props.diff != null) {
+          const diffVal = Number(props.diff)
+          const improved = diffVal <= 0
+          const sign = diffVal <= 0 ? "↓" : "↑"
+          const base = Number(props.baseline ?? props.pm25)
+          const sim = Number(props.pm25)
+
+          popup
+            .setLngLat(e.lngLat)
+            .setHTML(
+              `<div style="background:#0d1117;color:#f3f4f6;padding:10px 14px;border-radius:10px;font-size:12px;border:1px solid #334155;box-shadow:0 6px 20px rgba(0,0,0,0.6)">
+                <div style="color:#a78bfa;font-size:10px;font-weight:700;letter-spacing:0.05em">WHAT-IF IMPACT COMPARISON</div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin-top:4px">
+                  <span style="font-size:22px;font-weight:800;color:${improved ? '#10b981' : '#ef4444'}">${sign} ${Math.abs(diffVal).toFixed(1)}</span>
+                  <span style="color:#94a3b8;font-size:11px">μg/m³ PM2.5</span>
+                </div>
+                <div style="font-size:10px;color:${improved ? '#34d399' : '#f87171'};font-weight:600;margin-top:2px">
+                  ${improved ? "Predicted Air Quality Improvement" : "Predicted Air Quality Degradation"}
+                </div>
+                <div style="margin-top:6px;padding-top:6px;border-top:1px solid #1e293b;font-size:10px;color:#94a3b8;display:flex;justify-content:space-between">
+                  <span>Baseline: <b>${base.toFixed(1)}</b></span>
+                  <span>Simulated: <b>${sim.toFixed(1)}</b></span>
+                </div>
+              </div>`
+            )
+            .addTo(map)
+        } else {
+          const val = Number(props.pm25)
+          popup
+            .setLngLat(e.lngLat)
+            .setHTML(
+              `<div style="background:#0d1117;color:#f3f4f6;padding:8px 12px;border-radius:8px;font-size:12px;border:1px solid #1e2432;box-shadow:0 4px 12px rgba(0,0,0,0.5)">
+                <div style="color:#9ca3af;font-size:10px;font-weight:600;letter-spacing:0.05em">
+                  ${isSim ? "SIMULATED H3 CELL" : "H3 CELL #" + String(props.cell).slice(-6).toUpperCase()}
+                </div>
+                <div style="display:flex;align-items:baseline;gap:4px;margin-top:2px">
+                  <span style="font-size:20px;font-weight:700;color:${pm25Color(val)}">${val.toFixed(1)}</span>
+                  <span style="color:#9ca3af;font-size:11px">μg/m³</span>
+                </div>
+                <div style="margin-top:4px;font-size:10px;color:#6b7280">
+                  ${isSim ? "Hypothetical Scenario Surface" : "IDW Surface Estimate"} · Click for details
+                </div>
+              </div>`
+            )
+            .addTo(map)
+        }
       })
 
       map.on("mouseleave", "hex-pm25", () => {
@@ -615,8 +823,16 @@ export function MapCanvas({
       paint(map)
     })
 
+    const ro = new ResizeObserver(() => {
+      map.resize()
+    })
+    if (container.current) {
+      ro.observe(container.current)
+    }
+
     mapRef.current = map
     return () => {
+      ro.disconnect()
       rootRef.current?.unmount()
       popupRef.current?.remove()
       pinMarkerRef.current?.remove()
@@ -625,11 +841,37 @@ export function MapCanvas({
     }
   }, [])
 
+  // Cursor style when in location picking mode
+  useEffect(() => {
+    if (!container.current) return
+    container.current.style.cursor = pickLocation ? "crosshair" : ""
+  }, [pickLocation])
+
   // Repaint when props change
   useEffect(() => {
     const map = mapRef.current
-    if (map?.getSource("stations")) paint(map)
-  }, [stations, current, hotspots, forecast, roads, industrial, reports, spatialContributions, verifiedContributions, visible, h3Opacity, drawnGeometry])
+    if (map?.getSource("stations")) {
+      map.resize()
+      paint(map)
+    }
+  }, [
+    stations,
+    current,
+    hotspots,
+    forecast,
+    roads,
+    industrial,
+    reports,
+    spatialContributions,
+    verifiedContributions,
+    visible,
+    h3Opacity,
+    drawnGeometry,
+    simulatedPm25,
+    simViewMode,
+    simulationBaselineMap,
+    simulationDiffMap,
+  ])
 
   // Fly to selected station
   useEffect(() => {
@@ -658,7 +900,11 @@ export function MapCanvas({
       .addTo(map)
   }, [environment])
 
-  return <div ref={container} className="h-full w-full" />
+  return (
+    <div className="relative h-full w-full">
+      <div ref={container} className="h-full w-full" />
+    </div>
+  )
 }
 
 function pm25Color(pm25: number): string {

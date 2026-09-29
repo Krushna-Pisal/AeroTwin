@@ -43,6 +43,16 @@ import {
 } from "./components/ExtraPages"
 import type { Environment, MapPayload } from "./types"
 
+// Simulation state (lifted here so SimulationPage <-> GisMapView can share it)
+type SimState = {
+  pm25Map: Record<string, number>
+  label: string
+  targetStationId?: string
+  baselineMap?: Record<string, number>
+  diffMap?: Record<string, number>
+  narrative?: string
+} | null
+
 export function App() {
   // Authentication & Session
   const [role, setRole] = useState<Role | null>(() => {
@@ -50,8 +60,24 @@ export function App() {
     return (saved === "citizen" || saved === "municipal") ? (saved as Role) : null
   })
 
-  // Current active page
-  const [page, setPage] = useState<PageKey>("maharashtra")
+  // Current active page — backed by browser hash & history
+  const [page, setPageState] = useState<PageKey>(() => {
+    const hash = window.location.hash.replace(/^#\/?/, "") as PageKey
+    if (hash) return hash
+    const state = window.history.state
+    return (state?.page as PageKey) ?? "dashboard"
+  })
+
+  function setPage(next: PageKey, replace = false) {
+    if (next === page && !replace) return
+    const url = `#/${next}`
+    if (replace) {
+      window.history.replaceState({ page: next }, "", url)
+    } else {
+      window.history.pushState({ page: next }, "", url)
+    }
+    setPageState(next)
+  }
 
   // Core Data State
   const [mapData, setMapData] = useState<MapPayload | null>(null)
@@ -66,21 +92,51 @@ export function App() {
   const [auditLogs, setAuditLogs] = useState<any[]>([])
   const [now] = useState(nowFormatted())
 
+  // Simulation overlay state — shared between SimulationPage and GisMapView
+  const [simState, setSimState] = useState<SimState>(null)
+
   // Location Picking State for Forms
   const [pickLocation, setPickLocation] = useState<boolean>(false)
   const [pickedLocation, setPickedLocation] = useState<{ longitude: number; latitude: number } | null>(null)
+  // Which page to return to after map pick
+  const [pickReturnPage, setPickReturnPage] = useState<PageKey | null>(null)
+
+  // Sync browser back/forward button and swipe gesture with app router
+  useEffect(() => {
+    function onPop(e: PopStateEvent) {
+      const hash = window.location.hash.replace(/^#\/?/, "") as PageKey
+      const p = hash || (e.state?.page as PageKey) || "dashboard"
+      setPageState(p)
+    }
+    function onHash() {
+      const hash = window.location.hash.replace(/^#\/?/, "") as PageKey
+      if (hash) setPageState(hash)
+    }
+    const currentHash = window.location.hash.replace(/^#\/?/, "")
+    if (!currentHash) {
+      window.history.replaceState({ page: "dashboard" }, "", "#/dashboard")
+    }
+    window.addEventListener("popstate", onPop)
+    window.addEventListener("hashchange", onHash)
+    return () => {
+      window.removeEventListener("popstate", onPop)
+      window.removeEventListener("hashchange", onHash)
+    }
+  }, [])
 
   // Save session role
   function handleLogin(selectedRole: Role) {
     setRole(selectedRole)
     localStorage.setItem("aerotwin_role", selectedRole)
-    setPage("maharashtra")
+    setPage("dashboard")
   }
 
   function handleLogout() {
     setRole(null)
     localStorage.removeItem("aerotwin_role")
-    setPage("dashboard")
+    // Clear all history entries back to root
+    window.history.replaceState({ page: "dashboard" }, "", window.location.pathname)
+    setPageState("dashboard")
   }
 
   // Load backend map data on mount
@@ -158,10 +214,17 @@ export function App() {
     return res
   }
 
-  // Handle map click location pick
+  // Handle map click location pick — return user to the form they came from
   function handlePickLocationOnMap(longitude: number, latitude: number) {
     setPickedLocation({ longitude, latitude })
     setPickLocation(false)
+    // Small delay so user sees their pin drop before shifting back
+    setTimeout(() => {
+      if (pickReturnPage) {
+        setPage(pickReturnPage)
+        setPickReturnPage(null)
+      }
+    }, 280)
   }
 
   // If not logged in, render Login Gate
@@ -228,7 +291,6 @@ export function App() {
         {/* Page Views Router */}
         <main className="min-h-0 flex-1 overflow-hidden">
           {/* COMMON & GIS MAP PAGES */}
-          {page === "maharashtra" && <MaharashtraMap />}
           {page === "gis-map" && (
             <GisMapView
               mapData={mapData}
@@ -237,10 +299,23 @@ export function App() {
               spatialContributions={spatialContributions}
               onSelectStation={(id) => setStationId(id)}
               onPickLocation={handlePickLocationOnMap}
+              onCancelPick={() => {
+                setPickLocation(false)
+                if (pickReturnPage) {
+                  setPage(pickReturnPage)
+                  setPickReturnPage(null)
+                }
+              }}
+              onResetSimulation={() => setSimState(null)}
               pickLocation={pickLocation}
               pickedLocation={pickedLocation}
+              simulatedPm25={simState?.pm25Map ?? null}
+              simulationLabel={simState?.label ?? null}
+              simulationBaselineMap={simState?.baselineMap}
+              simulationDiffMap={simState?.diffMap}
+              simulationNarrative={simState?.narrative}
             />
-          )}
+          </div>
 
           {/* CITIZEN SPECIFIC PAGES */}
           {role === "citizen" && (
@@ -258,6 +333,7 @@ export function App() {
                   onSubmitReport={handleCreateReport}
                   onPickMapLocation={() => {
                     setPickLocation(true)
+                    setPickReturnPage("report-issue")
                     setPage("gis-map")
                   }}
                   pickedLocation={pickedLocation}
@@ -272,6 +348,7 @@ export function App() {
                   onSubmitContribution={handleCreateSpatialContribution}
                   onPickMapLocation={() => {
                     setPickLocation(true)
+                    setPickReturnPage("spatial-contributions")
                     setPage("gis-map")
                   }}
                   pickedLocation={pickedLocation}
@@ -323,7 +400,25 @@ export function App() {
           {page === "profile" && <ProfilePage role={role} />}
           {page === "notifications" && <NotificationsPage />}
           {page === "forecast" && <ForecastPage />}
-          {page === "simulation" && <SimulationPage />}
+          {page === "simulation" && (
+            <SimulationPage
+              onApplyToMap={(pm25Map, label, targetStationId, baselineMap, diffMap, summaryNarrative) => {
+                setSimState({
+                  pm25Map,
+                  label,
+                  targetStationId,
+                  baselineMap,
+                  diffMap,
+                  narrative: summaryNarrative,
+                })
+                if (targetStationId) setStationId(targetStationId)
+                setPage("gis-map")
+              }}
+              onResetMap={() => setSimState(null)}
+              isSimulatingMap={simState !== null}
+              simulationMapLabel={simState?.label}
+            />
+          )}
           {page === "historical" && <HistoricalPage />}
         </main>
       </div>
