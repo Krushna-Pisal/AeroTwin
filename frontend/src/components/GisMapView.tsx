@@ -9,8 +9,15 @@ type Props = {
   spatialContributions: any[]
   onSelectStation: (id: string) => void
   onPickLocation?: (longitude: number, latitude: number) => void
+  onCancelPick?: () => void
+  onResetSimulation?: () => void
   pickLocation?: boolean
   pickedLocation?: { longitude: number; latitude: number } | null
+  simulatedPm25?: Record<string, number> | null
+  simulationLabel?: string | null
+  simulationBaselineMap?: Record<string, number> | null
+  simulationDiffMap?: Record<string, number> | null
+  simulationNarrative?: string | null
 }
 
 export function GisMapView({
@@ -20,9 +27,19 @@ export function GisMapView({
   spatialContributions = [],
   onSelectStation,
   onPickLocation,
+  onCancelPick,
+  onResetSimulation,
   pickLocation = false,
   pickedLocation = null,
+  simulatedPm25 = null,
+  simulationLabel = null,
+  simulationBaselineMap = null,
+  simulationDiffMap = null,
+  simulationNarrative = null,
 }: Props) {
+  // View mode when simulation is active: "baseline" | "simulated" | "compare"
+  const [simViewMode, setSimViewMode] = useState<"baseline" | "simulated" | "compare">("simulated")
+  const [showNarrative, setShowNarrative] = useState(false)
   // Layer visibility state
   const [layers, setLayers] = useState<Record<string, boolean>>({
     stations: true,
@@ -40,8 +57,10 @@ export function GisMapView({
     critical: true,
   })
 
-  // H3 Opacity slider state (default 22%)
+  // H3 Opacity slider state (default 22%; boosted when simulation active)
   const [h3Opacity, setH3Opacity] = useState<number>(0.22)
+  // In simulation mode: use a higher opacity so changes are unmissable
+  const effectiveH3Opacity = simulatedPm25 ? Math.max(h3Opacity, 0.55) : h3Opacity
 
   // Map Filter states
   const [filterSeverity, setFilterSeverity] = useState<string>("All")
@@ -62,6 +81,11 @@ export function GisMapView({
   function toggleLayer(key: string) {
     setLayers((prev) => ({ ...prev, [key]: !prev[key] }))
   }
+
+  // Ensure heatmap layers are on when simulation mode is active
+  const effectiveLayers = simulatedPm25
+    ? { ...layers, current: true, h3: true, heatmap: true }
+    : layers
 
   // Filter reports
   const filteredReports = reports.filter((r) => {
@@ -118,15 +142,177 @@ export function GisMapView({
         roads={mapData?.collections?.road_context || { type: "FeatureCollection", features: [] }}
         reports={filteredReports}
         spatialContributions={filteredSpatial}
-        visible={layers}
+        visible={effectiveLayers}
         environment={environment}
-        h3Opacity={h3Opacity}
+        h3Opacity={effectiveH3Opacity}
         onSelect={onSelectStation}
         onPickLocation={onPickLocation}
         pickLocation={pickLocation}
         pickedLocation={pickedLocation}
         onSelectCell={setSelectedCell}
+        simulatedPm25={simViewMode === "baseline" ? null : simulatedPm25}
+        simulationLabel={simulationLabel}
+        simViewMode={simViewMode}
+        simulationBaselineMap={simulationBaselineMap}
+        simulationDiffMap={simulationDiffMap}
       />
+
+      {/* Location Picking Mode Banner */}
+      {pickLocation && (
+        <div
+          className="absolute inset-0 z-40 pointer-events-none flex flex-col items-center justify-start pt-6"
+        >
+          {/* Semi-transparent crosshair overlay rim */}
+          <div
+            className="pointer-events-auto flex items-center gap-3 rounded-2xl px-6 py-3 shadow-2xl backdrop-blur-xl"
+            style={{ background: "rgba(34,197,94,0.15)", border: "2px solid #22c55e", color: "#fff" }}
+          >
+            <span style={{ fontSize: 22 }}>📍</span>
+            <div>
+              <p className="text-sm font-bold text-green-300">Tap anywhere on the map to drop your pin</p>
+              <p className="text-xs text-slate-400 mt-0.5">Click the exact spot you want to report / contribute</p>
+            </div>
+            {onCancelPick && (
+              <button
+                type="button"
+                onClick={onCancelPick}
+                className="ml-4 rounded-lg px-3 py-1.5 text-xs font-semibold text-white transition"
+                style={{ background: "rgba(239,68,68,0.3)", border: "1px solid #ef444488" }}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+          {/* Pulsing crosshair in centre of map */}
+          <div className="flex-1 flex items-center justify-center w-full">
+            <div style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: "3px solid #22c55e",
+              animation: "ping 1s cubic-bezier(0,0,0.2,1) infinite",
+              opacity: 0.7,
+              pointerEvents: "none",
+            }} />
+          </div>
+        </div>
+      )}
+
+      {/* Simulation Active Top Floating Command Bar with Baseline | Simulated | Compare Toggles */}
+      {simulatedPm25 && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-auto max-w-2xl w-full px-3">
+          <div
+            className="flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-2.5 text-xs font-medium shadow-2xl backdrop-blur-xl w-full border border-purple-500/40 bg-[#0d1117]/95"
+          >
+            {/* Title / Scenario badge */}
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping shrink-0" />
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400 block">What-If Simulation</span>
+                <span className="text-xs font-semibold text-white">{simulationLabel || "Intervention Applied"}</span>
+              </div>
+            </div>
+
+            {/* Baseline | Simulated | Compare Mode Switcher */}
+            <div className="flex items-center rounded-xl bg-slate-900/80 p-0.5 border border-slate-700/60">
+              <button
+                type="button"
+                id="sim-mode-baseline-btn"
+                onClick={() => setSimViewMode("baseline")}
+                className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+                  simViewMode === "baseline"
+                    ? "bg-slate-700 text-white shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+                title="View real-world measured baseline without interventions"
+              >
+                Baseline
+              </button>
+              <button
+                type="button"
+                id="sim-mode-simulated-btn"
+                onClick={() => setSimViewMode("simulated")}
+                className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+                  simViewMode === "simulated"
+                    ? "bg-purple-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-purple-300"
+                }`}
+                title="View hypothetical post-intervention condition"
+              >
+                Simulated
+              </button>
+              <button
+                type="button"
+                id="sim-mode-compare-btn"
+                onClick={() => setSimViewMode("compare")}
+                className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+                  simViewMode === "compare"
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-emerald-300"
+                }`}
+                title="View spatial delta heatmap (Green = Improved, Red = Degraded)"
+              >
+                Compare (Diff)
+              </button>
+            </div>
+
+            {/* Quick Actions: Briefing Toggle & Reset */}
+            <div className="flex items-center gap-2">
+              {simulationNarrative && (
+                <button
+                  type="button"
+                  onClick={() => setShowNarrative((prev) => !prev)}
+                  className={`rounded-lg px-2.5 py-1 text-xs font-medium border transition ${
+                    showNarrative
+                      ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
+                      : "bg-slate-800 text-slate-300 border-slate-700 hover:text-white"
+                  }`}
+                  title="Toggle policy briefing"
+                >
+                  📋 Briefing
+                </button>
+              )}
+              {onResetSimulation && (
+                <button
+                  type="button"
+                  id="reset-simulation-map-btn"
+                  onClick={onResetSimulation}
+                  className="rounded-lg px-2.5 py-1 text-xs font-bold text-white transition hover:bg-red-600 active:scale-95 shadow-md bg-red-500/90 border border-red-400/40"
+                  title="Clear simulation and return to real-world live monitoring"
+                >
+                  ↺ Reset
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Collapsible Policy Briefing Card */}
+          {showNarrative && simulationNarrative && (
+            <div className="mt-2 w-full rounded-xl border border-purple-500/30 bg-[#0d1117]/95 p-3.5 backdrop-blur-xl shadow-2xl text-xs text-slate-300 space-y-1.5 animate-fade-in">
+              <div className="flex items-center justify-between text-purple-400 font-bold text-[11px] uppercase tracking-wider">
+                <span>Executive Impact Briefing</span>
+                <button
+                  onClick={() => setShowNarrative(false)}
+                  className="text-slate-400 hover:text-white font-bold"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="leading-relaxed text-slate-200">{simulationNarrative}</p>
+              <div className="text-[10px] text-slate-400 italic pt-1 border-t border-slate-800">
+                Modeled estimates based on urban GIS cross-elasticity heuristics. Sensor data is not overwritten.
+              </div>
+            </div>
+          )}
+
+          {/* Mode-specific guidance hint */}
+          <div className="mt-1 text-[11px] font-medium text-slate-400 bg-slate-900/70 px-3 py-0.5 rounded-full border border-slate-800/80 backdrop-blur-sm">
+            {simViewMode === "baseline" && "Showing Current Real-World Measured Baseline"}
+            {simViewMode === "simulated" && "Showing Hypothetical Predicted Post-Intervention Levels"}
+            {simViewMode === "compare" && "Showing Spatial Delta: 🟢 Green = Improved / Cleaner, 🔴 Red = Degraded"}
+          </div>
+        </div>
+      )}
 
       {/* Floating Header Controls: Search Bar & Quick Toggles */}
       <div className="absolute top-4 left-4 z-20 flex items-center gap-3 max-w-xl w-full">

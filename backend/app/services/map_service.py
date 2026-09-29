@@ -57,7 +57,10 @@ def map_payload(scenario_intervention: str | None = None, scenario_intensity: st
             STATUS_OBSERVED,
             "Mapped highway centerlines. ROAD_NETWORK context. Not traffic volume and not a PM2.5 surface.",
         ),
-        "citizen_reports": _citizen_reports_collection(),
+        "citizen_reports": _empty_collection(
+            "citizen_reports",
+            "Citizen reports are loaded through dedicated /api/citizen/reports endpoint.",
+        ),
         "spatial_contributions": _spatial_contributions_collection(),
         "verified_contributions": _verified_contributions_collection(),
         "scenario_results": _scenario_layer(scenario_intervention, scenario_intensity),
