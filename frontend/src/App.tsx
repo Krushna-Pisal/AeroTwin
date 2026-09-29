@@ -291,7 +291,7 @@ export function App() {
         {/* Page Views Router */}
         <main className="min-h-0 flex-1 overflow-hidden">
           {/* COMMON & GIS MAP PAGES */}
-          {page === "gis-map" && (
+          <div className={page === "gis-map" ? "h-full w-full" : "hidden"}>
             <GisMapView
               mapData={mapData}
               environment={environment}
@@ -420,6 +420,7 @@ export function App() {
             />
           )}
           {page === "historical" && <HistoricalPage />}
+          {page === "maharashtra" && <MaharashtraMap />}
         </main>
       </div>
     </div>

@@ -73,13 +73,14 @@ export function SimulationPage({
     async function initBaseline() {
       setLoading(true)
       try {
-        const [allStns, latestObs] = await Promise.all([
+        const [allStns, obsRes] = await Promise.all([
           loadAllStations(),
-          loadLatestObservations().catch(() => []),
+          loadLatestObservations().catch(() => ({ observations: [] })),
         ])
 
+        const latestObs = Array.isArray(obsRes) ? obsRes : (obsRes?.observations ?? [])
         const obsMap = new Map<string, number>()
-        latestObs.forEach((o) => {
+        latestObs.forEach((o: any) => {
           if (o.pm25 != null && o.pm25 > 0) obsMap.set(o.station_id, o.pm25)
         })
 
