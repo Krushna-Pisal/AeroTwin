@@ -1,5 +1,5 @@
 {
-  "trained_at": "2026-09-27T18:33:02+00:00",
+  "trained_at": "2026-09-29T11:10:47+00:00",
   "split": {
     "rule": "calendar",
     "val_start": "2025-01-01 00:00:00+00:00",
@@ -76,56 +76,56 @@
   "v1_xgboost_24h": {
     "val": {
       "n": 19016,
-      "mae": 16.654879264839902,
-      "rmse": 24.924449749393894,
-      "r2": 0.3455946321742729
+      "mae": 15.95338206547237,
+      "rmse": 23.813871025994413,
+      "r2": 0.4026131081941692
     },
     "test": {
       "n": 13100,
-      "mae": 15.282015330947507,
-      "rmse": 27.925545929151053,
-      "r2": 0.6368069499725095
+      "mae": 15.517540056806181,
+      "rmse": 28.77197878178346,
+      "r2": 0.6144562671538665
     },
     "test_by_station": [
       {
         "station_id": "site_5404",
         "station_name": "Mhada Colony, Pune - IITM",
         "n": 4073,
-        "mae": 15.581717969405982,
-        "rmse": 26.681705904616265,
-        "r2": 0.6169293665186211
+        "mae": 15.63732054864846,
+        "rmse": 27.223766934319226,
+        "r2": 0.6012064640778798
       },
       {
         "station_id": "site_5406",
         "station_name": "Bhosari, Pune - IITM",
         "n": 1732,
-        "mae": 3.9528921745702617,
-        "rmse": 5.163921037116546,
-        "r2": 0.23553690082552337
+        "mae": 3.9712574461297496,
+        "rmse": 5.148029302337897,
+        "r2": 0.24023486242442993
       },
       {
         "station_id": "site_5407",
         "station_name": "Hadapsar, Pune - IITM",
         "n": 1739,
-        "mae": 31.265028378653163,
-        "rmse": 52.382153979559334,
-        "r2": 0.4159464634946518
+        "mae": 32.08626282763431,
+        "rmse": 54.42191250724395,
+        "r2": 0.36957481894925137
       },
       {
         "station_id": "site_5408",
         "station_name": "Transport Nagar-Nigdi, Pune - IITM",
         "n": 3351,
-        "mae": 9.358290208083982,
-        "rmse": 13.037923037503623,
-        "r2": 0.7613582762631437
+        "mae": 9.441843771322159,
+        "rmse": 12.98925568835746,
+        "r2": 0.7631365324848629
       },
       {
         "station_id": "site_5409",
         "station_name": "Revenue Colony-Shivajinagar, Pune - IITM",
         "n": 2205,
-        "mae": 20.024553043945037,
-        "rmse": 29.575924450592968,
-        "r2": 0.5927257463963518
+        "mae": 20.532027536445554,
+        "rmse": 30.596007157240916,
+        "r2": 0.5641472327023012
       }
     ],
     "features": [
@@ -171,7 +171,7 @@
     }
   },
   "v1_beats_v0_on_test_mae": false,
-  "mae_improvement_v0_minus_v1": -2.5238310434157007,
+  "mae_improvement_v0_minus_v1": -2.759355769274375,
   "shap": {
     "computed": true,
     "sample_size": 1500,
@@ -179,70 +179,70 @@
     "top_features": [
       {
         "feature": "pm25",
-        "mean_abs_shap": 10.345349311828613
-      },
-      {
-        "feature": "day_of_year",
-        "mean_abs_shap": 4.098595142364502
+        "mean_abs_shap": 10.320151329040527
       },
       {
         "feature": "pm25_lag_1",
-        "mean_abs_shap": 4.054818630218506
+        "mean_abs_shap": 4.32747220993042
+      },
+      {
+        "feature": "day_of_year",
+        "mean_abs_shap": 4.32342529296875
       },
       {
         "feature": "pm25_lag_72",
-        "mean_abs_shap": 1.6460838317871094
-      },
-      {
-        "feature": "pm25_lag_2",
-        "mean_abs_shap": 1.637773871421814
+        "mean_abs_shap": 1.5955146551132202
       },
       {
         "feature": "pm25_lag_48",
-        "mean_abs_shap": 1.4216759204864502
+        "mean_abs_shap": 1.3727295398712158
       },
       {
-        "feature": "station_site_5409",
-        "mean_abs_shap": 1.3462573289871216
+        "feature": "pm25_lag_2",
+        "mean_abs_shap": 1.3529016971588135
       },
       {
         "feature": "pm25_lag_24",
-        "mean_abs_shap": 1.3461017608642578
+        "mean_abs_shap": 1.3520584106445312
+      },
+      {
+        "feature": "station_site_5409",
+        "mean_abs_shap": 1.227465271949768
       },
       {
         "feature": "hour",
-        "mean_abs_shap": 1.0510441064834595
+        "mean_abs_shap": 1.0288336277008057
       },
       {
         "feature": "pm25_lag_6",
-        "mean_abs_shap": 0.8580850958824158
-      },
-      {
-        "feature": "pm25_lag_3",
-        "mean_abs_shap": 0.7554541826248169
+        "mean_abs_shap": 0.8841556906700134
       },
       {
         "feature": "pm25_lag_12",
-        "mean_abs_shap": 0.6748417615890503
+        "mean_abs_shap": 0.8041138648986816
+      },
+      {
+        "feature": "pm25_lag_3",
+        "mean_abs_shap": 0.7782330513000488
       },
       {
         "feature": "day_of_week",
-        "mean_abs_shap": 0.6366798877716064
+        "mean_abs_shap": 0.6536425352096558
+      },
+      {
+        "feature": "wind_direction",
+        "mean_abs_shap": 0.4979294538497925
       },
       {
         "feature": "target_month",
-        "mean_abs_shap": 0.5300645232200623
-      },
-      {
-        "feature": "wind_speed",
-        "mean_abs_shap": 0.3575957119464874
+        "mean_abs_shap": 0.3957684338092804
       }
     ]
   },
   "plots": [
-    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\test_actual_vs_predicted_scatter.png",
-    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\test_daily_mean_actual_vs_predicted.png",
-    "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\figures\\shap_mean_abs.png"
+    "D:\\AeroTwin\\ml\\models\\figures\\test_actual_vs_predicted_scatter.png",
+    "D:\\AeroTwin\\ml\\models\\figures\\test_daily_mean_actual_vs_predicted.png",
+    "D:\\AeroTwin\\ml\\models\\figures\\shap_mean_abs.png"
   ],
   "caveats": [
     "Training data are hourly means of labelled 15-minute CPCB observations from 2024 onward, not the 2017-2023 wide matrices.",
