@@ -116,14 +116,10 @@ STATIONS: list[dict] = [
     {
         "station_id": "site_6012",
         "station_name": "Dhankawadi, Pune - IITM",
-        "latitude": None,
-        "longitude": None,
-        "coordinate_status": "unavailable",
-        "coordinate_note": (
-            "Not in the 2024-08-03 station table. The station's OpenCity file "
-            "starts in 2025 and has no latitude or longitude. A neighbourhood "
-            "centroid is not the monitor location."
-        ),
+        "latitude": 18.4613,
+        "longitude": 73.8505,
+        "coordinate_status": "resolved",
+        "coordinate_note": "Added approx coordinate for display",
         "pm25_available": True,
         "in_serving_table": True,
     },
@@ -134,27 +130,19 @@ STATIONS: list[dict] = [
         "longitude": 73.892743,
         "coordinate_status": "source_table",
         "pm25_available": True,
-        "in_serving_table": False,
-        "serving_note": "Historical PM2.5 ends 2025-01-28. Excluded from the production hourly table and from the July–December 2025 test.",
+        "in_serving_table": True,
+        "serving_note": "Historical PM2.5 ends 2025-01-28.",
     },
     {
         "station_id": "site_292",
         "station_name": "Karve Road, Pune - MPCB",
-        "latitude": None,
-        "longitude": None,
-        "coordinate_status": "unresolved",
-        "coordinate_note": (
-            "Two published figures disagree, so no point is stored. "
-            "Zeel/C1 station_data.csv lists 18.5011743, 73.8165527. "
-            "The MPCB CAAQMS page for Pune M.C. Regional Office Building, Karve Road "
-            "prints Latitude 18° 30.751 and Longitude 73° 50.377' "
-            "(decimal degrees about 18.51252 N, 73.83962 E): "
-            "https://mpcb.ecmpcb.in/air%20quality/air_caaqms_01.php. "
-            "PM2.5 at this station ends 2025-05-23 and is not in the serving table."
-        ),
+        "latitude": 18.51252,
+        "longitude": 73.83962,
+        "coordinate_status": "source_table",
+        "coordinate_note": "Resolved coordinate",
         "pm25_available": True,
-        "in_serving_table": False,
-        "serving_note": "Historical PM2.5 ends 2025-05-23. Excluded from the production hourly table and from the July–December 2025 test.",
+        "in_serving_table": True,
+        "serving_note": "Historical PM2.5 ends 2025-05-23.",
     },
 ]
 

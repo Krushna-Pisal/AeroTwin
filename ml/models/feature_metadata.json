@@ -1,7 +1,7 @@
 {
   "model_version": "V1",
-  "model_path": "C:\\Users\\Harshad Chavan\\Desktop\\AeroTwin\\ml\\models\\pm25_xgb_24h.pkl",
-  "trained_at": "2026-09-27T18:33:02+00:00",
+  "model_path": "D:\\AeroTwin\\ml\\models\\pm25_xgb_24h.pkl",
+  "trained_at": "2026-09-29T11:10:47+00:00",
   "target": "pm25 at T+24h",
   "target_column": "target_pm25_24h",
   "issue_time_pm25_column": "pm25",
@@ -88,7 +88,7 @@
     "colsample_bytree": 0.8,
     "device": null,
     "early_stopping_rounds": null,
-    "enable_categorical": false,
+    "enable_categorical": true,
     "eval_metric": null,
     "feature_types": null,
     "feature_weights": null,
