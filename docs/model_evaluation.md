@@ -68,26 +68,26 @@ No traffic, industrial, or dust proxy is in this model. V2 and V3 were not train
 | model | n | MAE | RMSE | R2 |
 | --- | --- | --- | --- | --- |
 | V0 persistence | 13100 | 12.76 | 23.67 | 0.739 |
-| V1 XGBoost | 13100 | 15.52 | 28.77 | 0.614 |
+| V1 XGBoost | 13100 | 15.28 | 27.93 | 0.637 |
 
-On the test period, V1 MAE is 15.52 ug/m3 and V0 MAE is 12.76 ug/m3. V1 does not beat persistence on MAE.
+On the test period, V1 MAE is 15.28 ug/m3 and V0 MAE is 12.76 ug/m3. V1 does not beat persistence on MAE.
 
 Validation metrics (not used to pick the model; hyperparameters were fixed before looking at test):
 
 | model | n | MAE | RMSE | R2 |
 | --- | --- | --- | --- | --- |
 | V0 persistence | 19016 | 11.99 | 20.75 | 0.547 |
-| V1 XGBoost | 19016 | 15.95 | 23.81 | 0.403 |
+| V1 XGBoost | 19016 | 16.65 | 24.92 | 0.346 |
 
 ## Test metrics by station
 
 | station | n | V0 MAE | V1 MAE | V0 RMSE | V1 RMSE | V0 R2 | V1 R2 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mhada Colony, Pune - IITM | 4073 | 11.79 | 15.64 | 18.40 | 27.22 | 0.818 | 0.601 |
-| Bhosari, Pune - IITM | 1732 | 5.25 | 3.97 | 19.04 | 5.15 | -9.390 | 0.240 |
-| Hadapsar, Pune - IITM | 1739 | 24.69 | 32.09 | 44.65 | 54.42 | 0.576 | 0.370 |
-| Transport Nagar-Nigdi, Pune - IITM | 3351 | 9.09 | 9.44 | 12.95 | 12.99 | 0.765 | 0.763 |
-| Revenue Colony-Shivajinagar, Pune - IITM | 2205 | 16.61 | 20.53 | 24.30 | 30.60 | 0.725 | 0.564 |
+| Mhada Colony, Pune - IITM | 4073 | 11.79 | 15.58 | 18.40 | 26.68 | 0.818 | 0.617 |
+| Bhosari, Pune - IITM | 1732 | 5.25 | 3.95 | 19.04 | 5.16 | -9.390 | 0.236 |
+| Hadapsar, Pune - IITM | 1739 | 24.69 | 31.27 | 44.65 | 52.38 | 0.576 | 0.416 |
+| Transport Nagar-Nigdi, Pune - IITM | 3351 | 9.09 | 9.36 | 12.95 | 13.04 | 0.765 | 0.761 |
+| Revenue Colony-Shivajinagar, Pune - IITM | 2205 | 16.61 | 20.02 | 24.30 | 29.58 | 0.725 | 0.593 |
 
 Stations with labelled history but no scored test rows:
 
@@ -103,27 +103,27 @@ TreeExplainer on a random sample of 1500 test rows. Values are mean absolute SHA
 
 | feature | mean abs SHAP |
 | --- | --- |
-| pm25 | 10.320 |
-| pm25_lag_1 | 4.327 |
-| day_of_year | 4.323 |
-| pm25_lag_72 | 1.596 |
-| pm25_lag_48 | 1.373 |
-| pm25_lag_2 | 1.353 |
-| pm25_lag_24 | 1.352 |
-| station_site_5409 | 1.227 |
-| hour | 1.029 |
-| pm25_lag_6 | 0.884 |
-| pm25_lag_12 | 0.804 |
-| pm25_lag_3 | 0.778 |
-| day_of_week | 0.654 |
-| wind_direction | 0.498 |
-| target_month | 0.396 |
+| pm25 | 10.345 |
+| day_of_year | 4.099 |
+| pm25_lag_1 | 4.055 |
+| pm25_lag_72 | 1.646 |
+| pm25_lag_2 | 1.638 |
+| pm25_lag_48 | 1.422 |
+| station_site_5409 | 1.346 |
+| pm25_lag_24 | 1.346 |
+| hour | 1.051 |
+| pm25_lag_6 | 0.858 |
+| pm25_lag_3 | 0.755 |
+| pm25_lag_12 | 0.675 |
+| day_of_week | 0.637 |
+| target_month | 0.530 |
+| wind_speed | 0.358 |
 
 ## Plots
 
-- `D:\AeroTwin\ml\models\figures\test_actual_vs_predicted_scatter.png`
-- `D:\AeroTwin\ml\models\figures\test_daily_mean_actual_vs_predicted.png`
-- `D:\AeroTwin\ml\models\figures\shap_mean_abs.png`
+- `C:\Users\Harshad Chavan\Desktop\AeroTwin\ml\models\figures\test_actual_vs_predicted_scatter.png`
+- `C:\Users\Harshad Chavan\Desktop\AeroTwin\ml\models\figures\test_daily_mean_actual_vs_predicted.png`
+- `C:\Users\Harshad Chavan\Desktop\AeroTwin\ml\models\figures\shap_mean_abs.png`
 
 The daily-mean figure averages hourly predictions and hourly observations inside each UTC day so the series is readable. It is not a separately trained daily model.
 

@@ -75,7 +75,9 @@ export function SimulationPage({
       try {
         const [allStns, latestObs] = await Promise.all([
           loadAllStations(),
-          loadLatestObservations().catch(() => []),
+          loadLatestObservations()
+            .then((body) => body.observations)
+            .catch(() => []),
         ])
 
         const obsMap = new Map<string, number>()

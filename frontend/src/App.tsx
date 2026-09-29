@@ -65,7 +65,7 @@ export function App() {
     const hash = window.location.hash.replace(/^#\/?/, "") as PageKey
     if (hash) return hash
     const state = window.history.state
-    return (state?.page as PageKey) ?? "dashboard"
+    return (state?.page as PageKey) ?? "maharashtra"
   })
 
   function setPage(next: PageKey, replace = false) {
@@ -105,7 +105,7 @@ export function App() {
   useEffect(() => {
     function onPop(e: PopStateEvent) {
       const hash = window.location.hash.replace(/^#\/?/, "") as PageKey
-      const p = hash || (e.state?.page as PageKey) || "dashboard"
+      const p = hash || (e.state?.page as PageKey) || "maharashtra"
       setPageState(p)
     }
     function onHash() {
@@ -114,7 +114,7 @@ export function App() {
     }
     const currentHash = window.location.hash.replace(/^#\/?/, "")
     if (!currentHash) {
-      window.history.replaceState({ page: "dashboard" }, "", "#/dashboard")
+      window.history.replaceState({ page: "maharashtra" }, "", "#/maharashtra")
     }
     window.addEventListener("popstate", onPop)
     window.addEventListener("hashchange", onHash)
@@ -128,15 +128,15 @@ export function App() {
   function handleLogin(selectedRole: Role) {
     setRole(selectedRole)
     localStorage.setItem("aerotwin_role", selectedRole)
-    setPage("dashboard")
+    setPage("maharashtra")
   }
 
   function handleLogout() {
     setRole(null)
     localStorage.removeItem("aerotwin_role")
     // Clear all history entries back to root
-    window.history.replaceState({ page: "dashboard" }, "", window.location.pathname)
-    setPageState("dashboard")
+    window.history.replaceState({ page: "maharashtra" }, "", window.location.pathname)
+    setPageState("maharashtra")
   }
 
   // Load backend map data on mount
@@ -290,8 +290,11 @@ export function App() {
 
         {/* Page Views Router */}
         <main className="min-h-0 flex-1 overflow-hidden">
-          {/* COMMON & GIS MAP PAGES */}
-          {page === "gis-map" && (
+          {page === "maharashtra" && <MaharashtraMap />}
+
+          {/* GIS MAP — always mounted so MapLibre stays warm across page switches.
+               CSS hidden when not active; simulation heatmap shows instantly on Apply. */}
+          <div className={page === "gis-map" ? "h-full w-full" : "hidden"}>
             <GisMapView
               mapData={mapData}
               environment={environment}

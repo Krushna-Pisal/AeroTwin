@@ -93,7 +93,7 @@ export function DashboardPage({ mapData, environment, layers, reports, onSelect,
                 ? `~${Math.round(archiveAgeHours / 24)} days`
                 : `~${Math.round(archiveAgeHours)} hours`}{" "}
               old. Values shown (e.g. 100+ µg/m³) reflect winter 2025 peak hours, <strong>not current conditions</strong>.
-              Live aqi.in readings (where available) show today's air quality.
+              The current reading panel (WAQI monitor, or an Open-Meteo model estimate) shows today's air quality.
             </span>
           </div>
         )}

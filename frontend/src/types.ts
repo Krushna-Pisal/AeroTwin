@@ -88,10 +88,13 @@ export type Environment = {
     pm25: number | null
     unit: string
     source: string
-    source_url: string
+    source_url: string | null
     source_station: string | null
     page_updated_local: string | null
     detail: string
+    distance_km?: number | null
+    age_hours?: number | null
+    pm25_aqi_us?: number | null
     city: {
       name: string
       pm25: number | null

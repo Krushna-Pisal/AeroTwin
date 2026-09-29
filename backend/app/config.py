@@ -50,9 +50,10 @@ DATASET_URL = "https://data.opencity.in/dataset/pune-hourly-air-quality-reports"
 AQIIN_PUNE_URL = "https://www.aqi.in/in/dashboard/india/maharashtra/pune"
 LIVE_SOURCE = "waqi.info"
 
-# Get your free token from https://aqicn.org/data-platform/token/
-import os
-WAQI_TOKEN = os.environ.get("WAQI_TOKEN", "b60ec1311a22c79f5378f313781b0358f25186b8")
+# Free token from https://aqicn.org/data-platform/token/. Set it in backend/.env.
+WAQI_TOKEN = os.environ.get("WAQI_TOKEN", "").strip()
+WAQI_API_URL = "https://api.waqi.info"
+OPEN_METEO_AQ_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
 
 # OpenAQ republishes the same CPCB CAAQMS monitors. Kept out of the training table.
 OPENAQ_API_URL = "https://api.openaq.org/v3"
